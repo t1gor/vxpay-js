@@ -1,6 +1,7 @@
 import VXPayEnvironment from "./VXPayEnvironment"
 import VXPayLanguage    from "./VXPayLanguage"
 import VXPayValidator   from "./VXPayValidator"
+import VXPayFlow        from "./Config/VXPayFlow"
 
 class VXPayConfig {
 
@@ -10,6 +11,7 @@ class VXPayConfig {
 	constructor() {
 		this._env     = VXPayEnvironment.DEVELOPMENT;
 		this._logging = false;
+		this._flow    = VXPayFlow.LOGIN;
 		this._lang    = VXPayLanguage.getDefault();
 		this._urls    = {
 			abg:     VXPayConfig.ABG_DEFAULT.replace('{language}', this._lang),
@@ -103,9 +105,29 @@ class VXPayConfig {
 
 		this._lang = value;
 	}
+
+	/**
+	 * @return {String}
+	 */
+	get flow() {
+		return this._flow;
+	}
+
+	/**
+	 * @param {String} value
+	 * @see VXPayFlow
+	 */
+	set flow(value) {
+		if (!VXPayValidator.isFlowAllowed(value)) {
+			const msg = 'Flow not allowed: ' + value.toString() + '. Select one of: ' + VXPayFlow.getAvailable().join(', ');
+			throw new TypeError(msg);
+		}
+
+		this._flow = value;
+	}
 }
 
-VXPayConfig.ABG_DEFAULT = 'https://www.visit-x.net/CAMS/{language}/Info/Zentrum.html?submod=AGB&track=Account';
+VXPayConfig.ABG_DEFAULT     = 'https://www.visit-x.net/CAMS/{language}/Info/Zentrum.html?submod=AGB&track=Account';
 VXPayConfig.PRIVACY_DEFAULT = 'https://www.visit-x.net/CAMS/DE/Info/Zentrum.html?submod=Datenschutz&track=Index';
 
 export default VXPayConfig;

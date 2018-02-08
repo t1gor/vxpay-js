@@ -1,5 +1,6 @@
 import VXPayLanguage    from "./VXPayLanguage";
 import VXPayEnvironment from "./VXPayEnvironment";
+import VXPayFlow        from "./Config/VXPayFlow";
 
 export default class VXPayValidator {
 	/**
@@ -29,5 +30,13 @@ export default class VXPayValidator {
 	 */
 	static isEnvironmentSupported(env) {
 		return VXPayEnvironment.getAvailable().indexOf(env) !== -1;
+	}
+
+	/**
+	 * @param {String} flow
+	 * @return {boolean}
+	 */
+	static isFlowAllowed(flow) {
+		return VXPayFlow.getAllowed().indexOf(flow) !== -1;
 	}
 }
