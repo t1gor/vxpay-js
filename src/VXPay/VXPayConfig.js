@@ -119,7 +119,7 @@ class VXPayConfig {
 	 */
 	set flow(value) {
 		if (!VXPayValidator.isFlowAllowed(value)) {
-			const msg = 'Flow not allowed: ' + value.toString() + '. Select one of: ' + VXPayFlow.getAvailable().join(', ');
+			const msg = 'Flow not allowed: ' + value.toString() + '. Select one of: ' + VXPayFlow.getAllowed().join(', ');
 			throw new TypeError(msg);
 		}
 

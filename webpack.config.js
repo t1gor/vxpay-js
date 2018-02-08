@@ -1,11 +1,12 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-	entry: './src/main.js',
+	entry: ['babel-polyfill', './src/main.js'],
 	output: {
 		path: path.resolve(__dirname, 'build'),
-		filename: 'vxpay.js',
+		filename: 'vxpay.min.js',
 		library: 'VX'
 	},
 	watch: true,
@@ -23,5 +24,8 @@ module.exports = {
 	stats: {
 		colors: true
 	},
-	devtool: 'source-map'
+	devtool: 'source-map',
+	plugins: [
+		new UglifyJsPlugin()
+	]
 };

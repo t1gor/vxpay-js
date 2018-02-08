@@ -60,4 +60,21 @@ describe('VXConfig', () => {
 			assert.throws(() => config.language = newLang, TypeError, msg);
 		});
 	});
+	describe('#flow()', () => {
+		it('Will only accept defined flows', () => {
+			const config = new VXPayConfig(),
+			      newFlow = 'bfdbfdabdbfdab',
+			      msg = 'Flow not allowed: ' + newFlow  + '. Select one of: ' + VXPayFlow.getAllowed().join(', ');
+
+			// default is login
+			assert.equal(VXPayFlow.getDefault(), config.flow);
+
+			// change to valid
+			config.flow = VXPayFlow.AVS;
+			assert.equal(VXPayFlow.AVS, config.flow);
+
+			// change to dummy
+			assert.throws(() => config.flow = newFlow, TypeError, msg);
+		});
+	});
 });

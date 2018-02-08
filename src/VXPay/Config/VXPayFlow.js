@@ -17,6 +17,13 @@ class VXPayFlow {
 			VXPayFlow.VXTV_ABO,
 		];
 	}
+
+	/**
+	 * @return {string}
+	 */
+	static getDefault() {
+		return VXPayFlow.LOGIN;
+	}
 }
 
 VXPayFlow.AVS             = 'avs';
