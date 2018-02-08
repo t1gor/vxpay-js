@@ -1,0 +1,41 @@
+class VXPayNotifications {
+}
+
+VXPayNotifications.SESSION_ACKNOWLEDGE              = 'ackSession';
+VXPayNotifications.SESSION_EXPIRED                  = 'sessionExpired';
+VXPayNotifications.MESSAGE                          = 'message';
+VXPayNotifications.MESSAGE_PRICE                    = 'messagePrice';
+VXPayNotifications.CHANNELS                         = 'channels';
+VXPayNotifications.INCOMING_MESSAGE                 = 'incomingMessage';
+VXPayNotifications.ALL_CHANNELS_SEEN                = 'allChannelsSeen';
+VXPayNotifications.CAN_ONECLICK_RESULT              = 'canOneClickResult';
+VXPayNotifications.CHARGE_AUTORECHARGE_RESULT       = 'chargeAutoRechargeResult';
+VXPayNotifications.CHARGE_ONECLICK_RESULT           = 'chargeOneClickResult';
+VXPayNotifications.FAVORITE_ACTOR_PINNED            = 'FavoriteActorPinned';
+VXPayNotifications.FAVORITE_ACTOR_UNPINNED          = 'FavoriteActorUnpinned';
+VXPayNotifications.FAVORITE_PICTURE_PINNED          = 'FavoritePicturePinned';
+VXPayNotifications.FAVORITE_PICTURE_UNPINNED        = 'FavoritePictureUnpinned';
+VXPayNotifications.FAVORITE_ALBUM_PINNED            = 'FavoriteAlbumPinned';
+VXPayNotifications.FAVORITE_ALBUM_UNPINNED          = 'FavoriteAlbumUnpinned';
+VXPayNotifications.FAVORITE_SEDCARDS_ALBUM_PINNED   = 'FavoriteSedcardsAlbumPinned';
+VXPayNotifications.FAVORITE_SEDCARDS_ALBUM_UNPINNED = 'FavoriteSedcardsAlbumUnpinned';
+VXPayNotifications.FAVORITE_ACTORS                  = 'FavoriteActors';
+VXPayNotifications.GUEST_BALANCE                    = 'guestBalance';
+VXPayNotifications.NAVBAR_NOTIFICATIONS             = 'navbarNotifications';
+VXPayNotifications.ACTOR_ONLINE                     = 'actorOnline';
+VXPayNotifications.ACTOR_OFFLINE                    = 'actorOffline';
+VXPayNotifications.AVS_REVOKED                      = 'avsRevoked';
+VXPayNotifications.AVS_SET                          = 'avsSet';
+VXPayNotifications.GUEST_LOCKED                     = 'guestLocked';
+VXPayNotifications.CHANNEL_ARCHIVED                 = 'channelArchived';
+VXPayNotifications.SEND_SIGNUP_EMAIL_RESULT         = 'sendSignupEmailResult';
+VXPayNotifications.VIP_ABO_UPDATE                   = 'vipAboUpdate';
+VXPayNotifications.VXTV_ABO_UPDATE                  = 'vxtvAboUpdate';
+VXPayNotifications.VOICECALL_START                  = 'voicecallStart';
+VXPayNotifications.VOICECALL_STOP                   = 'voicecallStop';
+VXPayNotifications.WELCOME_BONUS_REDEEMED           = 'welcomeBonusRedeemed';
+VXPayNotifications.FREE_SHOW_START                  = 'freeShowStart';
+VXPayNotifications.FREE_SHOW_STOP                   = 'freeShowStop';
+VXPayNotifications.PONG                             = 'pong';
+
+export default VXPayNotifications;
