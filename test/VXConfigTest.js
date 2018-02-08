@@ -2,6 +2,7 @@ import {assert}         from 'chai'
 import VXPayConfig      from '../src/VXPay/VXPayConfig'
 import VXPayEnvironment from './../src/VXPay/VXPayEnvironment'
 import VXPayLanguage    from './../src/VXPay/VXPayLanguage'
+import VXPayFlow        from '../src/VXPay/Config/VXPayFlow'
 
 describe('VXConfig', () => {
 	describe('#constructor()', () => {
@@ -12,6 +13,7 @@ describe('VXConfig', () => {
 			assert.isFalse(config.logging, 'Logging is disabled by default');
 			assert.equal(config.env, VXPayEnvironment.DEVELOPMENT, 'Development by default');
 			assert.equal(config.language, defaultLang, 'Default lang will be set - e.g. DE');
+			assert.equal(config.flow, VXPayFlow.LOGIN, 'Login is a default flow');
 			assert.equal(config.privacyUrl, VXPayConfig.PRIVACY_DEFAULT.replace('{language}', defaultLang), 'Default localized privacy URl');
 			assert.equal(config.abgUrl, VXPayConfig.ABG_DEFAULT.replace('{language}', defaultLang), 'Default localized ABG URl');
 		})

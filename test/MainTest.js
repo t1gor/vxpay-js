@@ -8,5 +8,6 @@ describe('main', () => {
 		expect(VX).to.have.property('VXPayLanguage');
 		expect(VX).to.have.property('VXPayEnvironment');
 		expect(VX).to.have.property('VXPayNotifications');
+		expect(VX).to.have.property('VXPayFlow');
 	});
 });
