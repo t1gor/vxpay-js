@@ -3,7 +3,7 @@ class VXPayMessage {
 	/**
 	 * @param {String} type
 	 */
-	constructor(type) {
+	constructor(type = '') {
 		this.type = type;
 	}
 
@@ -31,6 +31,12 @@ class VXPayMessage {
 	}
 }
 
+VXPayMessage.TYPE_HOOK                   = 'modalbox-hook';
+VXPayMessage.TYPE_SCROLL_TO              = 'modalbox-scrollto';
+VXPayMessage.TYPE_SUCCESS                = 'modalbox-success';
+VXPayMessage.TYPE_IFRAME_CLOSE           = 'modalbox-iframe-close';
+VXPayMessage.TYPE_IFRAME_READY           = 'modalbox-iframe-ready';
+VXPayMessage.TYPE_CONTENT_LOADED         = 'modalbox-content-loaded';
 VXPayMessage.TYPE_INIT_SESSION           = 'modalbox-init-session';
 VXPayMessage.TYPE_UPDATE_PARAMS          = 'modalbox-update-params';
 VXPayMessage.TYPE_IS_VISIBLE             = 'modalbox-is-visible';
