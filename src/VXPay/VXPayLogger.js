@@ -1,10 +1,12 @@
 export default class VXPayLogger {
 	/**
 	 * @param {Boolean} enable
+	 * @param {Window} window
 	 */
-	constructor(enable) {
+	constructor(enable, window = undefined) {
 		this.enabled = enable || false;
 		this._container = [];
+		this._window = window;
 	}
 
 	/**
@@ -17,8 +19,8 @@ export default class VXPayLogger {
 		}
 
 		// for browser
-		if (typeof window !== 'undefined') {
-			return window.console.log(message);
+		if (typeof this._window !== 'undefined') {
+			return this._window.console.log(message);
 		}
 
 		// for tests - just collect

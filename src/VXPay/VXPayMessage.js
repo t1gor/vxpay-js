@@ -45,5 +45,6 @@ VXPayMessage.TYPE_CHANGE_ROUTE           = 'modalbox-change-route';
 VXPayMessage.TYPE_ACTION_GET_ACTIVE_ABOS = 'modalbox-action-getactiveabos';
 VXPayMessage.TYPE_ACTION_LOGOUT          = 'modalbox-action-logout';
 VXPayMessage.TYPE_ACTION_GET_AVS_STATUS  = 'modalbox-action-getavsstatus';
+VXPayMessage.TYPE_HAS_LOGIN_COOKIE = 'modalbox-response-hasLoginCookie';
 
 export default VXPayMessage;

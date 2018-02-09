@@ -22,7 +22,8 @@
   "scripts": {
     "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
     "webpack": "webpack",
-    "test": "nyc --reporter=html mocha test/**/*Test.js --require babel-core/register --reporter dot"
+    "test": "mocha test/**/*Test.js --require babel-core/register --reporter dot",
+    "cover": "nyc --reporter=html yarn test"
   },
   "dependencies": {
     "uglifyjs-webpack-plugin": "^1.1.8"

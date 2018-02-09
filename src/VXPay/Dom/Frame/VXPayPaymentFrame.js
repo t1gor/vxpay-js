@@ -16,3 +16,5 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 	}
 }
+
+export default VXPayPaymentFrame;

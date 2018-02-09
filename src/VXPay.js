@@ -1,14 +1,27 @@
-import VXPayConfig from './VXPay/VXPayConfig'
-import VXPayLogger from './VXPay/VXPayLogger'
+import VXPayConfig       from './VXPay/VXPayConfig'
+import VXPayLogger       from './VXPay/VXPayLogger'
+import VXPayPaymentFrame from "./VXPay/Dom/Frame/VXPayPaymentFrame";
 
 export default class VXPay {
 
 	/**
 	 * @param {VXPayConfig} config
+	 * @param {Window} window
 	 */
-	constructor(config) {
-		this.config = config;
-		this.logger = new VXPayLogger(this.config.logging);
+	constructor(config, window = undefined) {
+		this.config      = config;
+		this.logger      = new VXPayLogger(this.config.logging, window);
+		this._apiVersion = 3;
+		this._window = window;
+		this._initFrame();
+	}
+
+	_initFrame() {
+		this._payFrame = new VXPayPaymentFrame(
+			this._window.document,
+			'https://www.visit-x.net/VXPAY/V' + this._apiVersion + '/',
+			'vx-pay-frame-payment'
+		);
 	}
 
 	openLogin() {
@@ -49,5 +62,19 @@ export default class VXPay {
 		}
 
 		this._logger = value;
+	}
+
+	/**
+	 * @return {Number}
+	 */
+	get apiVersion() {
+		return this._apiVersion;
+	}
+
+	/**
+	 * @param {Number} value
+	 */
+	set apiVersion(value) {
+		this._apiVersion = value;
 	}
 }
