@@ -9,7 +9,7 @@ module.exports = {
 		filename: 'vxpay.min.js',
 		library: 'VX'
 	},
-	watch: true,
+	watch: false,
 	module: {
 		loaders: [
 			{

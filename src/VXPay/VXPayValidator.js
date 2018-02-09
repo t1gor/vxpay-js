@@ -1,6 +1,7 @@
-import VXPayLanguage    from "./VXPayLanguage";
-import VXPayEnvironment from "./VXPayEnvironment";
-import VXPayFlow        from "./Config/VXPayFlow";
+import VXPayLanguage    from "./VXPayLanguage"
+import VXPayEnvironment from "./VXPayEnvironment"
+import VXPayFlow        from "./Config/VXPayFlow"
+import { Url } from 'url'
 
 export default class VXPayValidator {
 	/**
@@ -8,8 +9,10 @@ export default class VXPayValidator {
 	 * @return {boolean}
 	 */
 	static isUrl(url) {
+		let construct = Url || URL;
+
 		try {
-			new URL(url);
+			new construct(url);
 			return true;
 		} catch (_) {
 			return false;

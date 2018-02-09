@@ -47,6 +47,9 @@
 			config.language = VX.VXPayLanguage.EN;
 
 			vxpay = new VX.VXPay(config);
+
+			const frame = new VX.VXPayFrame(document, 'https://example.com', 'frame-id');
+			console.log(frame);
 		};
 	</script>
 	<script type="text/javascript" src="./../build/vxpay.min.js" onload="__init()"></script>
