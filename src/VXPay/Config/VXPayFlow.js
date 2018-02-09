@@ -22,7 +22,7 @@ class VXPayFlow {
 	 * @return {string}
 	 */
 	static getDefault() {
-		return VXPayFlow.LOGIN;
+		return VXPayFlow.MONEY_CHARGE;
 	}
 }
 

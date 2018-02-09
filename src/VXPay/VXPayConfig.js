@@ -11,7 +11,7 @@ class VXPayConfig {
 	constructor() {
 		this._env     = VXPayEnvironment.DEVELOPMENT;
 		this._logging = false;
-		this._flow    = VXPayFlow.LOGIN;
+		this._flow    = VXPayFlow.getDefault();
 		this._lang    = VXPayLanguage.getDefault();
 		this._urls    = {
 			abg:     VXPayConfig.ABG_DEFAULT.replace('{language}', this._lang),

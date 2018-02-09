@@ -13,7 +13,7 @@ describe('VXConfig', () => {
 			assert.isFalse(config.logging, 'Logging is disabled by default');
 			assert.equal(config.env, VXPayEnvironment.DEVELOPMENT, 'Development by default');
 			assert.equal(config.language, defaultLang, 'Default lang will be set - e.g. DE');
-			assert.equal(config.flow, VXPayFlow.LOGIN, 'Login is a default flow');
+			assert.equal(config.flow, VXPayFlow.getDefault(), 'Login is a default flow');
 			assert.equal(config.privacyUrl, VXPayConfig.PRIVACY_DEFAULT.replace('{language}', defaultLang), 'Default localized privacy URl');
 			assert.equal(config.abgUrl, VXPayConfig.ABG_DEFAULT.replace('{language}', defaultLang), 'Default localized ABG URl');
 		})

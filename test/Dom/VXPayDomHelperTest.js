@@ -1,5 +1,5 @@
 import {JSDOM}        from 'jsdom';
-import VXPayDomHelper from './../src/VXPay/Dom/VXPayDomHelper';
+import VXPayDomHelper from './../../src/VXPay/Dom/VXPayDomHelper';
 import {assert}       from 'chai';
 import sinon          from 'sinon';
 

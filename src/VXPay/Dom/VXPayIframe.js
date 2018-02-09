@@ -1,6 +1,7 @@
-import VXPayValidator from '../VXPayValidator'
+import VXPayValidator     from '../VXPayValidator'
+import VXPayEventListener from './../Event/VXPayEventListener'
 
-class VXPayIframe {
+class VXPayIframe extends VXPayEventListener {
 	/**
 	 * @param {Document} document
 	 * @param {String} url
@@ -8,6 +9,8 @@ class VXPayIframe {
 	 * @param {CSSStyleDeclaration} style
 	 */
 	constructor(document, url, id, style = null) {
+		super();
+
 		if (typeof document.createElement !== 'function') {
 			throw new TypeError('An iFrame can only be build on a valid Document object!');
 		}
@@ -20,9 +23,9 @@ class VXPayIframe {
 			throw new TypeError('Please provide a valid frame ID!');
 		}
 
-		this._frame = document.createElement('iframe');
-		this._frame.url = url;
-		this._frame.id = id;
+		this._frame          = document.createElement('iframe');
+		this._frame.url      = url;
+		this._frame.id       = id;
 
 		// only apply if valid
 		if (null !== style) {
@@ -49,6 +52,28 @@ class VXPayIframe {
 		this._frame.style.top        = VXPayIframe.MAX_TOP;
 		this._frame.style.marginLeft = VXPayIframe.MAX_LEFT_MARGIN;
 		return this;
+	}
+
+	/**
+	 * @param {String|VXPayMessage} message
+	 * @param {String} origin
+	 */
+	postMessage(message = '', origin = '*') {
+		this._frame.contentWindow.postMessage(message.toString(), origin);
+	}
+
+	/**
+	 * @param {Function} handler
+	 */
+	setMessageHandler(handler) {
+		VXPayIframe.addEvent('message', this._frame.window, handler);
+	}
+
+	/**
+	 * @param {Function} handler
+	 */
+	removeMessageHandler(handler) {
+		VXPayIframe.removeEvent('message', this._frame.window, handler);
 	}
 }
 
