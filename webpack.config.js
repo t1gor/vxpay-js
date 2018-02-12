@@ -9,7 +9,7 @@ module.exports = {
 		filename: 'vxpay.min.js',
 		library: 'VX'
 	},
-	watch: false,
+	watch: true,
 	module: {
 		loaders: [
 			{
@@ -26,6 +26,6 @@ module.exports = {
 	},
 	devtool: 'source-map',
 	plugins: [
-		new UglifyJsPlugin()
+		// new UglifyJsPlugin()
 	]
 };

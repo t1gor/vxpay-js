@@ -1,4 +1,4 @@
-export default class VXPayDomHelper {
+class VXPayDomHelper {
 
 	/**
 	 * @see VXPayDomHelperFactory::getHelper
@@ -79,3 +79,7 @@ export default class VXPayDomHelper {
 		}
 	}
 }
+
+VXPayDomHelper.TAG_IFRAME = 'iframe';
+
+export default VXPayDomHelper;

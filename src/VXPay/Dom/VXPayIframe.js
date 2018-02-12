@@ -1,5 +1,6 @@
 import VXPayValidator     from '../VXPayValidator'
 import VXPayEventListener from './../Event/VXPayEventListener'
+import VXPayDomHelper     from "./VXPayDomHelper";
 
 class VXPayIframe extends VXPayEventListener {
 	/**
@@ -23,7 +24,7 @@ class VXPayIframe extends VXPayEventListener {
 			throw new TypeError('Please provide a valid frame ID!');
 		}
 
-		this._frame          = document.createElement('iframe');
+		this._frame          = document.createElement(VXPayDomHelper.TAG_IFRAME);
 		this._frame.url      = url;
 		this._frame.id       = id;
 
@@ -33,6 +34,8 @@ class VXPayIframe extends VXPayEventListener {
 				this._frame.style.setProperty(item, style[item]);
 			}
 		}
+
+		console.log(this._frame, url);
 	}
 
 	/**
@@ -66,16 +69,18 @@ class VXPayIframe extends VXPayEventListener {
 	 * @param {Function} handler
 	 */
 	setMessageHandler(handler) {
-		VXPayIframe.addEvent('message', this._frame.window, handler);
+		VXPayIframe.addEvent(VXPayIframe.EVENT_MESSAGE, this._frame.window, handler);
 	}
 
 	/**
 	 * @param {Function} handler
 	 */
 	removeMessageHandler(handler) {
-		VXPayIframe.removeEvent('message', this._frame.window, handler);
+		VXPayIframe.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.window, handler);
 	}
 }
+
+VXPayIframe.EVENT_MESSAGE = 'message';
 
 VXPayIframe.POSITION_ABSOLUTE = 'absolute';
 VXPayIframe.POSITION_FIXED    = 'fixed';

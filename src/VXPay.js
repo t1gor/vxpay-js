@@ -1,6 +1,7 @@
 import VXPayConfig       from './VXPay/VXPayConfig'
 import VXPayLogger       from './VXPay/VXPayLogger'
-import VXPayPaymentFrame from "./VXPay/Dom/Frame/VXPayPaymentFrame";
+import VXPayPaymentFrame from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayHelperFrame  from "./VXPay/Dom/Frame/VXPayHelperFrame";
 
 export default class VXPay {
 
@@ -13,15 +14,28 @@ export default class VXPay {
 		this.logger      = new VXPayLogger(this.config.logging, window);
 		this._apiVersion = 3;
 		this._window = window;
-		this._initFrame();
+		this._initHelperFrame();
 	}
 
-	_initFrame() {
-		this._payFrame = new VXPayPaymentFrame(
+	_initHelperFrame() {
+		this.logger.log('VXPay - _initHelperFrame');
+
+		this._helperFrame = new VXPayHelperFrame(
 			this._window.document,
-			'https://www.visit-x.net/VXPAY/V' + this._apiVersion + '/',
-			'vx-pay-frame-payment'
+			'https://www.visit-x.net/VXPAY-V' + this._apiVersion + '/helper',
+			'vx-helper-frame-payment'
 		);
+
+		console.log('VXPayHelperFrame - get cookie', this._helperFrame.frame);
+		const cookiePromise = this._helperFrame.getLoginCookie();
+
+		// insert to DOM
+		this._window.document
+			.getElementsByTagName('html')
+			.item(0)
+			.appendChild(this._helperFrame.frame);
+
+		this.logger.log(cookiePromise);
 	}
 
 	openLogin() {
