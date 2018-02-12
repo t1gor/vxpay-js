@@ -1,5 +1,6 @@
-import VXPayIframe    from './../VXPayIframe'
-import VXPayMessage   from './../../VXPayMessage'
+import VXPayIframe                  from './../VXPayIframe'
+import VXPayHasSessionCookieMessage from './../../Message/VXPayHasSessionCookieMessage'
+import VXPayMessageFactory          from './../../Message/VXPayMessageFactory'
 
 class VXPayHelperFrame extends VXPayIframe {
 	constructor(document, url, id, style = null) {
@@ -7,6 +8,9 @@ class VXPayHelperFrame extends VXPayIframe {
 		super(document, url, id, {display: 'none'});
 	}
 
+	/**
+	 * @return {Promise<any>}
+	 */
 	getLoginCookie() {
 		return new Promise(resolve => {
 			this.setMessageHandler(e => {
@@ -16,16 +20,11 @@ class VXPayHelperFrame extends VXPayIframe {
 				}
 
 				try {
-					const data = e.data;
-					const json = JSON.parse(data);
-
-					if (json.type === VXPayMessage.TYPE_HAS_LOGIN_COOKIE) {
-						resolve(!!json.data);
-					}
+					resolve(VXPayMessageFactory.fromJson(e.data));
 				} catch (e) {}
 
 				// otherwise - not logged in
-				resolve(false);
+				resolve(new VXPayHasSessionCookieMessage());
 			});
 		})
 	}

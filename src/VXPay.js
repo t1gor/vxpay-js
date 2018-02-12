@@ -26,8 +26,7 @@ export default class VXPay {
 			'vx-helper-frame-payment'
 		);
 
-		console.log('VXPayHelperFrame - get cookie', this._helperFrame.frame);
-		const cookiePromise = this._helperFrame.getLoginCookie();
+		// const cookiePromise = this._helperFrame.getLoginCookie();
 
 		// insert to DOM
 		this._window.document
@@ -35,7 +34,7 @@ export default class VXPay {
 			.item(0)
 			.appendChild(this._helperFrame.frame);
 
-		this.logger.log(cookiePromise);
+		// this.logger.log(cookiePromise);
 	}
 
 	openLogin() {

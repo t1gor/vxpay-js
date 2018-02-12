@@ -34,8 +34,6 @@ class VXPayIframe extends VXPayEventListener {
 				this._frame.style.setProperty(item, style[item]);
 			}
 		}
-
-		console.log(this._frame, url);
 	}
 
 	/**
