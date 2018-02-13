@@ -11,6 +11,24 @@
 yarn test
 ```
 
+## Including in your bundle (single-page-apps example)
+
+@todo missing step here - install via npm.
+After the installation, just include the code in your app's code as usual:
+
+```javascript
+// load the lib
+import { VXPay, VXPayConfig } from 'vxpay';
+
+// apply config options
+const config = new VXPayConfig();
+
+// init the payment wrapper
+const vxpay = new VXPay(config);
+
+// open the login screen
+vxpay.openLogin();
+```
 ## Example integration
 
 - Include the script with the load handler
@@ -37,8 +55,9 @@ Please refer to [example folder](example/index.html) for fully featured example.
 
 | Name | Class | Additional info |
 | ---- | ---- | ---------------- |
+| `VXPayMessage.TYPE_HAS_LOGIN_COOKIE` | [VXPayHasSessionCookieMessage](src/VXPay/Message/VXPayHasSessionCookieMessage.js) | |
 | `VXPayMessage.TYPE_INIT_SESSION` | [VXPayInitSessionMessage](src/VXPay/Message/VXPayInitSessionMessage.js) | |
-| `VXPayMessage.TYPE_UPDATE_PARAMS` |  | |
+| `VXPayMessage.TYPE_UPDATE_PARAMS` | [VXPayUpdateParamsMessage](src/VXPay/Message/VXPayUpdateParamsMessage.js) | |
 | `VXPayMessage.TYPE_IS_VISIBLE` | [VXPayIsVisibleMessage](src/VXPay/Message/VXPayIsVisibleMessage.js) | |
 | `VXPayMessage.TYPE_ADDITIONAL_INFO` |  | |
 | `VXPayMessage.TYPE_CHANGE_ROUTE` | [VXPayChangeRouteMessage](src/VXPay/Message/VXPayChangeRouteMessage.js) | |
@@ -50,6 +69,14 @@ Please refer to [example folder](example/index.html) for fully featured example.
 
 | Name | Type | Values | Additional info |
 | ---- | ------------ | ----- | --------------- |
-| `logging` | `{Boolean}` | `true|false` | If the script should log actions, requests, restponses, etc. |
+| `logging` | `{Boolean}` | `true` or `false` | If the script should log actions, requests, responses, etc. |
 | `language` | `{String}` | `VXPayLanguage.DE`, `VXPayLanguage.EN`, `VXPayLanguage.NL` | Localization of the UI. |
-| `env` | `{String}` | `VXPayEnvironment.DEVELOPMENT`, `VXPayEnvironment.STAGING`, `VXPayEnvironment.PRODUCTION` | Current script environment. | 
+| `env` | `{String}` | `VXPayEnvironment.DEVELOPMENT`, `VXPayEnvironment.STAGING`, `VXPayEnvironment.PRODUCTION` | Current script environment. |
+
+### [ModalConfig](src/VXPay/Config/VXPayModalConfig.js) options reference
+
+| Name | Additional info |
+| ---- | --------------- |
+| `logging` | If the script should log actions, requests, responses, etc. |
+| `language` | Localization of the UI. |
+| `env` | Current script environment. | 
