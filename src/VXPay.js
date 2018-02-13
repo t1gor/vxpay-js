@@ -71,6 +71,12 @@ export default class VXPay {
 			.show(VXPayFlow.LOGIN);
 	}
 
+	openRegistration() {
+		this._initPaymentFrame()
+			.sendOptions({flow: VXPayFlow.LOGIN})
+			.show('signup');
+	}
+
 	/**
 	 * @return {VXPayConfig}
 	 */
