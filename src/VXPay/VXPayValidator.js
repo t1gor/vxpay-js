@@ -1,7 +1,7 @@
-import VXPayLanguage    from "./VXPayLanguage"
-import VXPayEnvironment from "./VXPayEnvironment"
-import VXPayFlow        from "./Config/VXPayFlow"
-import { Url } from 'url'
+import VXPayLanguage    from './VXPayLanguage'
+import VXPayEnvironment from './VXPayEnvironment'
+import VXPayFlow        from './Config/VXPayFlow'
+import {Url}            from 'url'
 
 export default class VXPayValidator {
 	/**

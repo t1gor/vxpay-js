@@ -1,7 +1,8 @@
 import VXPayConfig       from './VXPay/VXPayConfig'
 import VXPayLogger       from './VXPay/VXPayLogger'
-import VXPayPaymentFrame from './VXPay/Dom/Frame/VXPayPaymentFrame'
-import VXPayHelperFrame  from "./VXPay/Dom/Frame/VXPayHelperFrame";
+import VXPayHelperFrame  from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame from "./VXPay/Dom/Frame/VXPayPaymentFrame";
+import VXPayFlow         from "./VXPay/Config/VXPayFlow";
 
 export default class VXPay {
 
@@ -13,12 +14,19 @@ export default class VXPay {
 		this.config      = config;
 		this.logger      = new VXPayLogger(this.config.logging, window);
 		this._apiVersion = 3;
-		this._window = window;
+		this._window     = window;
 		this._initHelperFrame();
 	}
 
+	/**
+	 * @return {VXPayHelperFrame}
+	 * @private
+	 */
 	_initHelperFrame() {
-		this.logger.log('VXPay - _initHelperFrame');
+		// check already initialized
+		if (this._helperFrame instanceof VXPayHelperFrame) {
+			return this._helperFrame;
+		}
 
 		this._helperFrame = new VXPayHelperFrame(
 			this._window.document,
@@ -26,19 +34,42 @@ export default class VXPay {
 			'vx-helper-frame-payment'
 		);
 
-		// const cookiePromise = this._helperFrame.getLoginCookie();
+		this._helperFrame
+			.getLoginCookie()
+			.then(function(msg) {
+				console.log(msg);
+			});
 
-		// insert to DOM
-		this._window.document
-			.getElementsByTagName('html')
-			.item(0)
-			.appendChild(this._helperFrame.frame);
+		return this._helperFrame;
+	}
 
-		// this.logger.log(cookiePromise);
+	/**
+	 * @return {VXPayPaymentFrame}
+	 * @private
+	 */
+	_initPaymentFrame() {
+		// check already initialized
+		if (this.hasOwnProperty('_paymentFrame')) {
+			return this._paymentFrame;
+		}
+
+		this._paymentFrame = new VXPayPaymentFrame(
+			this._window.document,
+			this._config.getPaymentFrameUrl(),
+			// 'https://www.visit-x.net/VXPAY-V3/?pfm=1502&lang=en&environment=vxone&flow=login&sview=&lazy=1&mc[login]=1&mc[showHeader]=1&mc[showTeaser]=1&mc[showFooter]=1&mc[neutralHeader]=1&mc[teaserBonus]=0&mc[support]=1&mc[showOAuth]=1&mc[showNL]=1&mc[showThank]=0&mc[showLogo]=1&mc[showTeaserBar]=1&mc[parentInFrame]=0',
+			'vx-payment-frame-payment'
+		);
+
+		// add logging
+		this._paymentFrame.beforeSend = (message) => this.logger.log(message);
+
+		return this._paymentFrame;
 	}
 
 	openLogin() {
-		this.logger.log('open login');
+		this._initPaymentFrame()
+			.sendOptions({flow: VXPayFlow.LOGIN})
+			.show(VXPayFlow.LOGIN);
 	}
 
 	/**

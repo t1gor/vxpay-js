@@ -1,7 +1,8 @@
-import VXPayEnvironment from "./VXPayEnvironment"
-import VXPayLanguage    from "./VXPayLanguage"
-import VXPayValidator   from "./VXPayValidator"
-import VXPayFlow        from "./Config/VXPayFlow"
+import VXPayEnvironment from './VXPayEnvironment'
+import VXPayLanguage    from './VXPayLanguage'
+import VXPayValidator   from './VXPayValidator'
+import VXPayFlow        from './Config/VXPayFlow'
+import VXPayIframe      from "./Dom/VXPayIframe";
 
 class VXPayConfig {
 
@@ -19,14 +20,28 @@ class VXPayConfig {
 			ruri:    ''
 		};
 
-		this._host      = null;
-		this._token     = null;
-		this._promoCode = null;
-		this._wmId      = null;
-		this._wmSubRef  = null;
-		this._wmToken   = null;
-		this._adtv      = null;
-		this._subRef    = null;
+		this._host       = null;
+		this._token      = null;
+		this._promoCode  = null;
+		this._wmId       = null;
+		this._wmSubRef   = null;
+		this._wmToken    = null;
+		this._adtv       = null;
+		this._subRef     = null;
+		this._apiVersion = 3;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	getPaymentFrameUrl() {
+		const url = new URL(VXPayIframe.ORIGIN + '/VXPAY-V' + this._apiVersion + '/');
+
+		url.searchParams.append('lang', this._lang);
+		url.searchParams.append('environment', this._env);
+		url.searchParams.append('flow', this._flow);
+
+		return url.toString();
 	}
 
 	/**
@@ -246,6 +261,20 @@ class VXPayConfig {
 	 */
 	set subRef(value) {
 		this._subRef = value;
+	}
+
+	/**
+	 * @return {number}
+	 */
+	get apiVersion() {
+		return this._apiVersion;
+	}
+
+	/**
+	 * @param {number} value
+	 */
+	set apiVersion(value) {
+		this._apiVersion = parseInt(value, 10);
 	}
 }
 

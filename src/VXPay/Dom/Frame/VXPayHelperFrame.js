@@ -1,31 +1,54 @@
 import VXPayIframe                  from './../VXPayIframe'
 import VXPayHasSessionCookieMessage from './../../Message/VXPayHasSessionCookieMessage'
 import VXPayMessageFactory          from './../../Message/VXPayMessageFactory'
+import VXPayEventListener           from './../../Event/VXPayEventListener'
 
 class VXPayHelperFrame extends VXPayIframe {
-	constructor(document, url, id, style = null) {
+	/**
+	 * @param {Document} document
+	 * @param {String} url
+	 * @param {String} id
+	 * @param {CSSStyleDeclaration} style
+	 */
+	constructor(document, url, id, style = {display: 'none'}) {
 		// init the frame
-		super(document, url, id, {display: 'none'});
+		super(document, url, id, style);
+		this._cookieMsg = null;
+	}
+
+	/**
+	 * @param {Function} resolve
+	 * @param {Function} reject
+	 * @param {MessageEvent} event
+	 * @return {boolean}
+	 * @private
+	 */
+	_cookieMessageHandler(resolve, reject, event) {
+		// origin check
+		if (event.origin && VXPayIframe.ORIGIN.indexOf(event.origin) === -1) {
+			reject('Event origin does not match: ' + event.origin);
+		}
+
+		try {
+			this._cookieMsg = VXPayMessageFactory.fromJson(event.data);
+		} catch (e) {
+			this._cookieMsg = new VXPayHasSessionCookieMessage();
+		}
+
+		// otherwise - not logged in
+		resolve(this._cookieMsg);
 	}
 
 	/**
 	 * @return {Promise<any>}
 	 */
 	getLoginCookie() {
-		return new Promise(resolve => {
-			this.setMessageHandler(e => {
-				// origin check
-				if (e && e.origin && 'https://visit-x.net/'.indexOf(e.origin) === -1) {
-					return false;
-				}
-
-				try {
-					resolve(VXPayMessageFactory.fromJson(e.data));
-				} catch (e) {}
-
-				// otherwise - not logged in
-				resolve(new VXPayHasSessionCookieMessage());
-			});
+		return new Promise((resolve, reject) => {
+			VXPayEventListener.addEvent(
+				VXPayIframe.EVENT_MESSAGE,
+				this._frame.ownerDocument.defaultView,
+				this._cookieMessageHandler.bind(this, resolve, reject)
+			)
 		})
 	}
 }

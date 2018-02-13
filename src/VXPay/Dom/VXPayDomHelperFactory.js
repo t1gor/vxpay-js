@@ -1,4 +1,4 @@
-import VXPayDomHelper from "./VXPayDomHelper";
+import VXPayDomHelper from './VXPayDomHelper'
 
 class VXPayDomHelperFactory {
 
