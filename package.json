@@ -27,6 +27,7 @@
     "cover": "nyc --reporter=html yarn test"
   },
   "dependencies": {
+    "es6-object-assign": "^1.1.0",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "whatwg-url": "^6.4.0"
   }

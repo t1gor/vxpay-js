@@ -24,7 +24,7 @@ export default class VXPay {
 	 */
 	_initHelperFrame() {
 		// check already initialized
-		if (this._helperFrame instanceof VXPayHelperFrame) {
+		if (this.hasOwnProperty('_helperFrame')) {
 			return this._helperFrame;
 		}
 
@@ -56,12 +56,11 @@ export default class VXPay {
 		this._paymentFrame = new VXPayPaymentFrame(
 			this._window.document,
 			this._config.getPaymentFrameUrl(),
-			// 'https://www.visit-x.net/VXPAY-V3/?pfm=1502&lang=en&environment=vxone&flow=login&sview=&lazy=1&mc[login]=1&mc[showHeader]=1&mc[showTeaser]=1&mc[showFooter]=1&mc[neutralHeader]=1&mc[teaserBonus]=0&mc[support]=1&mc[showOAuth]=1&mc[showNL]=1&mc[showThank]=0&mc[showLogo]=1&mc[showTeaserBar]=1&mc[parentInFrame]=0',
 			'vx-payment-frame-payment'
 		);
 
 		// add logging
-		this._paymentFrame.beforeSend = (message) => this.logger.log(message);
+		this._paymentFrame.beforeSend = (message) => this.logger.log('Sending to PaymentFrame:', message);
 
 		return this._paymentFrame;
 	}

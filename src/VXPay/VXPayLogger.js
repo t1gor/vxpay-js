@@ -10,9 +10,9 @@ export default class VXPayLogger {
 	}
 
 	/**
-	 * @param {String} message
+	 * Accepts any number of params
 	 */
-	log(message) {
+	log() {
 		// check enabled
 		if (!this.enabled) {
 			return;
@@ -20,13 +20,13 @@ export default class VXPayLogger {
 
 		// for browser
 		if (typeof this._window !== 'undefined') {
-			return this._window.console.log(message);
+			return this._window.console.log.apply(this, arguments);
 		}
 
 		// for tests - just collect
 		this._container.push({
 			time: new Date(),
-			message: message.toString()
+			message: JSON.stringify(arguments)
 		});
 	}
 

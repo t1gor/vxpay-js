@@ -83,6 +83,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set showFooter(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._showFooter = value;
 	}
 
@@ -93,7 +94,11 @@ class VXPayModalConfig {
 		return this._neutralHeader;
 	}
 
+	/**
+	 * @param {0|1} value
+	 */
 	set neutralHeader(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._neutralHeader = value;
 	}
 
@@ -108,6 +113,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set teaserBonus(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._teaserBonus = value;
 	}
 
@@ -122,6 +128,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set support(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._support = value;
 	}
 
@@ -136,6 +143,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set showOAuth(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._showOAuth = value;
 	}
 
@@ -150,6 +158,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set showNL(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._showNL = value;
 	}
 
@@ -164,6 +173,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set showThank(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._showThank = value;
 	}
 
@@ -178,6 +188,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set showLogo(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._showLogo = value;
 	}
 
@@ -192,6 +203,7 @@ class VXPayModalConfig {
 	 * @param {0|1} value
 	 */
 	set showTeaserBar(value) {
+		VXPayModalConfig._throwOnInvalid(value);
 		this._showTeaserBar = value;
 	}
 }

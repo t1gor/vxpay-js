@@ -21,16 +21,16 @@ class VXPayConfig {
 			ruri:    ''
 		};
 
-		this._pfm = '';
+		this._pfm        = '';
 		this._enableTab  = false;
-		this._host       = null;
-		this._token      = null;
-		this._promoCode  = null;
-		this._wmId       = null;
-		this._wmSubRef   = null;
-		this._wmToken    = null;
-		this._adtv       = null;
-		this._subRef     = null;
+		this._host       = '';
+		this._token      = '';
+		this._promoCode  = '';
+		this._wmId       = '';
+		this._wmSubRef   = '';
+		this._wmToken    = '';
+		this._adtv       = '';
+		this._subRef     = '';
 		this._apiVersion = 3;
 
 		this._modalConfig = typeof modalConfig === 'undefined'
