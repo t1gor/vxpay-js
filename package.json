@@ -27,6 +27,7 @@
     "cover": "nyc --reporter=html yarn test"
   },
   "dependencies": {
-    "uglifyjs-webpack-plugin": "^1.1.8"
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "whatwg-url": "^6.4.0"
   }
 }

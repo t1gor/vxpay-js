@@ -1,8 +1,8 @@
 import VXPayConfig       from './VXPay/VXPayConfig'
 import VXPayLogger       from './VXPay/VXPayLogger'
 import VXPayHelperFrame  from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame from "./VXPay/Dom/Frame/VXPayPaymentFrame";
-import VXPayFlow         from "./VXPay/Config/VXPayFlow";
+import VXPayPaymentFrame from './VXPay/Dom/Frame/VXPayPaymentFrame';
+import VXPayFlow         from './VXPay/Config/VXPayFlow';
 
 export default class VXPay {
 

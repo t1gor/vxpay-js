@@ -1,3 +1,5 @@
+import { URL } from 'whatwg-url'
+
 export default class VXPayUrlHelper {
 	/**
 	 * @param {String} baseUrl
@@ -6,33 +8,36 @@ export default class VXPayUrlHelper {
 	 * @return {string}
 	 */
 	static generate(baseUrl, params = undefined, config = undefined) {
-		let url = baseUrl;
+		let url = new URL(baseUrl);
 
 		// fix url, remove existing hashes
-		url = url.replace(/\#.*$/, '');
+		url.hash = '';
 
 		// add params
 		if (params) {
-			let arr = [];
 			for (let d in params) {
-				if(typeof params[d] !== 'undefined') {
-					arr.push(encodeURIComponent(d) + '=' + encodeURIComponent(params[d]));
+				if (typeof params[d] === 'undefined') {
+					continue;
 				}
+
+				url.searchParams.append(d, params[d]);
 			}
-			url += (url.indexOf('?') >= 0 ? '&' : '?') + arr.join('&');
 		}
 
 		// add module config
 		if (config) {
-			let arr2 = [];
 			for (let d2 in config) {
-				if(typeof config[d2] !== 'undefined') {
-					arr2.push('mc[' + encodeURIComponent(d2) + ']' + '=' + encodeURIComponent(config[d2]));
+				// skip underline in object props
+				let name = d2.charAt(1) === '_' ? d2.substr(1) : d2;
+
+				if (typeof config[name] === 'undefined') {
+					continue;
 				}
+
+				url.searchParams.append('mc[' + d2 + ']', config[d2]);
 			}
-			url += (url.indexOf('?') >= 0 ? '&' : '?') + arr2.join('&');
 		}
 
-		return url;
+		return url.toString();
 	}
 }

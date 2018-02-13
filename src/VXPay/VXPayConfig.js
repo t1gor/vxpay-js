@@ -2,14 +2,15 @@ import VXPayEnvironment from './VXPayEnvironment'
 import VXPayLanguage    from './VXPayLanguage'
 import VXPayValidator   from './VXPayValidator'
 import VXPayFlow        from './Config/VXPayFlow'
-import VXPayIframe      from "./Dom/VXPayIframe";
+import VXPayIframe      from './Dom/VXPayIframe'
+import VXPayModalConfig from './Config/VXPayModalConfig'
+import VXPayUrlHelper   from './VXPayUrlHelper';
 
 class VXPayConfig {
-
 	/**
-	 * Set default config structure
+	 * @param {VXPayModalConfig} modalConfig
 	 */
-	constructor() {
+	constructor(modalConfig = undefined) {
 		this._env     = VXPayEnvironment.DEVELOPMENT;
 		this._logging = false;
 		this._flow    = VXPayFlow.getDefault();
@@ -20,6 +21,8 @@ class VXPayConfig {
 			ruri:    ''
 		};
 
+		this._pfm = '';
+		this._enableTab  = false;
 		this._host       = null;
 		this._token      = null;
 		this._promoCode  = null;
@@ -29,19 +32,47 @@ class VXPayConfig {
 		this._adtv       = null;
 		this._subRef     = null;
 		this._apiVersion = 3;
+
+		this._modalConfig = typeof modalConfig === 'undefined'
+			? new VXPayModalConfig()
+			: modalConfig;
 	}
 
 	/**
+	 * @example https://www.visit-x.net/VXPAY-V3/?pfm=1502&lang=en&environment=vxone&flow=login&sview=&lazy=1&mc[login]=1&mc[showHeader]=1&mc[showTeaser]=1&mc[showFooter]=1&mc[neutralHeader]=1&mc[teaserBonus]=0&mc[support]=1&mc[showOAuth]=1&mc[showNL]=1&mc[showThank]=0&mc[showLogo]=1&mc[showTeaserBar]=1&mc[parentInFrame]=0
 	 * @return {string}
 	 */
 	getPaymentFrameUrl() {
-		const url = new URL(VXPayIframe.ORIGIN + '/VXPAY-V' + this._apiVersion + '/');
+		return VXPayUrlHelper.generate(
+			VXPayIframe.ORIGIN + '/VXPAY-V' + this._apiVersion + '/',
+			this.getOptions(),
+			this._modalConfig
+		);
+	}
 
-		url.searchParams.append('lang', this._lang);
-		url.searchParams.append('environment', this._env);
-		url.searchParams.append('flow', this._flow);
-
-		return url.toString();
+	/**
+	 * @return {Object}
+	 */
+	getOptions() {
+		return {
+			agbUrl:      this.abgUrl,
+			privacyUrl:  this.privacyUrl,
+			environment: this._env,
+			flow:        this._flow,
+			lang:        this._lang,
+			pfm:         this._pfm,
+			w:           this._wmId,
+			ws:          this._wmSubRef,
+			wt:          this._wmToken,
+			adtv:        this._adtv,
+			sub:         this._subRef,
+			enableTab:   this._enableTab,
+			option:      '',
+			pc:          this._promoCode,
+			tt:          this._token,
+			ruri:        this._urls.ruri,
+			host:        this._host
+		};
 	}
 
 	/**

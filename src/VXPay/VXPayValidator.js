@@ -1,7 +1,8 @@
 import VXPayLanguage    from './VXPayLanguage'
 import VXPayEnvironment from './VXPayEnvironment'
 import VXPayFlow        from './Config/VXPayFlow'
-import {Url}            from 'url'
+import { URL }          from 'whatwg-url'
+import VXPayModalConfig from "./Config/VXPayModalConfig";
 
 export default class VXPayValidator {
 	/**
@@ -9,10 +10,8 @@ export default class VXPayValidator {
 	 * @return {boolean}
 	 */
 	static isUrl(url) {
-		let construct = Url || URL;
-
 		try {
-			new construct(url);
+			new URL(url);
 			return true;
 		} catch (_) {
 			return false;
@@ -41,5 +40,14 @@ export default class VXPayValidator {
 	 */
 	static isFlowAllowed(flow) {
 		return VXPayFlow.getAllowed().indexOf(flow) !== -1;
+	}
+
+	/**
+	 * @param {Number} value
+	 * @return {boolean}
+	 */
+	static isModalConfigValueAllowed(value) {
+		return isNumber(value)
+			&& [VXPayModalConfig.YES, VXPayModalConfig.NO].indexOf(value) !== -1;
 	}
 }

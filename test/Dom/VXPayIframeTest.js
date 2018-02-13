@@ -1,6 +1,6 @@
 import {assert}    from 'chai'
 import {JSDOM}     from 'jsdom'
-import {URL}       from 'url';
+import {URL}       from 'url'
 import VXPayIframe from './../../src/VXPay/Dom/VXPayIframe'
 
 const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>";
