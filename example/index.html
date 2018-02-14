@@ -41,7 +41,7 @@
 		__init = function() {
 			const config = new VX.VXPayConfig();
 
-			config.logging = false;
+			config.logging = true;
 			config.language = VX.VXPayLanguage.EN;
 
 			vxpay = new VX.VXPay(config, window);

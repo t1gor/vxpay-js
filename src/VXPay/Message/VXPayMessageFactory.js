@@ -5,6 +5,8 @@ import VXPayHookMessageFactory      from './Hooks/VXPayHookMessageFactory'
 import VXPayIframeReadyMessage      from './VXPayIframeReadyMessage'
 import VXPayViewReadyMessage        from './VXPayViewReadyMessage'
 import VXPayTransferTokenMessage    from './VXPayTransferTokenMessage'
+import VXPayIframeCloseMessage      from "./VXPayIframeCloseMessage";
+import VXPayIsVisibleMessage        from "./VXPayIsVisibleMessage";
 
 export default class VXPayMessageFactory {
 
@@ -35,6 +37,12 @@ export default class VXPayMessageFactory {
 
 			case VXPayMessage.TYPE_VIEW_READY:
 				return new VXPayViewReadyMessage();
+
+			case VXPayMessage.TYPE_IFRAME_CLOSE:
+				return new VXPayIframeCloseMessage();
+
+			case VXPayMessage.TYPE_IS_VISIBLE:
+				return new VXPayIsVisibleMessage();
 
 			default:
 				// transfer token?

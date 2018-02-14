@@ -103,6 +103,12 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 			case VXPayMessage.TYPE_VIEW_READY:
 				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_VIEW_READY, [message]);
+
+			case VXPayMessage.TYPE_IFRAME_CLOSE:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CLOSE, [message]);
+
+			case VXPayMessage.TYPE_SUCCESS:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
 		}
 	}
 

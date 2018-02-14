@@ -1,8 +1,9 @@
-import VXPayConfig         from './VXPay/VXPayConfig'
-import VXPayLogger         from './VXPay/VXPayLogger'
-import VXPayHelperFrame    from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame   from './VXPay/Dom/Frame/VXPayPaymentFrame'
-import VXPayFlow           from './VXPay/Config/VXPayFlow'
+import VXPayConfig           from './VXPay/VXPayConfig'
+import VXPayLogger           from './VXPay/VXPayLogger'
+import VXPayHelperFrame      from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame     from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayFlow             from './VXPay/Config/VXPayFlow'
+import VXPayIsVisibleMessage from "./VXPay/Message/VXPayIsVisibleMessage";
 
 export default class VXPay {
 
@@ -60,10 +61,13 @@ export default class VXPay {
 				'vx-payment-frame-payment'
 			);
 
+			const hide = this._paymentFrame.hide.bind(this._paymentFrame);
+
 			// set resolve hook
 			this._paymentFrame
 				.hooks
-				.onContentLoaded(() => resolve(this._paymentFrame));
+				.onContentLoaded(() => resolve(this._paymentFrame))
+				.onClose(msg => hide);
 
 			// do we need logging?
 			if (this.config.logging) {
@@ -77,6 +81,10 @@ export default class VXPay {
 
 	openLogin() {
 		this._initPaymentFrame()
+			.then(frame => {
+				frame.hooks.onViewReady(() => frame.postMessage(new VXPayIsVisibleMessage()));
+				return frame;
+			})
 			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show(VXPayFlow.LOGIN));
 	}
 

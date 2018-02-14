@@ -115,6 +115,11 @@ class VXPayIframe extends VXPayEventListener {
 	show() {
 		this._frame.style.display = 'block';
 	}
+
+	hide() {
+		console.log(this);
+		this._frame.style.display = 'none';
+	}
 }
 
 VXPayIframe.EVENT_MESSAGE = 'message';
