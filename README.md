@@ -51,6 +51,99 @@ vxpay = new VX.VXPay(config);
 
 Please refer to [example folder](example/index.html) for fully featured example.
 
+## Public API
+
+| Method | Arguments | Return value | Additional info |
+| ------ | --------- | ------------ | --------------- |
+| `VXPay.openLogin` | `<none>` | `void` | Opens the paytour with login flow |
+| `VXPay.openSignup` | `<none>` | `void` | Opens the paytour with registration flow |
+| `VXPay.openSignupOrLogin` | `<none>` | `void` | @todo |
+| `VXPay.resetPassword` | `<none>` | `void` | @todo |
+| `VXPay.lostPassword` | `<none>` | `void` | @todo |
+| `VXPay.openPayment` | `<none>` | `void` | @todo |
+| `VXPay.limitPayment` | `<none>` | `void` | @todo |
+| `VXPay.changeCard` | `<none>` | `void` | @todo |
+| `VXPay.vipAbo` | `<none>` | `void` | @todo |
+| `VXPay.vipAboTrial` | `<none>` | `void` | @todo |
+| `VXPay.premiumAbo` | `<none>` | `void` | @todo |
+| `VXPay.openSettings` | `<none>` | `void` | @todo |
+| `VXPay.openAVS` | `<none>` | `void` | @todo |
+| `VXPay.openPromoCode` | `<none>` | `void` | @todo |
+| `VXPay.openScratchCard` | `<none>` | `void` | @todo |
+| `VXPay.openOneClick` | `<none>` | `void` | @todo |
+| `VXPay.openAutoReCharge` | `<none>` | `void` | @todo |
+| `VXPay.openBalance` | `<none>` | `void` | @todo |
+| `VXPay.hooks` | `<none>` | [VXPayPaymentHooksConfig](src/VXPay/Config/VXPayPaymentHooksConfig.js) | See hooks (@todo) |
+
+## Hooks
+
+All hooks are basically injectable functions. You can have several handlers on the same event by just assigning more then one handler for event. See examples below.
+
+##### `onAny`
+
+Will be triggered on any postMessage send/received with PaymentFrame.
+
+```javascript
+/** @param {VXPayMessage} msg */
+vxpay.hooks.onAny(function(msg) {/* do something */});
+```
+
+##### `onLoad`
+
+Will be triggered when DOM triggers the onLoad handler on iframe HTML element.
+
+```javascript
+/** @note no parameter injected! */
+vxpay.hooks.onLoad(function() {/* do something */});
+```
+
+##### `onContentLoaded`
+
+Will be triggered when PaymentFrame reports `DOMContentLoaded`.
+
+```javascript
+/** @param {VXPayContentLoadedMessage} msg */
+vxpay.hooks.onContentLoaded(function(msg) {/* do something */});
+```
+
+##### `onViewReady`
+
+Will be triggered when PaymentFrame reports the UI to be ready.
+
+```javascript
+/** @param {VXPayViewReadyMessage} msg */
+vxpay.hooks.onViewReady(function(msg) {/* do something */});
+```
+
+##### `onBeforeSend`
+
+Will be triggered before the `postMessage` is being sent to PaymentFrame.
+
+```javascript
+/** @param {VXPayMessage} msg */
+vxpay.hooks.onBeforeSend(function(msg) {/* do something */});
+```
+
+##### `onClose`
+
+Will be triggered when the PaymentFrame is closed by user.
+
+```javascript
+/** @param {VXPayMessage} msg */
+vxpay.hooks.onClose(function(msg) {/* do something */});
+```
+
+##### `onSuccess`
+
+Will be triggered when user processed the payment successfully.
+
+```javascript
+/** @param {VXPayMessage} msg */
+vxpay.hooks.onSuccess(function(msg) {/* do something */});
+```
+
+## Configuration options references
+
 ### Post message events reference
 
 | Name | Class | Additional info |

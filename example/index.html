@@ -10,24 +10,25 @@
 			<div class="mdc-layout-grid__cell--span-5">
 				<h4 class="mdc-typography--title">Possible actions</h4>
 				<div class="mdc-layout-grid__inner">
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#" onclick="vxpay.openLogin()">Login</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#" onclick="vxpay.openRegistration()">Register</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Reset password</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Lost password</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">General Payment</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openLogin()">Login</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openSignup()">Register</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openSignupOrLogin()">Login or Register</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.resetPassword()">Reset password</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.lostPassword()">Lost password</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openPayment()">General Payment</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Voice call</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Limited payment</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Change card</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">VIP abo</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">VIP trial abo</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Premium abo</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Extended settings</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Age verification</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Promo code</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Scratch card</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">One click</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Auto recharge</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="#">Open balance</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.limitPayment()">Limited payment</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.changeCard()">Change card</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.vipAbo()">VIP abo</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.vipAboTrial()">VIP trial abo</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.premiumAbo()">Premium abo</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openSettings()">Extended settings</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openAVS()">Age verification</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openPromoCode()">Promo code</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openScratchCard()">Scratch card</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openOneClick()">One click</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openAutoReCharge()">Auto recharge</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openBalance()">Open balance</a>
 				</div>
 			</div>
 		</div>
@@ -40,7 +41,7 @@
 		__init = function() {
 			const config = new VX.VXPayConfig();
 
-			config.logging = true;
+			config.logging = false;
 			config.language = VX.VXPayLanguage.EN;
 
 			vxpay = new VX.VXPay(config, window);

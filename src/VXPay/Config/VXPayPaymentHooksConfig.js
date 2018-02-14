@@ -5,6 +5,54 @@ class VXPayPaymentHooksConfig {
 		this._onLoad          = [];
 		this._onViewReady     = [];
 		this._onContentLoaded = [];
+		this._onClose         = [];
+		this._onSuccess       = [];
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onClose(handler) {
+		this._onClose.push(handler);
+		return this;
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	hasOnClose() {
+		return this._onClose.length > 0;
+	}
+
+	/**
+	 * @return {Function[]}
+	 */
+	getOnClose() {
+		return this._onClose;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onSuccess(handler) {
+		this._onSuccess.push(handler);
+		return this;
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	hasOnSuccess() {
+		return this._onSuccess.length > 0;
+	}
+
+	/**
+	 * @return {Function[]}
+	 */
+	getOnSuccess() {
+		return this._onSuccess;
 	}
 
 	/**

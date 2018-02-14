@@ -60,12 +60,18 @@ export default class VXPay {
 				'vx-payment-frame-payment'
 			);
 
-			// add logging and resolve when loaded
+			// set resolve hook
 			this._paymentFrame
 				.hooks
-				.onAny(msg => this.logger.log('Received from PaymentFrame:', msg))
-				.onBeforeSend(msg => this.logger.log('Sending to PaymentFrame:', msg))
 				.onContentLoaded(() => resolve(this._paymentFrame));
+
+			// do we need logging?
+			if (this.config.logging) {
+				this._paymentFrame
+					.hooks
+					.onAny(msg => this.logger.log('Received from PaymentFrame:', msg))
+					.onBeforeSend(msg => this.logger.log('Sending to PaymentFrame:', msg))
+			}
 		})
 	}
 
@@ -74,9 +80,77 @@ export default class VXPay {
 			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show(VXPayFlow.LOGIN));
 	}
 
-	openRegistration() {
+	openSignup() {
 		this._initPaymentFrame()
 			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show('signup'));
+	}
+
+	openSignupOrLogin() {
+
+	}
+
+	openPayment() {
+
+	}
+
+	openAbo() {
+
+	}
+
+	openSettings() {
+
+	}
+
+	resetPassword() {
+
+	}
+
+	lostPassword() {
+
+	}
+
+	limitPayment() {
+
+	}
+
+	changeCard() {
+
+	}
+
+	vipAbo() {
+
+	}
+
+	vipAboTrial() {
+
+	}
+
+	premiumAbo() {
+
+	}
+
+	openAVS() {
+
+	}
+
+	openPromoCode() {
+
+	}
+
+	openScratchCard() {
+
+	}
+
+	openOneClick() {
+
+	}
+
+	openAutoReCharge() {
+
+	}
+
+	openBalance() {
+
 	}
 
 	/**

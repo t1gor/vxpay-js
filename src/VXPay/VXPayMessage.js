@@ -26,7 +26,16 @@ class VXPayMessage {
 			VXPayMessage.TYPE_CHANGE_ROUTE,
 			VXPayMessage.TYPE_ACTION_GET_ACTIVE_ABOS,
 			VXPayMessage.TYPE_ACTION_LOGOUT,
-			VXPayMessage.TYPE_ACTION_GET_AVS_STATUS
+			VXPayMessage.TYPE_ACTION_GET_AVS_STATUS,
+			VXPayMessage.TYPE_HOOK,
+			VXPayMessage.TYPE_SCROLL_TO,
+			VXPayMessage.TYPE_SUCCESS,
+			VXPayMessage.TYPE_IFRAME_CLOSE,
+			VXPayMessage.TYPE_IFRAME_READY,
+			VXPayMessage.TYPE_VIEW_READY,
+			VXPayMessage.TYPE_TRANSFER_TOKEN,
+			VXPayMessage.TYPE_CONTENT_LOADED,
+			VXPayMessage.TYPE_HAS_LOGIN_COOKIE
 		];
 	}
 }
@@ -37,7 +46,7 @@ VXPayMessage.TYPE_SUCCESS                = 'modalbox-success';
 VXPayMessage.TYPE_IFRAME_CLOSE           = 'modalbox-iframe-close';
 VXPayMessage.TYPE_IFRAME_READY           = 'modalbox-iframe-ready';
 VXPayMessage.TYPE_VIEW_READY             = 'modalbox-view-ready';
-VXPayMessage.TYPE_TRANSFER_TOKEN         = 'transfer-token';
+VXPayMessage.TYPE_TRANSFER_TOKEN         = 'modalbox-transfer-token';
 VXPayMessage.TYPE_CONTENT_LOADED         = 'modalbox-content-loaded';
 VXPayMessage.TYPE_INIT_SESSION           = 'modalbox-init-session';
 VXPayMessage.TYPE_UPDATE_PARAMS          = 'modalbox-update-params';
