@@ -73,10 +73,31 @@ Please refer to [example folder](example/index.html) for fully featured example.
 | `language` | `{String}` | `VXPayLanguage.DE`, `VXPayLanguage.EN`, `VXPayLanguage.NL` | Localization of the UI. |
 | `env` | `{String}` | `VXPayEnvironment.DEVELOPMENT`, `VXPayEnvironment.STAGING`, `VXPayEnvironment.PRODUCTION` | Current script environment. |
 
-### [ModalConfig](src/VXPay/Config/VXPayModalConfig.js) options reference
+### [ModalConfig](src/VXPay/Config/VXPayModalConfig.js) reference
 
-| Name | Additional info |
+| Name | Default value | Explanation |
+| ---- | ---- | --------------- |
+| `login` | `VXPayModalConfig.YES` | @todo |
+| `showHeader` | `VXPayModalConfig.YES` | Specifies if header should be shown | 
+| `showTeaser` | `VXPayModalConfig.YES` | Specifies if the teaser should be shown |
+| `showFooter` | `VXPayModalConfig.YES` | Specifies if the footer should be shown |
+| `support` | `VXPayModalConfig.YES` | @todo |
+| `showOAuth` | `VXPayModalConfig.YES` | @todo |
+| `showNL` | `VXPayModalConfig.YES` | @todo |
+| `neutralHeader` | `VXPayModalConfig.NO` | @todo |
+| `teaserBonus` | `VXPayModalConfig.NO` | @todo |
+| `showThank` | `VXPayModalConfig.NO` | @todo |
+| `showLogo` | `VXPayModalConfig.NO` | Specifies if VX logo should be shown |
+| `showTeaserBar` | `VXPayModalConfig.NO` | @todo |
+
+### [HooksConfig](src/VXPay/Config/VXPayPaymentHooksConfig.js) reference
+
+**NOTE:** where possible, the message object will be injected into the handler as the first parameter.
+
+| Name | Explanation |
 | ---- | --------------- |
-| `logging` | If the script should log actions, requests, responses, etc. |
-| `language` | Localization of the UI. |
-| `env` | Current script environment. | 
+| `onAny` | Will be triggered on **any** received postMessage from the payment frame. | 
+| `onBeforeSend` | Will be triggered __before__ sending any postMessage to payment frame |
+| `onLoad` | Will be triggered on the payment frame HTMLElement load |
+| `onContentLoaded` | Will be triggered when the payment frame sends the [VXPayContentLoadedMessage](src/VXPay/Message/VXPayContentLoadedMessage.js) |
+| `onViewReady` | Will be triggered when the payment frame sends the [VXPayViewReadyMessage](src/VXPay/Message/VXPayViewReadyMessage.js) |

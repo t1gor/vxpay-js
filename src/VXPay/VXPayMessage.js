@@ -36,6 +36,8 @@ VXPayMessage.TYPE_SCROLL_TO              = 'modalbox-scrollto';
 VXPayMessage.TYPE_SUCCESS                = 'modalbox-success';
 VXPayMessage.TYPE_IFRAME_CLOSE           = 'modalbox-iframe-close';
 VXPayMessage.TYPE_IFRAME_READY           = 'modalbox-iframe-ready';
+VXPayMessage.TYPE_VIEW_READY             = 'modalbox-view-ready';
+VXPayMessage.TYPE_TRANSFER_TOKEN         = 'transfer-token';
 VXPayMessage.TYPE_CONTENT_LOADED         = 'modalbox-content-loaded';
 VXPayMessage.TYPE_INIT_SESSION           = 'modalbox-init-session';
 VXPayMessage.TYPE_UPDATE_PARAMS          = 'modalbox-update-params';
@@ -45,6 +47,8 @@ VXPayMessage.TYPE_CHANGE_ROUTE           = 'modalbox-change-route';
 VXPayMessage.TYPE_ACTION_GET_ACTIVE_ABOS = 'modalbox-action-getactiveabos';
 VXPayMessage.TYPE_ACTION_LOGOUT          = 'modalbox-action-logout';
 VXPayMessage.TYPE_ACTION_GET_AVS_STATUS  = 'modalbox-action-getavsstatus';
-VXPayMessage.TYPE_HAS_LOGIN_COOKIE = 'modalbox-response-hasLoginCookie';
+VXPayMessage.TYPE_HAS_LOGIN_COOKIE       = 'modalbox-response-hasLoginCookie';
+
+VXPayMessage.TRANSFER_TOKEN_PREFIX = 'transfer_token:';
 
 export default VXPayMessage;

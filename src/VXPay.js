@@ -1,8 +1,8 @@
-import VXPayConfig       from './VXPay/VXPayConfig'
-import VXPayLogger       from './VXPay/VXPayLogger'
-import VXPayHelperFrame  from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame from './VXPay/Dom/Frame/VXPayPaymentFrame';
-import VXPayFlow         from './VXPay/Config/VXPayFlow';
+import VXPayConfig         from './VXPay/VXPayConfig'
+import VXPayLogger         from './VXPay/VXPayLogger'
+import VXPayHelperFrame    from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame   from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayFlow           from './VXPay/Config/VXPayFlow'
 
 export default class VXPay {
 
@@ -44,37 +44,39 @@ export default class VXPay {
 	}
 
 	/**
-	 * @return {VXPayPaymentFrame}
+	 * @return {Promise<VXPayPaymentFrame>}
 	 * @private
 	 */
 	_initPaymentFrame() {
-		// check already initialized
-		if (this.hasOwnProperty('_paymentFrame')) {
-			return this._paymentFrame;
-		}
+		return new Promise(resolve => {
+			// check already initialized
+			if (this.hasOwnProperty('_paymentFrame') && this._paymentFrame.loaded) {
+				resolve(this._paymentFrame);
+			}
 
-		this._paymentFrame = new VXPayPaymentFrame(
-			this._window.document,
-			this._config.getPaymentFrameUrl(),
-			'vx-payment-frame-payment'
-		);
+			this._paymentFrame = new VXPayPaymentFrame(
+				this._window.document,
+				this._config.getPaymentFrameUrl(),
+				'vx-payment-frame-payment'
+			);
 
-		// add logging
-		this._paymentFrame.beforeSend = (message) => this.logger.log('Sending to PaymentFrame:', message);
-
-		return this._paymentFrame;
+			// add logging and resolve when loaded
+			this._paymentFrame
+				.hooks
+				.onAny(msg => this.logger.log('Received from PaymentFrame:', msg))
+				.onBeforeSend(msg => this.logger.log('Sending to PaymentFrame:', msg))
+				.onContentLoaded(() => resolve(this._paymentFrame));
+		})
 	}
 
 	openLogin() {
 		this._initPaymentFrame()
-			.sendOptions({flow: VXPayFlow.LOGIN})
-			.show(VXPayFlow.LOGIN);
+			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show(VXPayFlow.LOGIN));
 	}
 
 	openRegistration() {
 		this._initPaymentFrame()
-			.sendOptions({flow: VXPayFlow.LOGIN})
-			.show('signup');
+			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show('signup'));
 	}
 
 	/**
@@ -125,5 +127,13 @@ export default class VXPay {
 	 */
 	set apiVersion(value) {
 		this._apiVersion = value;
+	}
+
+	/**
+	 * Expose hooks on VXPay object
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	get hooks() {
+		return this._paymentFrame.hooks;
 	}
 }

@@ -31,9 +31,6 @@ class VXPayIframe extends VXPayEventListener {
 		this._frame.id        = id;
 		this._frame.onload    = this._markLoaded.bind(this);
 
-		this._beforeSend = null;
-		this._afterSend = null;
-
 		// only apply if valid
 		if (null !== style) {
 			for (let item in style) {
@@ -49,14 +46,14 @@ class VXPayIframe extends VXPayEventListener {
 	}
 
 	/**
-	 * @private
+	 * @protected
 	 */
 	_markLoaded() {
 		this._loaded = true;
 
 		// call the stack
 		for (let i = 0; i < this._onLoadCallbacks.length; i++) {
-			this._onLoadCallbacks[i].call();
+			this._onLoadCallbacks[i].apply(this);
 		}
 	}
 
@@ -98,15 +95,7 @@ class VXPayIframe extends VXPayEventListener {
 	 * @param {String} origin
 	 */
 	postMessage(message = '', origin = '*') {
-		if (typeof this._beforeSend === 'function') {
-			this._beforeSend(message);
-		}
-
 		this._frame.contentWindow.postMessage(message.toString(), origin);
-
-		if (typeof this._afterSend === 'function') {
-			this._afterSend(message);
-		}
 	}
 
 	/**
@@ -121,34 +110,6 @@ class VXPayIframe extends VXPayEventListener {
 	 */
 	removeMessageHandler(handler) {
 		VXPayIframe.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.window, handler);
-	}
-
-
-	get beforeSend() {
-		return this._beforeSend;
-	}
-
-	set beforeSend(value) {
-		if (typeof value !== 'function') {
-			throw new TypeError('beforeSend should be a function!');
-		}
-
-		this._beforeSend = value;
-	}
-
-	get afterSend() {
-		return this._afterSend;
-	}
-
-	/**
-	 * @param {Function} value
-	 */
-	set afterSend(value) {
-		if (typeof value !== 'function') {
-			throw new TypeError('afterSend should be a function!');
-		}
-
-		this._afterSend = value;
 	}
 
 	show() {

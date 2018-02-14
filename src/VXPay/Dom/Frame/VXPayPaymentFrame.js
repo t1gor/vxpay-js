@@ -4,6 +4,10 @@ import VXPayUpdateParamsMessage from './../../Message/VXPayUpdateParamsMessage'
 import VXPayChangeRouteMessage  from './../../Message/VXPayChangeRouteMessage'
 import VXPayUserAgentHelper     from './../../VXPayUserAgentHelper'
 import VXPayDomHelper           from "../VXPayDomHelper";
+import VXPayEventListener       from "../../Event/VXPayEventListener";
+import VXPayMessageFactory      from "../../Message/VXPayMessageFactory";
+import VXPayPaymentHooksConfig  from "../../Config/VXPayPaymentHooksConfig";
+import VXPayMessage             from "../../VXPayMessage";
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
@@ -22,6 +26,12 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 		// allow transparent iframe for <= IE8
 		this._frame.allowTransparency = true;
+
+		// hooks config
+		this._hooks = new VXPayPaymentHooksConfig();
+
+		// listen for incoming post messages
+		this.startListening();
 	}
 
 	/**
@@ -56,6 +66,54 @@ class VXPayPaymentFrame extends VXPayIframe {
 		}
 
 		return defaultStyles;
+	}
+
+	/**
+	 * listen for incoming messages
+	 */
+	startListening() {
+		VXPayEventListener.addEvent(
+			VXPayIframe.EVENT_MESSAGE,
+			this._frame.ownerDocument.defaultView,
+			this.routeHook.bind(this)
+		);
+	}
+
+	/**
+	 * Override to add a hook
+	 * @protected
+	 */
+	_markLoaded() {
+		super._markLoaded();
+		return this._hooks.trigger(VXPayPaymentHooksConfig.ON_LOAD);
+	}
+
+	/**
+	 * @param {MessageEvent} event
+	 */
+	routeHook(event) {
+		const message = VXPayMessageFactory.fromJson(event.data);
+
+		// route any
+		this._hooks.trigger(VXPayPaymentHooksConfig.ON_ANY, [message]);
+
+		switch (message.type) {
+			case VXPayMessage.TYPE_CONTENT_LOADED:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CONTENT_LOADED, [message]);
+
+			case VXPayMessage.TYPE_VIEW_READY:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_VIEW_READY, [message]);
+		}
+	}
+
+	/**
+	 * Override to add a before send hook
+	 * @param {String|VXPayMessage} message
+	 * @param {String} origin
+	 */
+	postMessage(message, origin = '*') {
+		this._hooks.trigger(VXPayPaymentHooksConfig.ON_BEFORE_SEND, [message]);
+		super.postMessage(message, origin);
 	}
 
 	/**
@@ -105,6 +163,13 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 */
 	changeRoute(route) {
 		this.postMessage(new VXPayChangeRouteMessage(route));
+	}
+
+	/**
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	get hooks() {
+		return this._hooks;
 	}
 }
 
