@@ -8,6 +8,7 @@ import VXPaySetVisibleOnViewReadyMiddleware from './VXPay/Middleware/VXPaySetVis
 import VXPayShowLoginMiddleware             from './VXPay/Middleware/VXPayShowLoginMiddleware'
 import VXPayShowSignUpMiddleware            from "./VXPay/Middleware/VXPayShowSignUpMiddleware";
 import VXPayFlow                            from "./VXPay/Config/VXPayFlow";
+import VXPaySetMoneyChargeMiddleware        from "./VXPay/Middleware/VXPaySetMoneyChargeMiddleware";
 
 export default class VXPay {
 
@@ -80,7 +81,8 @@ export default class VXPay {
 			this._paymentFrame
 				.hooks
 				.onContentLoaded(() => resolve(this))
-				.onClose(msg => this._paymentFrame.hide());
+				.onClose(msg => this._paymentFrame.hide())
+				.onSuccess(msg => this._paymentFrame.hide());
 
 			// do we need logging?
 			if (this.config.logging) {
@@ -115,7 +117,11 @@ export default class VXPay {
 	}
 
 	openPayment() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetVisibleOnViewReadyMiddleware)
+			.then(VXPaySetMoneyChargeMiddleware)
+			/** @todo change last step */
+			.then(VXPayShowSignUpMiddleware);
 	}
 
 	openAbo() {
