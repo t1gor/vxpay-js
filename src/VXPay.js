@@ -4,6 +4,7 @@ import VXPayHelperFrame      from './VXPay/Dom/Frame/VXPayHelperFrame'
 import VXPayPaymentFrame     from './VXPay/Dom/Frame/VXPayPaymentFrame'
 import VXPayFlow             from './VXPay/Config/VXPayFlow'
 import VXPayIsVisibleMessage from "./VXPay/Message/VXPayIsVisibleMessage";
+import VXPayPaymentTab       from "./VXPay/Dom/Frame/VXPayPaymentTab";
 
 export default class VXPay {
 
@@ -35,11 +36,8 @@ export default class VXPay {
 			'vx-helper-frame-payment'
 		);
 
-		this._helperFrame
-			.getLoginCookie()
-			.then(function(msg) {
-				console.log(msg);
-			});
+		// just trigger load, don't handle
+		this._helperFrame.getLoginCookie();
 
 		return this._helperFrame;
 	}
@@ -55,11 +53,18 @@ export default class VXPay {
 				resolve(this._paymentFrame);
 			}
 
-			this._paymentFrame = new VXPayPaymentFrame(
-				this._window.document,
-				this._config.getPaymentFrameUrl(),
-				'vx-payment-frame-payment'
-			);
+			if (this._config.enableTab) {
+				this._paymentFrame = new VXPayPaymentTab(
+					this._window.document,
+					this._config.getPaymentFrameUrl()
+				);
+			} else {
+				this._paymentFrame = new VXPayPaymentFrame(
+					this._window.document,
+					this._config.getPaymentFrameUrl(),
+					'vx-payment-frame-payment'
+				);
+			}
 
 			const hide = this._paymentFrame.hide.bind(this._paymentFrame);
 
@@ -76,6 +81,8 @@ export default class VXPay {
 					.onAny(msg => this.logger.log('Received from PaymentFrame:', msg))
 					.onBeforeSend(msg => this.logger.log('Sending to PaymentFrame:', msg))
 			}
+
+			this._paymentFrame.triggerLoad();
 		})
 	}
 

@@ -160,11 +160,17 @@ vxpay.hooks.onSuccess(function(msg) {/* do something */});
 
 ### Config options reference
 
-| Name | Type | Values | Additional info |
+| Name | Type | Sample values or constants | Additional info |
 | ---- | ------------ | ----- | --------------- |
 | `logging` | `{Boolean}` | `true` or `false` | If the script should log actions, requests, responses, etc. |
 | `language` | `{String}` | `VXPayLanguage.DE`, `VXPayLanguage.EN`, `VXPayLanguage.NL` | Localization of the UI. |
 | `env` | `{String}` | `VXPayEnvironment.DEVELOPMENT`, `VXPayEnvironment.STAGING`, `VXPayEnvironment.PRODUCTION` | Current script environment. |
+| `abgUrl` | `{String}` | `<valid URL string>` | Url to the agb page |
+| `pfm` | `{Number}` | `<Integer>` | Target platform, ask your sales contact |
+| `host` | `{Number}` | `<Integer>` | VX hostId, which is used to find a proper teaser |
+| `wmId` | `{Number}` | `<Integer>` | Affiliate id, ask your sales contact |
+| `token` | `{String}` | `TT_e42fb06d-dab4-4866-891c-cfea6b3c84fe` | Access Token - token from VXPay Api to be injected to PayTour |
+| `promoCode` | `{String}` | `vip18superdeal` | Promocode with bonus to be granted after payment |
 
 ### [ModalConfig](src/VXPay/Config/VXPayModalConfig.js) reference
 

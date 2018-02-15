@@ -36,6 +36,7 @@ class VXPayConfig {
 		this._modalConfig = typeof modalConfig === 'undefined'
 			? new VXPayModalConfig()
 			: modalConfig;
+		this._modalConfig = modalConfig;
 	}
 
 	/**
@@ -306,6 +307,52 @@ class VXPayConfig {
 	 */
 	set apiVersion(value) {
 		this._apiVersion = parseInt(value, 10);
+	}
+
+	/**
+	 * @return {VXPayModalConfig}
+	 */
+	get modalConfig() {
+		return this._modalConfig;
+	}
+
+	/**
+	 * @param {VXPayModalConfig} value
+	 */
+	set modalConfig(value) {
+		if (!(value instanceof VXPayModalConfig)) {
+			throw new TypeError('Modal config value should be instance of VXPayModalConfig!');
+		}
+
+		this._modalConfig = value;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	get pfm() {
+		return this._pfm;
+	}
+
+	/**
+	 * @param {string} value
+	 */
+	set pfm(value) {
+		this._pfm = value;
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	get enableTab() {
+		return this._enableTab;
+	}
+
+	/**
+	 * @param {boolean} value
+	 */
+	set enableTab(value) {
+		this._enableTab = value;
 	}
 }
 

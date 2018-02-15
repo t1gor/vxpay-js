@@ -202,7 +202,7 @@ VXPayPaymentHooksConfig.ON_BEFORE_SEND    = 'onBeforeSend';
 VXPayPaymentHooksConfig.ON_LOAD           = 'onLoad';
 VXPayPaymentHooksConfig.ON_VIEW_READY     = 'onViewReady';
 VXPayPaymentHooksConfig.ON_CONTENT_LOADED = 'onContentLoaded';
-VXPayPaymentHooksConfig.ON_CLOSE = 'onClose';
-VXPayPaymentHooksConfig.ON_SUCCESS = 'onSuccess';
+VXPayPaymentHooksConfig.ON_CLOSE          = 'onClose';
+VXPayPaymentHooksConfig.ON_SUCCESS        = 'onSuccess';
 
 export default VXPayPaymentHooksConfig;

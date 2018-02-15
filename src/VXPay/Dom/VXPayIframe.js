@@ -37,12 +37,6 @@ class VXPayIframe extends VXPayEventListener {
 				this._frame.style.setProperty(item, style[item]);
 			}
 		}
-
-		// add to document
-		document
-			.getElementsByTagName('body')
-			.item(0)
-			.appendChild(this._frame);
 	}
 
 	/**
@@ -123,6 +117,7 @@ class VXPayIframe extends VXPayEventListener {
 }
 
 VXPayIframe.EVENT_MESSAGE = 'message';
+VXPayIframe.EVENT_LOAD = 'load';
 
 VXPayIframe.POSITION_ABSOLUTE = 'absolute';
 VXPayIframe.POSITION_FIXED    = 'fixed';

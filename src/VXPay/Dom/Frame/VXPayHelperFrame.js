@@ -10,7 +10,7 @@ class VXPayHelperFrame extends VXPayIframe {
 	 * @param {String} id
 	 * @param {CSSStyleDeclaration} style
 	 */
-	constructor(document, url, id, style = {display: 'none'}) {
+	constructor(document, url, id, style = VXPayHelperFrame.STYLE_DEFAULT) {
 		// init the frame
 		super(document, url, id, style);
 		this._cookieMsg = null;
@@ -44,6 +44,10 @@ class VXPayHelperFrame extends VXPayIframe {
 	 */
 	getLoginCookie() {
 		return new Promise((resolve, reject) => {
+			if (null !== this._cookieMsg) {
+				resolve(this._cookieMsg);
+			}
+
 			VXPayEventListener.addEvent(
 				VXPayIframe.EVENT_MESSAGE,
 				this._frame.ownerDocument.defaultView,
@@ -52,5 +56,7 @@ class VXPayHelperFrame extends VXPayIframe {
 		})
 	}
 }
+
+VXPayHelperFrame.STYLE_DEFAULT = {display: 'none'};
 
 export default VXPayHelperFrame

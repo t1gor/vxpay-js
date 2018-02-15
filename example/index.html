@@ -10,6 +10,10 @@
 			<div class="mdc-layout-grid__cell--span-5">
 				<h4 class="mdc-typography--title">Possible actions</h4>
 				<div class="mdc-layout-grid__inner">
+					<label for="use-tab" class="mdc-layout-grid__cell--span-12">
+						<input type="checkbox" name="use-tab" id="use-tab" onchange="config.enableTab = document.getElementById('use-tab').checked" />
+						Open in a new tab
+					</label>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openLogin()">Login</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openSignup()">Register</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openSignupOrLogin()">Login or Register</a>
@@ -36,10 +40,10 @@
 
 	<!-- Load the library -->
 	<script type="text/javascript">
-		let vxpay;
+		let vxpay, config;
 
 		__init = function() {
-			const config = new VX.VXPayConfig();
+			config = new VX.VXPayConfig();
 
 			config.logging = true;
 			config.language = VX.VXPayLanguage.EN;

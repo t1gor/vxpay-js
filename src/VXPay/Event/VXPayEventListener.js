@@ -1,7 +1,7 @@
 export default class VXPayEventListener {
 	/**
 	 * @param {String} event
-	 * @param {HTMLElement} elem
+	 * @param {HTMLElement|Window} elem
 	 * @param {Function} func
 	 */
 	static addEvent(event, elem, func) {

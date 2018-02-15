@@ -35,6 +35,17 @@ class VXPayPaymentFrame extends VXPayIframe {
 	}
 
 	/**
+	 * Insert in DOM
+	 */
+	triggerLoad() {
+		this._frame
+			.ownerDocument
+			.getElementsByTagName('body')
+			.item(0)
+			.appendChild(this._frame);
+	}
+
+	/**
 	 * @todo refactor this mess!
 	 * @param {Document} document
 	 * @return {Object}
