@@ -354,6 +354,21 @@ class VXPayConfig {
 	set enableTab(value) {
 		this._enableTab = value;
 	}
+
+	/**
+	 * @param {Object} options
+	 */
+	merge(options = {}) {
+		const that = this;
+
+		Object
+			.keys(that.getOptions())
+			.forEach(key => {
+				if (options.hasOwnProperty(key)) {
+					that[key] = options[key];
+				}
+			});
+	}
 }
 
 VXPayConfig.ABG_DEFAULT     = 'https://www.visit-x.net/CAMS/{language}/Info/Zentrum.html?submod=AGB&track=Account';

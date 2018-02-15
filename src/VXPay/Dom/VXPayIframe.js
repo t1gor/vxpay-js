@@ -110,8 +110,10 @@ class VXPayIframe extends VXPayEventListener {
 		this._frame.style.display = 'block';
 	}
 
+	/**
+	 * @todo
+	 */
 	hide() {
-		console.log(this);
 		this._frame.style.display = 'none';
 	}
 }

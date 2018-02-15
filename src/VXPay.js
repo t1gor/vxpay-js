@@ -1,10 +1,13 @@
-import VXPayConfig           from './VXPay/VXPayConfig'
-import VXPayLogger           from './VXPay/VXPayLogger'
-import VXPayHelperFrame      from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame     from './VXPay/Dom/Frame/VXPayPaymentFrame'
-import VXPayFlow             from './VXPay/Config/VXPayFlow'
-import VXPayIsVisibleMessage from "./VXPay/Message/VXPayIsVisibleMessage";
-import VXPayPaymentTab       from "./VXPay/Dom/Frame/VXPayPaymentTab";
+import VXPayConfig                          from './VXPay/VXPayConfig'
+import VXPayLogger                          from './VXPay/VXPayLogger'
+import VXPayHelperFrame                     from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame                    from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab                      from './VXPay/Dom/Frame/VXPayPaymentTab'
+import VXPaySetLoginFlowMiddleware          from './VXPay/Middleware/VXPaySetLoginFlowMiddleware'
+import VXPaySetVisibleOnViewReadyMiddleware from './VXPay/Middleware/VXPaySetVisibleOnViewReadyMiddleware'
+import VXPayShowLoginMiddleware             from './VXPay/Middleware/VXPayShowLoginMiddleware'
+import VXPayShowSignUpMiddleware            from "./VXPay/Middleware/VXPayShowSignUpMiddleware";
+import VXPayFlow                            from "./VXPay/Config/VXPayFlow";
 
 export default class VXPay {
 
@@ -43,14 +46,21 @@ export default class VXPay {
 	}
 
 	/**
-	 * @return {Promise<VXPayPaymentFrame>}
+	 * @return {VXPayPaymentTab|VXPayPaymentFrame}
+	 */
+	get frame() {
+		return this._paymentFrame;
+	}
+
+	/**
+	 * @return {Promise<VXPay>}
 	 * @private
 	 */
 	_initPaymentFrame() {
 		return new Promise(resolve => {
 			// check already initialized
 			if (this.hasOwnProperty('_paymentFrame') && this._paymentFrame.loaded) {
-				resolve(this._paymentFrame);
+				resolve(this);
 			}
 
 			if (this._config.enableTab) {
@@ -66,20 +76,18 @@ export default class VXPay {
 				);
 			}
 
-			const hide = this._paymentFrame.hide.bind(this._paymentFrame);
-
 			// set resolve hook
 			this._paymentFrame
 				.hooks
-				.onContentLoaded(() => resolve(this._paymentFrame))
-				.onClose(msg => hide);
+				.onContentLoaded(() => resolve(this))
+				.onClose(msg => this._paymentFrame.hide());
 
 			// do we need logging?
 			if (this.config.logging) {
 				this._paymentFrame
 					.hooks
-					.onAny(msg => this.logger.log('Received from PaymentFrame:', msg))
-					.onBeforeSend(msg => this.logger.log('Sending to PaymentFrame:', msg))
+					.onAny(msg => this.logger.log('<-- []', msg))
+					.onBeforeSend(msg => this.logger.log('--> []', msg))
 			}
 
 			this._paymentFrame.triggerLoad();
@@ -87,17 +95,19 @@ export default class VXPay {
 	}
 
 	openLogin() {
+		this.config.flow = VXPayFlow.LOGIN;
+
 		this._initPaymentFrame()
-			.then(frame => {
-				frame.hooks.onViewReady(() => frame.postMessage(new VXPayIsVisibleMessage()));
-				return frame;
-			})
-			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show(VXPayFlow.LOGIN));
+			.then(VXPaySetVisibleOnViewReadyMiddleware)
+			.then(VXPaySetLoginFlowMiddleware)
+			.then(VXPayShowLoginMiddleware);
 	}
 
 	openSignup() {
 		this._initPaymentFrame()
-			.then(frame => frame.sendOptions({flow: VXPayFlow.LOGIN}).show('signup'));
+			.then(VXPaySetVisibleOnViewReadyMiddleware)
+			.then(VXPaySetLoginFlowMiddleware)
+			.then(VXPayShowSignUpMiddleware);
 	}
 
 	openSignupOrLogin() {

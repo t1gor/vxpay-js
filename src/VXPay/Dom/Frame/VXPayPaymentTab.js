@@ -1,8 +1,7 @@
 import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
-import VXPayEventListener      from "../../Event/VXPayEventListener";
-import VXPayIframe             from "../VXPayIframe";
-import VXPayMessageFactory     from "../../Message/VXPayMessageFactory";
-import VXPayMessage            from "../../VXPayMessage";
+import VXPayEventListener      from './../../Event/VXPayEventListener'
+import VXPayIframe             from './../VXPayIframe'
+import VXPayHookRouter         from './../../Message/Hooks/VXPayHookRouter'
 
 /**
  * @link https://www.npmjs.com/package/es6-interface
@@ -13,7 +12,6 @@ class VXPayPaymentTab {
 	 * @param {String} url
 	 */
 	constructor(document, url) {
-		console.log('VXPayPaymentTab::constructor');
 		this._document = document;
 		this._url = url;
 		this._hooks = new VXPayPaymentHooksConfig();
@@ -24,7 +22,6 @@ class VXPayPaymentTab {
 	 * Open the window
 	 */
 	triggerLoad() {
-		console.log('VXPayPaymentTab::triggerLoad');
 		this.getNewTab(this._document, this._url)
 			.then(win => this.startListening);
 	}
@@ -55,13 +52,12 @@ class VXPayPaymentTab {
 	}
 
 	_markLoaded() {
-		console.log('mark loaded');
 		this._loaded = true;
 		return this._hooks.trigger(VXPayPaymentHooksConfig.ON_LOAD);
 	}
 
 	hide() {
-
+		console.log('11111 2222');
 	}
 
 	get hooks() {
@@ -74,34 +70,9 @@ class VXPayPaymentTab {
 	startListening() {
 		VXPayEventListener.addEvent(
 			VXPayIframe.EVENT_MESSAGE,
-			this._window,
-			this.routeHook.bind(this)
+			document.defaultView,
+			(event) => VXPayHookRouter(this._hooks, event)
 		);
-	}
-
-	/**
-	 * @param {MessageEvent} event
-	 */
-	routeHook(event) {
-		console.log(event);
-		const message = VXPayMessageFactory.fromJson(event.data);
-
-		// route any
-		this._hooks.trigger(VXPayPaymentHooksConfig.ON_ANY, [message]);
-
-		switch (message.type) {
-			case VXPayMessage.TYPE_CONTENT_LOADED:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CONTENT_LOADED, [message]);
-
-			case VXPayMessage.TYPE_VIEW_READY:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_VIEW_READY, [message]);
-
-			case VXPayMessage.TYPE_IFRAME_CLOSE:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CLOSE, [message]);
-
-			case VXPayMessage.TYPE_SUCCESS:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
-		}
 	}
 }
 

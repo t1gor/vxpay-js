@@ -3,11 +3,11 @@ import VXPayInitSessionMessage  from './../../Message/VXPayInitSessionMessage'
 import VXPayUpdateParamsMessage from './../../Message/VXPayUpdateParamsMessage'
 import VXPayChangeRouteMessage  from './../../Message/VXPayChangeRouteMessage'
 import VXPayUserAgentHelper     from './../../VXPayUserAgentHelper'
-import VXPayDomHelper           from "../VXPayDomHelper";
-import VXPayEventListener       from "../../Event/VXPayEventListener";
-import VXPayMessageFactory      from "../../Message/VXPayMessageFactory";
-import VXPayPaymentHooksConfig  from "../../Config/VXPayPaymentHooksConfig";
-import VXPayMessage             from "../../VXPayMessage";
+import VXPayDomHelper           from './../VXPayDomHelper'
+import VXPayEventListener       from './../../Event/VXPayEventListener'
+import VXPayPaymentHooksConfig  from './../../Config/VXPayPaymentHooksConfig'
+import VXPayMessage             from './../../VXPayMessage'
+import VXPayHookRouter          from './../../Message/Hooks/VXPayHookRouter'
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
@@ -86,7 +86,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 		VXPayEventListener.addEvent(
 			VXPayIframe.EVENT_MESSAGE,
 			this._frame.ownerDocument.defaultView,
-			this.routeHook.bind(this)
+			(event) => VXPayHookRouter(this._hooks, event)
 		);
 	}
 
@@ -97,30 +97,6 @@ class VXPayPaymentFrame extends VXPayIframe {
 	_markLoaded() {
 		super._markLoaded();
 		return this._hooks.trigger(VXPayPaymentHooksConfig.ON_LOAD);
-	}
-
-	/**
-	 * @param {MessageEvent} event
-	 */
-	routeHook(event) {
-		const message = VXPayMessageFactory.fromJson(event.data);
-
-		// route any
-		this._hooks.trigger(VXPayPaymentHooksConfig.ON_ANY, [message]);
-
-		switch (message.type) {
-			case VXPayMessage.TYPE_CONTENT_LOADED:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CONTENT_LOADED, [message]);
-
-			case VXPayMessage.TYPE_VIEW_READY:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_VIEW_READY, [message]);
-
-			case VXPayMessage.TYPE_IFRAME_CLOSE:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CLOSE, [message]);
-
-			case VXPayMessage.TYPE_SUCCESS:
-				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
-		}
 	}
 
 	/**
@@ -160,19 +136,13 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 * @param {String} path
 	 */
 	show(path = 'login') {
-		this.showOverlay();
-		this.showSpinner();
+		if (!this.loaded) {
+			this.triggerLoad();
+		}
+
 		this.changeRoute('/' + path);
 		this.initSession();
 		super.show();
-	}
-
-	showSpinner() {
-
-	}
-
-	showOverlay() {
-
 	}
 
 	/**

@@ -7,6 +7,28 @@ class VXPayPaymentHooksConfig {
 		this._onContentLoaded = [];
 		this._onClose         = [];
 		this._onSuccess       = [];
+		this._onIframeReady   = [];
+	}
+
+	/**
+	 * @param {Function} handler
+	 */
+	onIframeReady(handler) {
+		this._onIframeReady.push(handler);
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	hasOnIframeReady() {
+		return this._onIframeReady.length > 0;
+	}
+
+	/**
+	 * @return {Function[]}
+	 */
+	getOnIframeReady() {
+		return this._onIframeReady;
 	}
 
 	/**
@@ -201,6 +223,7 @@ VXPayPaymentHooksConfig.ON_ANY            = 'onAny';
 VXPayPaymentHooksConfig.ON_BEFORE_SEND    = 'onBeforeSend';
 VXPayPaymentHooksConfig.ON_LOAD           = 'onLoad';
 VXPayPaymentHooksConfig.ON_VIEW_READY     = 'onViewReady';
+VXPayPaymentHooksConfig.ON_IFRAME_READY   = 'onIframeReady';
 VXPayPaymentHooksConfig.ON_CONTENT_LOADED = 'onContentLoaded';
 VXPayPaymentHooksConfig.ON_CLOSE          = 'onClose';
 VXPayPaymentHooksConfig.ON_SUCCESS        = 'onSuccess';
