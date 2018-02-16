@@ -8,27 +8,25 @@ class VXPayPaymentHooksConfig {
 		this._onClose         = [];
 		this._onSuccess       = [];
 		this._onIframeReady   = [];
+		this._onLogin         = [];
 	}
 
 	/**
 	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onLogin(handler) {
+		this._onLogin.push(handler);
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onIframeReady(handler) {
 		this._onIframeReady.push(handler);
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasOnIframeReady() {
-		return this._onIframeReady.length > 0;
-	}
-
-	/**
-	 * @return {Function[]}
-	 */
-	getOnIframeReady() {
-		return this._onIframeReady;
+		return this;
 	}
 
 	/**
@@ -41,40 +39,12 @@ class VXPayPaymentHooksConfig {
 	}
 
 	/**
-	 * @return {boolean}
-	 */
-	hasOnClose() {
-		return this._onClose.length > 0;
-	}
-
-	/**
-	 * @return {Function[]}
-	 */
-	getOnClose() {
-		return this._onClose;
-	}
-
-	/**
 	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onSuccess(handler) {
 		this._onSuccess.push(handler);
 		return this;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasOnSuccess() {
-		return this._onSuccess.length > 0;
-	}
-
-	/**
-	 * @return {Function[]}
-	 */
-	getOnSuccess() {
-		return this._onSuccess;
 	}
 
 	/**
@@ -87,40 +57,12 @@ class VXPayPaymentHooksConfig {
 	}
 
 	/**
-	 * @return {Function[]}
-	 */
-	getAny() {
-		return this._onAny;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasAny() {
-		return this._onAny.length > 0;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasBeforeSend() {
-		return this._onBeforeSend.length > 0;
-	}
-
-	/**
 	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onBeforeSend(handler) {
 		this._onBeforeSend.push(handler);
 		return this;
-	}
-
-	/**
-	 * @return {Function[]}
-	 */
-	getBeforeSend() {
-		return this._onBeforeSend;
 	}
 
 	/**
@@ -133,20 +75,6 @@ class VXPayPaymentHooksConfig {
 	}
 
 	/**
-	 * @return {Function[]}
-	 */
-	getOnLoad() {
-		return this._onLoad;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasOnLoad() {
-		return this._onLoad.length > 0;
-	}
-
-	/**
 	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
@@ -156,40 +84,12 @@ class VXPayPaymentHooksConfig {
 	}
 
 	/**
-	 * @return {Function[]}
-	 */
-	getOnViewReady() {
-		return this._onViewReady;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasOnViewReady() {
-		return this._onViewReady.length > 0;
-	}
-
-	/**
 	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onContentLoaded(handler) {
 		this._onContentLoaded.push(handler);
 		return this;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	hasOnContentLoaded() {
-		return this._onContentLoaded.length > 0;
-	}
-
-	/**
-	 * @return {Function[]}
-	 */
-	getOnContentLoaded() {
-		return this._onContentLoaded;
 	}
 
 	/**
@@ -227,5 +127,6 @@ VXPayPaymentHooksConfig.ON_IFRAME_READY   = 'onIframeReady';
 VXPayPaymentHooksConfig.ON_CONTENT_LOADED = 'onContentLoaded';
 VXPayPaymentHooksConfig.ON_CLOSE          = 'onClose';
 VXPayPaymentHooksConfig.ON_SUCCESS        = 'onSuccess';
+VXPayPaymentHooksConfig.ON_LOGIN          = 'onLogin';
 
 export default VXPayPaymentHooksConfig;

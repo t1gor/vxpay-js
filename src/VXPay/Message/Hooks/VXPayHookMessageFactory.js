@@ -9,7 +9,7 @@ export default class VXPayHookMessageFactory {
 	 * @return {VXPayHookMessage}
 	 */
 	static fromData(data = {}) {
-		if (!data.hasOwnProperty('hook')) {
+		if (typeof data === 'undefined' || !data.hasOwnProperty('hook')) {
 			throw new TypeError('Invalid message format - no hook field');
 		}
 
@@ -19,6 +19,9 @@ export default class VXPayHookMessageFactory {
 
 			case VXPayHookMessage.HOOK_LOGIN:
 				return new VXPayLoggedInMessage();
+
+			default:
+				return new VXPayHookMessage();
 		}
 	}
 }

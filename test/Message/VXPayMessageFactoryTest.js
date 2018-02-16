@@ -1,6 +1,4 @@
 import {assert}                     from 'chai'
-import fs                           from 'fs'
-import path                         from 'path'
 import sinon                        from 'sinon'
 import {given}                      from 'mocha-testdata'
 import VXPayHasSessionCookieMessage from './../../src/VXPay/Message/VXPayHasSessionCookieMessage'
@@ -13,16 +11,14 @@ import VXPayTransferTokenMessage    from './../../src/VXPay/Message/VXPayTransfe
 import VXPayIsVisibleMessage        from './../../src/VXPay/Message/VXPayIsVisibleMessage'
 import VXPayHookMessageFactory      from './../../src/VXPay/Message/Hooks/VXPayHookMessageFactory'
 import VXPaySuccessMessage          from './../../src/VXPay/Message/VXPaySuccessMessage'
+import VXPayTestFx                  from './../Fixtures/VXPayTestFx'
 
 describe('VXPayMessageFactory', () => {
-	const fixtures = path.resolve(__dirname, './../fixtures/message'),
-	      getEvent = (type) => fs.readFileSync(path.resolve(fixtures, type + '.json'));
-
 	describe('#fromJson()', () => {
 		it('Should be able to parse VXPayHasSessionCookieMessage correctly', () => {
 			given(
-				getEvent('has-login-cookie-true'),
-				getEvent('has-login-cookie-false')
+				VXPayTestFx.getMessage('has-login-cookie-true'),
+				VXPayTestFx.getMessage('has-login-cookie-false')
 			)
 				.test('Should be able to parse the message', (json) => {
 					const msg = VXPayMessageFactory.fromJson(json);
@@ -38,37 +34,37 @@ describe('VXPayMessageFactory', () => {
 		});
 		it('Will return a VXPayContentLoadedMessage object on corresponding event', () => {
 			assert.instanceOf(
-				VXPayMessageFactory.fromJson(getEvent('content-loaded')),
+				VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('content-loaded')),
 				VXPayContentLoadedMessage
 			);
 		});
 		it('Will return a VXPayIframeReadyMessage object on corresponding event', () => {
 			assert.instanceOf(
-				VXPayMessageFactory.fromJson(getEvent('iframe-ready')),
+				VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('iframe-ready')),
 				VXPayIframeReadyMessage
 			);
 		});
 		it('Will return a VXPayViewReadyMessage object on corresponding event', () => {
 			assert.instanceOf(
-				VXPayMessageFactory.fromJson(getEvent('view-ready')),
+				VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('view-ready')),
 				VXPayViewReadyMessage
 			);
 		});
 		it('Will return a VXPayIframeCloseMessage object on corresponding event', () => {
 			assert.instanceOf(
-				VXPayMessageFactory.fromJson(getEvent('iframe-close')),
+				VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('iframe-close')),
 				VXPayIframeCloseMessage
 			);
 		});
 		it('Will return a VXPayTransferTokenMessage object on corresponding event', () => {
-			const msg = VXPayMessageFactory.fromJson(getEvent('transfer-token'));
+			const msg = VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('transfer-token'));
 
 			assert.instanceOf(msg, VXPayTransferTokenMessage);
 			assert.equal('TT_1b5e52e0-ea68-4b24-986a-dea36b5c5940', msg.token);
 		});
 		it('Will return a VXPayIsVisibleMessage object on corresponding event', () => {
 			assert.instanceOf(
-				VXPayMessageFactory.fromJson(getEvent('is-visible')),
+				VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('is-visible')),
 				VXPayIsVisibleMessage
 			);
 		});
@@ -77,7 +73,7 @@ describe('VXPayMessageFactory', () => {
 		 */
 		it('Will call the hook factory on hook events', () => {
 			const fromData = sinon.spy(VXPayHookMessageFactory, 'fromData'),
-			      json     = getEvent('hook-flow-changed');
+			      json     = VXPayTestFx.getMessage('hook-flow-changed');
 
 			// call the factory
 			VXPayMessageFactory.fromJson(json);
@@ -89,9 +85,9 @@ describe('VXPayMessageFactory', () => {
 			sinon.assert.calledWith(fromData, JSON.parse(json).data);
 		});
 		it('Will return a VXPaySuccessMessage object on corresponding event', () => {
-			const json = getEvent('login-success'),
+			const json     = VXPayTestFx.getMessage('login-success'),
 			      userData = JSON.parse(json).data,
-			      msg = VXPayMessageFactory.fromJson(json);
+			      msg      = VXPayMessageFactory.fromJson(json);
 
 			assert.instanceOf(msg, VXPaySuccessMessage);
 			assert.equal(JSON.stringify(msg.userData), JSON.stringify(userData));

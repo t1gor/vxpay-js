@@ -1,10 +1,11 @@
 import VXPayMessageFactory     from './../VXPayMessageFactory'
 import VXPayMessage            from './../../VXPayMessage'
 import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
+import VXPayHookMessage        from './VXPayHookMessage'
 
 /**
  * @param {VXPayPaymentHooksConfig} hooks
- * @param {MessageEvent} event
+ * @param {MessageEvent|Object} event
  * @return {boolean}
  * @constructor
  */
@@ -29,6 +30,12 @@ const VXPayHookRouter = (hooks, event) => {
 
 		case VXPayMessage.TYPE_SUCCESS:
 			return hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
+
+		case VXPayMessage.TYPE_HOOK:
+			switch (message.hook) {
+				case VXPayHookMessage.HOOK_LOGIN:
+					return hooks.trigger(VXPayPaymentHooksConfig.ON_LOGIN, [message]);
+			}
 	}
 };
 

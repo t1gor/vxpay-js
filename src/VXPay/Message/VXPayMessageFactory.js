@@ -54,7 +54,12 @@ export default class VXPayMessageFactory {
 					const token = message.type.substr(VXPayMessage.TRANSFER_TOKEN_PREFIX.length);
 					return new VXPayTransferTokenMessage(token);
 				}
-				console.log(message.type);
+
+				// return an unknown message, but still a message
+				const unknown = new VXPayMessage(message.type);
+					  unknown.raw = json;
+
+				return unknown;
 		}
 	}
 }
