@@ -1,5 +1,6 @@
 import VXPayHookMessage            from './VXPayHookMessage'
 import VXPayFlowChangedHookMessage from './VXPayFlowChangedMessage'
+import VXPayLoggedInMessage        from './VXPayLoggedInMessage'
 
 export default class VXPayHookMessageFactory {
 
@@ -15,6 +16,9 @@ export default class VXPayHookMessageFactory {
 		switch (data.hook) {
 			case VXPayHookMessage.HOOK_FLOW_CHANGED:
 				return new VXPayFlowChangedHookMessage(data.prevFlow, data.flow);
+
+			case VXPayHookMessage.HOOK_LOGIN:
+				return new VXPayLoggedInMessage();
 		}
 	}
 }

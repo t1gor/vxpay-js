@@ -8,6 +8,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.2",
@@ -18,6 +19,7 @@
     "nyc": "^11.4.1",
     "phantomjs-prebuilt": "^2.1.16",
     "sinon": "^4.2.2",
+    "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^3.10.0"
   },
   "scripts": {
@@ -27,8 +29,6 @@
     "cover": "nyc --reporter=html yarn test"
   },
   "dependencies": {
-    "es6-object-assign": "^1.1.0",
-    "uglifyjs-webpack-plugin": "^1.1.8",
     "whatwg-url": "^6.4.0"
   }
 }

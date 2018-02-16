@@ -12,7 +12,7 @@ import VXPaySuccessMessage          from './VXPaySuccessMessage'
 export default class VXPayMessageFactory {
 
 	/**
-	 * @param json
+	 * @param {string} json
 	 * @return {VXPayMessage}
 	 * @throws {TypeError|SyntaxError}
 	 */

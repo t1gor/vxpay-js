@@ -1,0 +1,17 @@
+{
+	"type": "modalbox-success",
+	"data": {
+		"success": true,
+		"userFromLogin": true,
+		"userFromSignup": false,
+		"flow": "login",
+		"hostId": null,
+		"screenname": "us3rn@me",
+		"userId": 7412881,
+		"isLoggedIn": true,
+		"transferToken": "TT_1b5e52e0-ea68-4b24-986a-dea36b5c5940",
+		"availableMoney": 44.25,
+		"fsk18": true,
+		"uhash": null
+	}
+}

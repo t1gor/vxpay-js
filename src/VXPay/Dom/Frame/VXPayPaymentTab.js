@@ -22,6 +22,10 @@ class VXPayPaymentTab {
 	 * Open the window
 	 */
 	triggerLoad() {
+		if (this._loaded) {
+			return;
+		}
+
 		this.getNewTab(this._document, this._url)
 			.then(win => this.startListening);
 	}

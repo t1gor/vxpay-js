@@ -12,5 +12,6 @@ class VXPayHookMessage extends VXPayMessage {
 }
 
 VXPayHookMessage.HOOK_FLOW_CHANGED = 'flowChanged';
+VXPayHookMessage.HOOK_LOGIN = 'login';
 
 export default VXPayHookMessage;

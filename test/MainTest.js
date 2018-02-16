@@ -9,5 +9,7 @@ describe('main', () => {
 		expect(VX).to.have.property('VXPayEnvironment');
 		expect(VX).to.have.property('VXPayNotifications');
 		expect(VX).to.have.property('VXPayFlow');
+		expect(VX).to.have.property('VXPayModalConfig');
+		expect(VX).to.have.property('VXPayPaymentHooksConfig');
 	});
 });
