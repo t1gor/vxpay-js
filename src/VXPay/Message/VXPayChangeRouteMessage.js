@@ -1,4 +1,4 @@
-import VXPayMessage from './../VXPayMessage';
+import VXPayMessage from './../VXPayMessage'
 
 export default class VXPayChangeRouteMessage extends VXPayMessage {
 	/**

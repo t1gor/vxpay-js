@@ -4,12 +4,12 @@ import VXPayMessageFactory          from './../../src/VXPay/Message/VXPayMessage
 import VXPayHookRouter              from './../../src/VXPay/Message/Hooks/VXPayHookRouter'
 import VXPayTestFx                  from './../Fixtures/VXPayTestFx'
 import VXPayHasSessionCookieMessage from './../../src/VXPay/Message/VXPayHasSessionCookieMessage'
-import VXPayIframeReadyMessage      from "../../src/VXPay/Message/VXPayIframeReadyMessage";
-import VXPayContentLoadedMessage    from "../../src/VXPay/Message/VXPayContentLoadedMessage";
-import VXPayViewReadyMessage        from "../../src/VXPay/Message/VXPayViewReadyMessage";
-import VXPayIframeCloseMessage      from "../../src/VXPay/Message/VXPayIframeCloseMessage";
-import VXPaySuccessMessage          from "../../src/VXPay/Message/VXPaySuccessMessage";
-import VXPayHookMessage             from "../../src/VXPay/Message/Hooks/VXPayHookMessage";
+import VXPayIframeReadyMessage      from '../../src/VXPay/Message/VXPayIframeReadyMessage'
+import VXPayContentLoadedMessage    from '../../src/VXPay/Message/VXPayContentLoadedMessage'
+import VXPayViewReadyMessage        from '../../src/VXPay/Message/VXPayViewReadyMessage'
+import VXPayIframeCloseMessage      from '../../src/VXPay/Message/VXPayIframeCloseMessage'
+import VXPaySuccessMessage          from '../../src/VXPay/Message/VXPaySuccessMessage'
+import VXPayHookMessage             from '../../src/VXPay/Message/Hooks/VXPayHookMessage'
 
 describe('VXPayHookRouter', () => {
 	it('Will parse event data', () => {
