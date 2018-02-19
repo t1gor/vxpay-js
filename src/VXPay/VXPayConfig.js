@@ -1,10 +1,11 @@
-import VXPayEnvironment from './VXPayEnvironment'
-import VXPayLanguage    from './VXPayLanguage'
-import VXPayValidator   from './VXPayValidator'
-import VXPayFlow        from './Config/VXPayFlow'
-import VXPayIframe      from './Dom/VXPayIframe'
-import VXPayModalConfig from './Config/VXPayModalConfig'
-import VXPayUrlHelper   from './VXPayUrlHelper';
+import VXPayEnvironment            from './VXPayEnvironment'
+import VXPayLanguage               from './VXPayLanguage'
+import VXPayValidator              from './VXPayValidator'
+import VXPayFlow                   from './Config/VXPayFlow'
+import VXPayIframe                 from './Dom/VXPayIframe'
+import VXPayModalConfig            from './Config/VXPayModalConfig'
+import VXPayUrlHelper              from './VXPayUrlHelper';
+import VXPayFlowChangedHookMessage from "./Message/Hooks/VXPayFlowChangedMessage";
 
 class VXPayConfig {
 	/**
@@ -368,6 +369,13 @@ class VXPayConfig {
 					that[key] = options[key];
 				}
 			});
+	}
+
+	/**
+	 * @param {VXPayFlowChangedHookMessage} message
+	 */
+	updateFlow(message) {
+		this._flow = message.newFlow;
 	}
 }
 

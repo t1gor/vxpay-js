@@ -4,11 +4,10 @@ import VXPayHelperFrame                     from './VXPay/Dom/Frame/VXPayHelperF
 import VXPayPaymentFrame                    from './VXPay/Dom/Frame/VXPayPaymentFrame'
 import VXPayPaymentTab                      from './VXPay/Dom/Frame/VXPayPaymentTab'
 import VXPaySetLoginFlowMiddleware          from './VXPay/Middleware/VXPaySetLoginFlowMiddleware'
-import VXPaySetVisibleOnViewReadyMiddleware from './VXPay/Middleware/VXPaySetVisibleOnViewReadyMiddleware'
 import VXPayShowLoginMiddleware             from './VXPay/Middleware/VXPayShowLoginMiddleware'
-import VXPayShowSignUpMiddleware            from "./VXPay/Middleware/VXPayShowSignUpMiddleware";
-import VXPayFlow                            from "./VXPay/Config/VXPayFlow";
-import VXPaySetMoneyChargeMiddleware        from "./VXPay/Middleware/VXPaySetMoneyChargeMiddleware";
+import VXPayShowSignUpMiddleware            from './VXPay/Middleware/VXPayShowSignUpMiddleware'
+import VXPaySetMoneyChargeMiddleware        from './VXPay/Middleware/VXPaySetMoneyChargeMiddleware'
+import VXPaySetLimitFlowMiddleware          from './VXPay/Middleware/VXPaySetLimitFlowMiddleware'
 
 export default class VXPay {
 
@@ -21,29 +20,35 @@ export default class VXPay {
 		this.logger      = new VXPayLogger(this.config.logging, window);
 		this._apiVersion = 3;
 		this._window     = window;
-		this._initHelperFrame();
+		this._skipViewReady = false;
 	}
 
 	/**
-	 * @return {VXPayHelperFrame}
+	 * @return {Promise<VXPay>}
 	 * @private
 	 */
 	_initHelperFrame() {
-		// check already initialized
-		if (this.hasOwnProperty('_helperFrame')) {
-			return this._helperFrame;
-		}
+		return new Promise(resolve => {
+			// check already initialized
+			if (typeof this._helperFrame !== 'undefined') {
+				return resolve(this);
+			}
 
-		this._helperFrame = new VXPayHelperFrame(
-			this._window.document,
-			'https://www.visit-x.net/VXPAY-V' + this._apiVersion + '/helper',
-			'vx-helper-frame-payment'
-		);
+			this._helperFrame = new VXPayHelperFrame(
+				this._window.document,
+				'https://www.visit-x.net/VXPAY-V' + this._apiVersion + '/helper',
+				'vx-helper-frame-payment'
+			);
 
-		// just trigger load, don't handle
-		this._helperFrame.getLoginCookie();
+			if (this.config.logging) {
+				this._helperFrame.hooks
+					.onAny(msg => this.logger.log('<-- []', msg))
+					.onBeforeSend(msg => this.logger.log('--> []', msg));
+			}
 
-		return this._helperFrame;
+			this._helperFrame.triggerLoad();
+			return resolve(this);
+		})
 	}
 
 	/**
@@ -60,8 +65,8 @@ export default class VXPay {
 	_initPaymentFrame() {
 		return new Promise(resolve => {
 			// check already initialized
-			if (this.hasOwnProperty('_paymentFrame') && this._paymentFrame.loaded) {
-				resolve(this);
+			if (typeof this._paymentFrame !== 'undefined') {
+				return resolve(this);
 			}
 
 			if (this._config.enableTab) {
@@ -77,13 +82,6 @@ export default class VXPay {
 				);
 			}
 
-			// set resolve hook
-			this._paymentFrame
-				.hooks
-				.onContentLoaded(() => resolve(this))
-				.onClose(msg => this._paymentFrame.hide())
-				.onSuccess(msg => this._paymentFrame.hide());
-
 			// do we need logging?
 			if (this.config.logging) {
 				this._paymentFrame
@@ -92,35 +90,44 @@ export default class VXPay {
 					.onBeforeSend(msg => this.logger.log('--> []', msg))
 			}
 
-			this._paymentFrame.triggerLoad();
+			if (!this._paymentFrame.loaded) {
+				// set resolve hook
+				this._paymentFrame
+					.hooks
+					.onFlowChange(this.config.updateFlow.bind(this._config))
+					.onViewReady(this._paymentFrame.setVisible.bind(this._paymentFrame))
+					.onContentLoaded(msg => resolve(this))
+					.onClose(msg => this._paymentFrame.hide())
+					.onSuccess(msg => this._paymentFrame.hide());
+
+				this._paymentFrame.triggerLoad();
+			}
 		})
 	}
 
 	openLogin() {
-		this.config.flow = VXPayFlow.LOGIN;
-
 		this._initPaymentFrame()
-			.then(VXPaySetVisibleOnViewReadyMiddleware)
 			.then(VXPaySetLoginFlowMiddleware)
 			.then(VXPayShowLoginMiddleware);
 	}
 
 	openSignup() {
 		this._initPaymentFrame()
-			.then(VXPaySetVisibleOnViewReadyMiddleware)
 			.then(VXPaySetLoginFlowMiddleware)
 			.then(VXPayShowSignUpMiddleware);
 	}
 
 	openSignupOrLogin() {
+		const that = this;
 
+		this._initHelperFrame()
+			.then(vxpay => vxpay._helperFrame.getLoginCookie())
+			.then(message => message.hasCookie ? that.openLogin() : that.openSignup())
 	}
 
 	openPayment() {
 		this._initPaymentFrame()
-			.then(VXPaySetVisibleOnViewReadyMiddleware)
 			.then(VXPaySetMoneyChargeMiddleware)
-			/** @todo change last step */
 			.then(VXPayShowSignUpMiddleware);
 	}
 
@@ -141,7 +148,8 @@ export default class VXPay {
 	}
 
 	limitPayment() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetLimitFlowMiddleware)
 	}
 
 	changeCard() {

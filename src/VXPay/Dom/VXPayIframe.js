@@ -40,22 +40,17 @@ class VXPayIframe extends VXPayEventListener {
 	}
 
 	/**
+	 * @throws Error
+	 */
+	triggerLoad() {
+		throw new Error('Method triggerLoad should be implemented in child class!');
+	}
+
+	/**
 	 * @protected
 	 */
 	_markLoaded() {
 		this._loaded = true;
-
-		// call the stack
-		for (let i = 0; i < this._onLoadCallbacks.length; i++) {
-			this._onLoadCallbacks[i].apply(this);
-		}
-	}
-
-	/**
-	 * @param {Function} handler
-	 */
-	onLoad(handler) {
-		this._onLoadCallbacks.push(handler);
 	}
 
 	/**

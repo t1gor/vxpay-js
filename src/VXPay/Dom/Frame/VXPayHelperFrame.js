@@ -2,6 +2,8 @@ import VXPayIframe                  from './../VXPayIframe'
 import VXPayHasSessionCookieMessage from './../../Message/VXPayHasSessionCookieMessage'
 import VXPayMessageFactory          from './../../Message/VXPayMessageFactory'
 import VXPayEventListener           from './../../Event/VXPayEventListener'
+import VXPayHelperHooksConfig       from './../../Config/VXPayHelperHooksConfig'
+import VXPayHooksConfig             from './../../Config/VXPayHooksConfig'
 
 class VXPayHelperFrame extends VXPayIframe {
 	/**
@@ -14,6 +16,8 @@ class VXPayHelperFrame extends VXPayIframe {
 		// init the frame
 		super(document, url, id, style);
 		this._cookieMsg = null;
+		this._frame.name = 'vxpay-helper';
+		this._hooks = new VXPayHelperHooksConfig();
 	}
 
 	/**
@@ -35,12 +39,15 @@ class VXPayHelperFrame extends VXPayIframe {
 			this._cookieMsg = new VXPayHasSessionCookieMessage();
 		}
 
+		// trigger hook
+		this._hooks.trigger(VXPayHooksConfig.ON_ANY, [this._cookieMsg]);
+
 		// otherwise - not logged in
 		resolve(this._cookieMsg);
 	}
 
 	/**
-	 * @return {Promise<any>}
+	 * @return {Promise<VXPayHasSessionCookieMessage>}
 	 */
 	getLoginCookie() {
 		return new Promise((resolve, reject) => {
@@ -54,6 +61,40 @@ class VXPayHelperFrame extends VXPayIframe {
 				this._cookieMessageHandler.bind(this, resolve, reject)
 			)
 		})
+	}
+
+	_markLoaded() {
+		super._markLoaded();
+		this._hooks.trigger(VXPayHelperHooksConfig.ON_LOAD);
+	}
+
+	/**
+	 * Override to add a before send hook
+	 * @param {String|VXPayMessage} message
+	 * @param {String} origin
+	 */
+	postMessage(message, origin = '*') {
+		this._hooks.trigger(VXPayHelperHooksConfig.ON_BEFORE_SEND, [message]);
+		super.postMessage(message, origin);
+	}
+
+	triggerLoad() {
+		if (this._loaded) {
+			return;
+		}
+
+		this._frame
+			.ownerDocument
+			.getElementsByTagName('body')
+			.item(0)
+			.appendChild(this._frame);
+	}
+
+	/**
+	 * @return {VXPayHelperHooksConfig}
+	 */
+	get hooks() {
+		return this._hooks;
 	}
 }
 

@@ -2,14 +2,22 @@ import VXPayMessageFactory     from './../VXPayMessageFactory'
 import VXPayMessage            from './../../VXPayMessage'
 import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
 import VXPayHookMessage        from './VXPayHookMessage'
+import VXPayIframe             from "../../Dom/VXPayIframe";
 
 /**
  * @param {VXPayPaymentHooksConfig} hooks
  * @param {MessageEvent|Object} event
  * @return {boolean}
+ * @throws {TypeError}
  * @constructor
  */
 const VXPayHookRouter = (hooks, event) => {
+	// origin check
+	if (event.origin && VXPayIframe.ORIGIN.indexOf(event.origin) === -1) {
+		throw new TypeError('Event origin does not match: ' + event.origin);
+	}
+
+	// parse message
 	const message = VXPayMessageFactory.fromJson(event.data);
 
 	// route any
@@ -35,6 +43,9 @@ const VXPayHookRouter = (hooks, event) => {
 			switch (message.hook) {
 				case VXPayHookMessage.HOOK_LOGIN:
 					return hooks.trigger(VXPayPaymentHooksConfig.ON_LOGIN, [message]);
+
+				case VXPayHookMessage.HOOK_FLOW_CHANGED:
+					return hooks.trigger(VXPayPaymentHooksConfig.ON_FLOW_CHANGE, [message]);
 			}
 	}
 };

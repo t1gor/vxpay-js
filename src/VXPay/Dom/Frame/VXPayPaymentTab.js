@@ -2,6 +2,7 @@ import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
 import VXPayEventListener      from './../../Event/VXPayEventListener'
 import VXPayIframe             from './../VXPayIframe'
 import VXPayHookRouter         from './../../Message/Hooks/VXPayHookRouter'
+import VXPayIsVisibleMessage   from "../../Message/VXPayIsVisibleMessage";
 
 /**
  * @link https://www.npmjs.com/package/es6-interface

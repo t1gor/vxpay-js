@@ -8,6 +8,7 @@ import VXPayEventListener       from './../../Event/VXPayEventListener'
 import VXPayPaymentHooksConfig  from './../../Config/VXPayPaymentHooksConfig'
 import VXPayMessage             from './../../VXPayMessage'
 import VXPayHookRouter          from './../../Message/Hooks/VXPayHookRouter'
+import VXPayIsVisibleMessage    from "../../Message/VXPayIsVisibleMessage";
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
@@ -26,6 +27,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 		// allow transparent iframe for <= IE8
 		this._frame.allowTransparency = true;
+		this._frame.name = 'vxpay';
 
 		// hooks config
 		this._hooks = new VXPayPaymentHooksConfig();
@@ -59,13 +61,14 @@ class VXPayPaymentFrame extends VXPayIframe {
 		      bodyElement   = document.getElementsByTagName('body').item(0),
 		      defaultStyles = {
 			      border:     'none',
-			      width:      '675px',
-			      height:     '740px',
-			      top:        '5%',
+			      width:      '100%',
+			      height:     '100%',
+			      top:        '50%',
 			      left:       '50%',
 			      marginLeft: '-325px',  // margin does not seem to be applied :/
 			      zIndex:     10001,
-			      display:    'none'
+			      display:    'none',
+			      transform:  'translate(-50%, -50%)'
 		      };
 
 		defaultStyles.position = userAgent.isMobile()
@@ -140,10 +143,6 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 * @param {String} path
 	 */
 	show(path = 'login') {
-		if (!this.loaded) {
-			this.triggerLoad();
-		}
-
 		this.changeRoute('/' + path);
 		this.initSession();
 		super.show();
@@ -154,6 +153,13 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 */
 	changeRoute(route) {
 		this.postMessage(new VXPayChangeRouteMessage(route));
+	}
+
+	/**
+	 * @param {VXPayViewReadyMessage} message
+	 */
+	setVisible(message) {
+		this.postMessage(new VXPayIsVisibleMessage());
 	}
 
 	/**
