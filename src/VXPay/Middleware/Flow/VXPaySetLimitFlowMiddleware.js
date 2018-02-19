@@ -15,7 +15,7 @@ const VXPaySetLimitFlowMiddleware = (vxpay) => {
 	vxpay.config.merge(newFlow);
 
 	// send options to frame
-	vxpay.frame.sendOptions(newFlow);
+	vxpay.paymentFrame.sendOptions(newFlow);
 
 	return vxpay;
 };

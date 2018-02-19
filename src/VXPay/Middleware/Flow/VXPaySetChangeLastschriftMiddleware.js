@@ -6,10 +6,10 @@ import VXPayFlow        from './../../Config/VXPayFlow'
  * @return {VXPay}
  * @constructor
  */
-const VXPaySetChangeCardMiddleware = (vxpay) => {
+const VXPaySetChangeLastschriftMiddleware = (vxpay) => {
 	const newFlow = {
-		flow    : VXPayFlow.CHANGE_CARD,
-		paytype : VXPayPaymentType.CREDIT_CARD
+		flow    : VXPayFlow.CHANGE_LS,
+		paytype : VXPayPaymentType.LASTSCHRIFT
 	};
 
 	// update config
@@ -21,4 +21,4 @@ const VXPaySetChangeCardMiddleware = (vxpay) => {
 	return vxpay;
 };
 
-export default VXPaySetChangeCardMiddleware;
+export default VXPaySetChangeLastschriftMiddleware;

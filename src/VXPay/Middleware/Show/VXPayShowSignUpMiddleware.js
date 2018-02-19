@@ -3,7 +3,7 @@
  * @return {VXPay}
  */
 const VXPayShowSignUpMiddleware = (vxpay) => {
-	vxpay.frame.show('signup');
+	vxpay.paymentFrame.show('signup');
 	return vxpay;
 };
 

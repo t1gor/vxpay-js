@@ -17,6 +17,7 @@ import VXPaySetPasswordLostMiddleware  from './VXPay/Middleware/Flow/VXPaySetPas
 import VXPayInitPaymentMiddleware      from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
 import VXPayInitHelperMiddleware       from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
 import VXPaySetChangeCardMiddleware    from "./VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware";
+import VXPaySetVIpAboTrialMiddleware   from "./VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware";
 
 export default class VXPay {
 	/**
@@ -36,13 +37,6 @@ export default class VXPay {
 	 */
 	_initHelperFrame() {
 		return new Promise(resolve => VXPayInitHelperMiddleware(this, resolve))
-	}
-
-	/**
-	 * @return {VXPayPaymentTab|VXPayPaymentFrame}
-	 */
-	get frame() {
-		return this._paymentFrame;
 	}
 
 	/**
@@ -118,11 +112,15 @@ export default class VXPay {
 	}
 
 	vipAboTrial() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetVIpAboTrialMiddleware)
+			.then(VXPayShowMiddleware);
 	}
 
 	premiumAbo() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetVipAboFlowMiddleware)
+			.then(VXPayShowMiddleware);
 	}
 
 	openAVS() {

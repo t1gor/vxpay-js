@@ -3,7 +3,7 @@
  * @return {VXPay}
  */
 const VXPayShowAboMiddleware = (vxpay) => {
-	vxpay.frame.show('abo');
+	vxpay.paymentFrame.show('abo');
 	return vxpay;
 };
 

@@ -27,7 +27,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 		// allow transparent iframe for <= IE8
 		this._frame.allowTransparency = true;
-		this._frame.name = 'vxpay';
+		this._frame.name              = 'vxpay';
 
 		// hooks config
 		this._hooks = new VXPayPaymentHooksConfig();
@@ -56,9 +56,10 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 * @param {Document} document
 	 * @return {Object}
 	 */
-	static getDefaultStyles(document) {
-		const userAgent     = new VXPayUserAgentHelper(document.defaultView.navigator.userAgent),
-		      bodyElement   = document.getElementsByTagName('body').item(0),
+	static getDefaultStyles(document = undefined) {
+		const uaString      = typeof document !== 'undefined' ? document.defaultView.navigator.userAgent : '',
+		      userAgent     = new VXPayUserAgentHelper(uaString),
+		      bodyElement   = typeof document !== 'undefined' ? document.getElementsByTagName('body').item(0) : null,
 		      defaultStyles = {
 			      border:     'none',
 			      width:      '100%',
@@ -75,7 +76,9 @@ class VXPayPaymentFrame extends VXPayIframe {
 			? VXPayIframe.POSITION_ABSOLUTE
 			: VXPayIframe.POSITION_FIXED;
 
-		if (VXPayDomHelper.isStyleAttributeSuppored(bodyElement, 'maxHeight', '100vh')) {
+		if (typeof document !== 'undefined'
+			&& VXPayDomHelper.isStyleAttributeSuppored(bodyElement, 'maxHeight', '100vh')
+		) {
 			defaultStyles.maxHeight = '100vh';
 		} else {
 			if (userAgent.isMobile()) {

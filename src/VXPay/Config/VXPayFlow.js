@@ -18,6 +18,7 @@ class VXPayFlow {
 			VXPayFlow.VXTV_ABO,
 			VXPayFlow.SETTINGS,
 			VXPayFlow.CHANGE_CARD,
+			VXPayFlow.CHANGE_LS,
 		];
 	}
 
@@ -43,5 +44,6 @@ VXPayFlow.VIP_ABO         = 'vipabo';
 VXPayFlow.VXTV_ABO        = 'vxtvabo';
 VXPayFlow.SETTINGS        = 'vxsettings';
 VXPayFlow.CHANGE_CARD     = 'changecc';
+VXPayFlow.CHANGE_LS       = 'changels';
 
 export default VXPayFlow;
