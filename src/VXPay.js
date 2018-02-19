@@ -1,13 +1,19 @@
-import VXPayConfig                          from './VXPay/VXPayConfig'
-import VXPayLogger                          from './VXPay/VXPayLogger'
-import VXPayHelperFrame                     from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame                    from './VXPay/Dom/Frame/VXPayPaymentFrame'
-import VXPayPaymentTab                      from './VXPay/Dom/Frame/VXPayPaymentTab'
-import VXPaySetLoginFlowMiddleware          from './VXPay/Middleware/VXPaySetLoginFlowMiddleware'
-import VXPayShowLoginMiddleware             from './VXPay/Middleware/VXPayShowLoginMiddleware'
-import VXPayShowSignUpMiddleware            from './VXPay/Middleware/VXPayShowSignUpMiddleware'
-import VXPaySetMoneyChargeMiddleware        from './VXPay/Middleware/VXPaySetMoneyChargeMiddleware'
-import VXPaySetLimitFlowMiddleware          from './VXPay/Middleware/VXPaySetLimitFlowMiddleware'
+import VXPayConfig                    from './VXPay/VXPayConfig'
+import VXPayLogger                    from './VXPay/VXPayLogger'
+import VXPayHelperFrame               from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame              from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab                from './VXPay/Dom/Frame/VXPayPaymentTab'
+import VXPaySetLoginFlowMiddleware    from './VXPay/Middleware/VXPaySetLoginFlowMiddleware'
+import VXPayShowLoginMiddleware       from './VXPay/Middleware/VXPayShowLoginMiddleware'
+import VXPayShowSignUpMiddleware      from './VXPay/Middleware/VXPayShowSignUpMiddleware'
+import VXPaySetMoneyChargeMiddleware   from './VXPay/Middleware/VXPaySetMoneyChargeMiddleware'
+import VXPaySetLimitFlowMiddleware     from './VXPay/Middleware/VXPaySetLimitFlowMiddleware'
+import VXPaySetSettingsFlowMiddleware  from '././VXPay/Middleware/VXPaySetSettingsFlowMiddleware'
+import VXPayShowMiddleware             from './VXPay/Middleware/VXPayShowMiddleware'
+import VXPaySetVipAboFlowMiddleware    from "./VXPay/Middleware/VXPaySetVipAboFlowMiddleware";
+import VXPayShowAboMiddleware          from "./VXPay/Middleware/VXPayShowAboMiddleware";
+import VXPaySetPasswordResetMiddleware from "./VXPay/Middleware/VXPaySetPasswordResetMiddleware";
+import VXPaySetPasswordLostMiddleware  from "./VXPay/Middleware/VXPaySetPasswordLostFlowMiddleware";
 
 export default class VXPay {
 
@@ -16,11 +22,10 @@ export default class VXPay {
 	 * @param {Window} window
 	 */
 	constructor(config, window = undefined) {
-		this.config      = config;
-		this.logger      = new VXPayLogger(this.config.logging, window);
-		this._apiVersion = 3;
-		this._window     = window;
-		this._skipViewReady = false;
+		this.config         = config;
+		this.logger         = new VXPayLogger(this.config.logging, window);
+		this._apiVersion    = 3;
+		this._window        = window;
 	}
 
 	/**
@@ -118,45 +123,48 @@ export default class VXPay {
 	}
 
 	openSignupOrLogin() {
-		const that = this;
-
 		this._initHelperFrame()
 			.then(vxpay => vxpay._helperFrame.getLoginCookie())
-			.then(message => message.hasCookie ? that.openLogin() : that.openSignup())
+			.then(message => message.hasCookie ? this.openLogin() : this.openSignup())
 	}
 
 	openPayment() {
 		this._initPaymentFrame()
 			.then(VXPaySetMoneyChargeMiddleware)
-			.then(VXPayShowSignUpMiddleware);
+			.then(VXPayShowMiddleware);
 	}
 
 	openAbo() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetVipAboFlowMiddleware)
+			.then(VXPayShowAboMiddleware)
 	}
 
 	openSettings() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetSettingsFlowMiddleware)
+			.then(VXPayShowMiddleware)
 	}
 
 	resetPassword() {
-
+		this._initPaymentFrame()
+			.then(vxpay => VXPaySetPasswordResetMiddleware(vxpay, this._window))
+			.then(VXPayShowMiddleware)
 	}
 
 	lostPassword() {
-
+		this._initPaymentFrame()
+			.then(vxpay => VXPaySetPasswordLostMiddleware(vxpay, this._window))
+			.then(VXPayShowMiddleware)
 	}
 
 	limitPayment() {
 		this._initPaymentFrame()
 			.then(VXPaySetLimitFlowMiddleware)
+			.then(VXPayShowMiddleware)
 	}
 
 	changeCard() {
-
-	}
-
-	vipAbo() {
 
 	}
 

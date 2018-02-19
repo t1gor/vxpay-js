@@ -40,4 +40,14 @@ export default class VXPayUrlHelper {
 
 		return url.toString();
 	}
+
+	/**
+	 * @param {String} location
+	 * @param {String} name
+	 * @return {String}
+	 */
+	static getQueryParam(location, name) {
+		const url = new URL(location);
+		return url.searchParams[name];
+	}
 }

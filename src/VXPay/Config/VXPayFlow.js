@@ -15,6 +15,7 @@ class VXPayFlow {
 			VXPayFlow.TRIAL_VIP_ABO,
 			VXPayFlow.VIP_ABO,
 			VXPayFlow.VXTV_ABO,
+			VXPayFlow.SETTINGS,
 		];
 	}
 
@@ -32,10 +33,12 @@ VXPayFlow.LOGIN           = 'login';
 VXPayFlow.MONEY_CHARGE    = 'moneycharge';
 VXPayFlow.OP_COMPENSATION = 'opcompensation';
 VXPayFlow.PASSWORD_RESET  = 'pwdreset';
+VXPayFlow.PASSWORD_LOST   = 'pwdlost';
 VXPayFlow.PROMOCODE       = 'promocode';
 VXPayFlow.SCRATCH_CARD    = 'scratchcard';
 VXPayFlow.TRIAL_VIP_ABO   = 'trialvipabo';
 VXPayFlow.VIP_ABO         = 'vipabo';
 VXPayFlow.VXTV_ABO        = 'vxtvabo';
+VXPayFlow.SETTINGS        = 'vxsettings';
 
 export default VXPayFlow;
