@@ -1,4 +1,4 @@
-import VXPayFlow from './../Config/VXPayFlow'
+import VXPayFlow from '../../Config/VXPayFlow'
 
 const VXPaySetLimitFlowMiddleware = (vxpay) => {
 	// check not already same

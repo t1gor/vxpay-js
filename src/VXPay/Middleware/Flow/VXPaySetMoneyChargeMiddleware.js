@@ -1,17 +1,18 @@
-import VXPayFlow from './../Config/VXPayFlow'
+import VXPayFlow from '../../Config/VXPayFlow'
 
 /**
  * @param {VXPay} vxpay
  * @return {VXPay}
+ * @constructor
  */
-const VXPaySetLoginFlowMiddleware = (vxpay) => {
+const VXPaySetMoneyChargeMiddleware = (vxpay) => {
 	// check not already same
-	if (vxpay.config.flow === VXPayFlow.LOGIN) {
+	if (vxpay.config.flow === VXPayFlow.MONEY_CHARGE) {
 		return vxpay;
 	}
 
 	const newFlow = {
-		flow: VXPayFlow.LOGIN
+		flow: VXPayFlow.MONEY_CHARGE
 	};
 
 	// update local config
@@ -23,4 +24,4 @@ const VXPaySetLoginFlowMiddleware = (vxpay) => {
 	return vxpay;
 };
 
-export default VXPaySetLoginFlowMiddleware;
+export default VXPaySetMoneyChargeMiddleware;

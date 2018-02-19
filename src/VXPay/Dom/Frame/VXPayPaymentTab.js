@@ -11,12 +11,14 @@ class VXPayPaymentTab {
 	/**
 	 * @param {Document} document
 	 * @param {String} url
+	 * @param {String} name
 	 */
-	constructor(document, url) {
+	constructor(document, url, name) {
 		this._document = document;
 		this._url = url;
 		this._hooks = new VXPayPaymentHooksConfig();
 		this._loaded = false;
+		this._name = name;
 	}
 
 	/**
@@ -45,7 +47,7 @@ class VXPayPaymentTab {
 				return this._window;
 			}
 
-			this._window = document.defaultView.open(url, 'vxpay');
+			this._window = document.defaultView.open(url, this._name);
 			VXPayEventListener.addEvent(
 				VXPayIframe.EVENT_LOAD,
 				this._window,
@@ -65,6 +67,18 @@ class VXPayPaymentTab {
 		console.log('11111 2222');
 	}
 
+	setVisible() {
+		console.log('VXPayPaymentTab::setVisible');
+	}
+
+	sendOptions(opts) {
+		console.log('VXPayPaymentTab::sendOptions', opts);
+	}
+
+	show() {
+		console.log('VXPayPaymentTab::show', arguments);
+	}
+
 	get hooks() {
 		return this._hooks;
 	}
@@ -80,5 +94,7 @@ class VXPayPaymentTab {
 		);
 	}
 }
+
+VXPayPaymentTab.NAME = 'vx-payment-tab-payment';
 
 export default VXPayPaymentTab;

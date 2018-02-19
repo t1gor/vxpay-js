@@ -1,5 +1,5 @@
-import VXPayFlow      from './../Config/VXPayFlow'
-import VXPayUrlHelper from './../VXPayUrlHelper'
+import VXPayFlow      from '../../Config/VXPayFlow'
+import VXPayUrlHelper from '../../VXPayUrlHelper'
 
 /**
  * @param {VXPay} vxpay
@@ -10,9 +10,9 @@ import VXPayUrlHelper from './../VXPayUrlHelper'
 const VXPaySetPasswordLostMiddleware = (vxpay, window) => {
 	const newFlow = {
 		flow:             VXPayFlow.PASSWORD_LOST,
-		pwdresetUserId:   VXPayUrlHelper.getQueryParam('u', window.location),
-		pwdresetUserName: VXPayUrlHelper.getQueryParam('tpLoginPwdLost', window.location),
-		pwdresetEmail:    VXPayUrlHelper.getQueryParam('tpEmailPwdLost', window.location)
+		pwdresetUserId:   VXPayUrlHelper.getQueryParam('u', window.location.href),
+		pwdresetUserName: VXPayUrlHelper.getQueryParam('tpLoginPwdLost', window.location.href),
+		pwdresetEmail:    VXPayUrlHelper.getQueryParam('tpEmailPwdLost', window.location.href)
 	};
 
 	// update local config

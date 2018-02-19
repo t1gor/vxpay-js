@@ -170,4 +170,6 @@ class VXPayPaymentFrame extends VXPayIframe {
 	}
 }
 
+VXPayPaymentFrame.NAME = 'vx-payment-frame-payment';
+
 export default VXPayPaymentFrame;

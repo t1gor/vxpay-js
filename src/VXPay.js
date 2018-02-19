@@ -1,31 +1,33 @@
-import VXPayConfig                    from './VXPay/VXPayConfig'
-import VXPayLogger                    from './VXPay/VXPayLogger'
-import VXPayHelperFrame               from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame              from './VXPay/Dom/Frame/VXPayPaymentFrame'
-import VXPayPaymentTab                from './VXPay/Dom/Frame/VXPayPaymentTab'
-import VXPaySetLoginFlowMiddleware    from './VXPay/Middleware/VXPaySetLoginFlowMiddleware'
-import VXPayShowLoginMiddleware       from './VXPay/Middleware/VXPayShowLoginMiddleware'
-import VXPayShowSignUpMiddleware      from './VXPay/Middleware/VXPayShowSignUpMiddleware'
-import VXPaySetMoneyChargeMiddleware   from './VXPay/Middleware/VXPaySetMoneyChargeMiddleware'
-import VXPaySetLimitFlowMiddleware     from './VXPay/Middleware/VXPaySetLimitFlowMiddleware'
-import VXPaySetSettingsFlowMiddleware  from '././VXPay/Middleware/VXPaySetSettingsFlowMiddleware'
-import VXPayShowMiddleware             from './VXPay/Middleware/VXPayShowMiddleware'
-import VXPaySetVipAboFlowMiddleware    from "./VXPay/Middleware/VXPaySetVipAboFlowMiddleware";
-import VXPayShowAboMiddleware          from "./VXPay/Middleware/VXPayShowAboMiddleware";
-import VXPaySetPasswordResetMiddleware from "./VXPay/Middleware/VXPaySetPasswordResetMiddleware";
-import VXPaySetPasswordLostMiddleware  from "./VXPay/Middleware/VXPaySetPasswordLostFlowMiddleware";
+import VXPayConfig                     from './VXPay/VXPayConfig'
+import VXPayLogger                     from './VXPay/VXPayLogger'
+import VXPayHelperFrame                from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame               from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab                 from './VXPay/Dom/Frame/VXPayPaymentTab'
+import VXPaySetLoginFlowMiddleware     from './VXPay/Middleware/Flow/VXPaySetLoginFlowMiddleware'
+import VXPayShowLoginMiddleware        from './VXPay/Middleware/Show/VXPayShowLoginMiddleware'
+import VXPayShowSignUpMiddleware       from './VXPay/Middleware/Show/VXPayShowSignUpMiddleware'
+import VXPaySetMoneyChargeMiddleware   from './VXPay/Middleware/Flow/VXPaySetMoneyChargeMiddleware'
+import VXPaySetLimitFlowMiddleware     from './VXPay/Middleware/Flow/VXPaySetLimitFlowMiddleware'
+import VXPaySetSettingsFlowMiddleware  from './VXPay/Middleware/Flow/VXPaySetSettingsFlowMiddleware'
+import VXPayShowMiddleware             from './VXPay/Middleware/Show/VXPayShowMiddleware'
+import VXPaySetVipAboFlowMiddleware    from './VXPay/Middleware/Flow/VXPaySetVipAboFlowMiddleware'
+import VXPayShowAboMiddleware          from './VXPay/Middleware/Show/VXPayShowAboMiddleware'
+import VXPaySetPasswordResetMiddleware from './VXPay/Middleware/Flow/VXPaySetPasswordResetMiddleware'
+import VXPaySetPasswordLostMiddleware  from './VXPay/Middleware/Flow/VXPaySetPasswordLostFlowMiddleware'
+import VXPayInitPaymentMiddleware      from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
+import VXPayInitHelperMiddleware       from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
+import VXPaySetChangeCardMiddleware    from "./VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware";
 
 export default class VXPay {
-
 	/**
 	 * @param {VXPayConfig} config
 	 * @param {Window} window
 	 */
 	constructor(config, window = undefined) {
-		this.config         = config;
-		this.logger         = new VXPayLogger(this.config.logging, window);
-		this._apiVersion    = 3;
-		this._window        = window;
+		this.config      = config;
+		this.logger      = new VXPayLogger(this.config.logging, window);
+		this._apiVersion = 3;
+		this._window     = window;
 	}
 
 	/**
@@ -33,27 +35,7 @@ export default class VXPay {
 	 * @private
 	 */
 	_initHelperFrame() {
-		return new Promise(resolve => {
-			// check already initialized
-			if (typeof this._helperFrame !== 'undefined') {
-				return resolve(this);
-			}
-
-			this._helperFrame = new VXPayHelperFrame(
-				this._window.document,
-				'https://www.visit-x.net/VXPAY-V' + this._apiVersion + '/helper',
-				'vx-helper-frame-payment'
-			);
-
-			if (this.config.logging) {
-				this._helperFrame.hooks
-					.onAny(msg => this.logger.log('<-- []', msg))
-					.onBeforeSend(msg => this.logger.log('--> []', msg));
-			}
-
-			this._helperFrame.triggerLoad();
-			return resolve(this);
-		})
+		return new Promise(resolve => VXPayInitHelperMiddleware(this, resolve))
 	}
 
 	/**
@@ -68,46 +50,7 @@ export default class VXPay {
 	 * @private
 	 */
 	_initPaymentFrame() {
-		return new Promise(resolve => {
-			// check already initialized
-			if (typeof this._paymentFrame !== 'undefined') {
-				return resolve(this);
-			}
-
-			if (this._config.enableTab) {
-				this._paymentFrame = new VXPayPaymentTab(
-					this._window.document,
-					this._config.getPaymentFrameUrl()
-				);
-			} else {
-				this._paymentFrame = new VXPayPaymentFrame(
-					this._window.document,
-					this._config.getPaymentFrameUrl(),
-					'vx-payment-frame-payment'
-				);
-			}
-
-			// do we need logging?
-			if (this.config.logging) {
-				this._paymentFrame
-					.hooks
-					.onAny(msg => this.logger.log('<-- []', msg))
-					.onBeforeSend(msg => this.logger.log('--> []', msg))
-			}
-
-			if (!this._paymentFrame.loaded) {
-				// set resolve hook
-				this._paymentFrame
-					.hooks
-					.onFlowChange(this.config.updateFlow.bind(this._config))
-					.onViewReady(this._paymentFrame.setVisible.bind(this._paymentFrame))
-					.onContentLoaded(msg => resolve(this))
-					.onClose(msg => this._paymentFrame.hide())
-					.onSuccess(msg => this._paymentFrame.hide());
-
-				this._paymentFrame.triggerLoad();
-			}
-		})
+		return new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve))
 	}
 
 	openLogin() {
@@ -124,8 +67,10 @@ export default class VXPay {
 
 	openSignupOrLogin() {
 		this._initHelperFrame()
-			.then(vxpay => vxpay._helperFrame.getLoginCookie())
-			.then(message => message.hasCookie ? this.openLogin() : this.openSignup())
+			/** @param {VXPay} vxpay */
+			.then(vxpay => vxpay.helperFrame.getLoginCookie())
+			/** @param {VXPayHasSessionCookieMessage} hasLoginCookieMessage */
+			.then(hasLoginCookieMessage => hasLoginCookieMessage.hasCookie ? this.openLogin() : this.openSignup())
 	}
 
 	openPayment() {
@@ -148,12 +93,14 @@ export default class VXPay {
 
 	resetPassword() {
 		this._initPaymentFrame()
+			/** @param {VXPay} vxpay */
 			.then(vxpay => VXPaySetPasswordResetMiddleware(vxpay, this._window))
 			.then(VXPayShowMiddleware)
 	}
 
 	lostPassword() {
 		this._initPaymentFrame()
+			/** @param {VXPay} vxpay */
 			.then(vxpay => VXPaySetPasswordLostMiddleware(vxpay, this._window))
 			.then(VXPayShowMiddleware)
 	}
@@ -165,7 +112,9 @@ export default class VXPay {
 	}
 
 	changeCard() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetChangeCardMiddleware)
+			.then(VXPayShowMiddleware);
 	}
 
 	vipAboTrial() {
@@ -256,5 +205,48 @@ export default class VXPay {
 	 */
 	get hooks() {
 		return this._paymentFrame.hooks;
+	}
+
+	/**
+	 * @return {VXPayPaymentFrame|VXPayPaymentTab}
+	 */
+	get paymentFrame() {
+		return this._paymentFrame;
+	}
+
+	/**
+	 * @param {VXPayPaymentFrame|VXPayPaymentTab} value
+	 */
+	set paymentFrame(value) {
+		if (!(value instanceof VXPayPaymentFrame) && !(value instanceof VXPayPaymentTab)) {
+			throw new TypeError('Helper frame should be an instance of VXPayPaymentFrame or VXPayPaymentTab');
+		}
+
+		this._paymentFrame = value;
+	}
+
+	/**
+	 * @return {VXPayHelperFrame}
+	 */
+	get helperFrame() {
+		return this._helperFrame;
+	}
+
+	/**
+	 * @param {VXPayHelperFrame} value
+	 */
+	set helperFrame(value) {
+		if (!(value instanceof VXPayHelperFrame)) {
+			throw new TypeError('Helper frame should be an instance of VXPayHelperFrame');
+		}
+
+		this._helperFrame = value;
+	}
+
+	/**
+	 * @return {Window|undefined}
+	 */
+	get window() {
+		return this._window;
 	}
 }

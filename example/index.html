@@ -11,7 +11,7 @@
 				<h4 class="mdc-typography--title">Possible actions</h4>
 				<div class="mdc-layout-grid__inner">
 					<label for="use-tab" class="mdc-layout-grid__cell--span-12">
-						<input type="checkbox" name="use-tab" id="use-tab" onchange="config.enableTab = document.getElementById('use-tab').checked" />
+						<input type="checkbox" name="use-tab" id="use-tab" onchange="onToggleTab(document.getElementById('use-tab').checked)" />
 						Open in a new tab
 					</label>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-6" href="javascript:vxpay.openLogin()">Login</a>
@@ -42,12 +42,20 @@
 	<script type="text/javascript">
 		let vxpay, config;
 
+		/**
+		 * Re-init as tab
+		 * @param enable
+		 */
+		onToggleTab = function(enable = false) {
+			config = new VX.VXPayConfig();
+			config.enableTab = enable;
+			config.logging = true;
+			vxpay = new VX.VXPay(config, window);
+		};
+
 		__init = function() {
 			config = new VX.VXPayConfig();
-
 			config.logging = true;
-			config.language = VX.VXPayLanguage.EN;
-
 			vxpay = new VX.VXPay(config, window);
 		};
 	</script>

@@ -1,4 +1,4 @@
-export default class VXPayLogger {
+class VXPayLogger {
 	/**
 	 * @param {Boolean} enable
 	 * @param {Window} window
@@ -37,3 +37,8 @@ export default class VXPayLogger {
 		return this._container;
 	}
 }
+
+VXPayLogger.LOG_INCOMING = '<-- []';
+VXPayLogger.LOG_OUTGOING = '--> []';
+
+export default VXPayLogger;

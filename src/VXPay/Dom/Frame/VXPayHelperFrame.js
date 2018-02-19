@@ -12,7 +12,7 @@ class VXPayHelperFrame extends VXPayIframe {
 	 * @param {String} id
 	 * @param {CSSStyleDeclaration} style
 	 */
-	constructor(document, url, id, style = VXPayHelperFrame.STYLE_DEFAULT) {
+	constructor(document, url, id = VXPayHelperFrame.NAME, style = VXPayHelperFrame.STYLE_DEFAULT) {
 		// init the frame
 		super(document, url, id, style);
 		this._cookieMsg = null;
@@ -99,5 +99,7 @@ class VXPayHelperFrame extends VXPayIframe {
 }
 
 VXPayHelperFrame.STYLE_DEFAULT = {display: 'none'};
+
+VXPayHelperFrame.NAME = 'vx-helper-frame-payment';
 
 export default VXPayHelperFrame

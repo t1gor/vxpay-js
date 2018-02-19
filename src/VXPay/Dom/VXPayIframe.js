@@ -125,6 +125,7 @@ VXPayIframe.MAX_TOP         = '0';
 VXPayIframe.MAX_LEFT        = '0';
 VXPayIframe.MAX_LEFT_MARGIN = '0';
 
+// VXPayIframe.ORIGIN = 'https://it.vxone.y';
 VXPayIframe.ORIGIN = 'https://www.visit-x.net';
 
 export default VXPayIframe;
