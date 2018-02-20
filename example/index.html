@@ -39,6 +39,7 @@
 				<h4 class="mdc-typography--title">Actions</h4>
 				<div class="mdc-layout-grid__inner">
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:isLoggedInAction()">Is logged in?</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:getAvsStatus()">AVS status</a>
 				</div>
 			</div>
 		</div>
@@ -66,13 +67,16 @@
 		};
 
 		isLoggedInAction = function() {
-			vxpay
-				.isLoggedIn()
-				/** @var {VXPayIsLoggedInResponseMessage} msg */
-				.then(function(msg) {
-					confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO'));
-				})
+			vxpay.isLoggedIn().then(function(msg) {
+				confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO'));
+			})
 		};
+
+		getAvsStatus = function() {
+			vxpay.getAVSStatus().then(function(status) {
+				console.log(222, status);
+			})
+		}
 	</script>
 	<script type="text/javascript" src="./../build/vxpay.min.js" onload="__init()"></script>
 </body>

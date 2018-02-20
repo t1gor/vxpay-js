@@ -26,6 +26,9 @@ import VXPaySetAutoRechargeMiddleware      from './VXPay/Middleware/Flow/VXPaySe
 import VXPayShowOpenBalanceMiddleware      from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
 import VXPaySetOpenBalanceMiddleware       from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
 import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPayListenOrCallLoggedInMiddleware'
+import VXPaySetAVSFlowMiddleware           from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
+import VXPayShowAVSMiddleware              from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
+import VXPayGetAVSStatusMessage            from './VXPay/Message/Actions/VXPayGetAVSStatusMessage'
 
 export default class VXPay {
 	/**
@@ -132,7 +135,9 @@ export default class VXPay {
 	}
 
 	openAVS() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetAVSFlowMiddleware)
+			.then(VXPayShowAVSMiddleware)
 	}
 
 	openPromoCode() {
@@ -177,6 +182,31 @@ export default class VXPay {
 				.then(vxpay => VXPayListenOrCallLoggedInMiddleware(vxpay, resolve, reject))
 				.catch(reject)
 		});
+	}
+
+	getAVSStatus() {
+		return new Promise((resolve, reject) => {
+			return this._initPaymentFrame()
+				.then(vxpay => {
+					if (!vxpay.hooks.hasOnAVSStatus(resolve)) {
+						vxpay.hooks.onAVSStatus(resolve);
+					}
+
+					// is token already received?
+					if (vxpay.config.token === '') {
+						vxpay.hooks.onTransferToken(msg => {
+							// trigger post message
+							vxpay.paymentFrame.postMessage(new VXPayGetAVSStatusMessage);
+						});
+					} else {
+						// trigger post message
+						vxpay.paymentFrame.postMessage(new VXPayGetAVSStatusMessage);
+					}
+
+					return vxpay;
+				})
+				.catch(reject)
+		})
 	}
 
 	/**

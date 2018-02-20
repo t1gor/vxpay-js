@@ -9,6 +9,8 @@ import VXPayIframeCloseMessage        from './VXPayIframeCloseMessage'
 import VXPayIsVisibleMessage          from './VXPayIsVisibleMessage'
 import VXPaySuccessMessage            from './VXPaySuccessMessage'
 import VXPayIsLoggedInResponseMessage from './Actions/VXPayIsLoggedInResponseMessage'
+import VXPayAVSStatusMessage          from "./Actions/VXPayAVSStatusMessage";
+import VXPayAVSStatus                 from "../Model/VXPayAVSStatus";
 
 export default class VXPayMessageFactory {
 
@@ -27,6 +29,9 @@ export default class VXPayMessageFactory {
 		switch (message.type) {
 			case VXPayMessage.TYPE_HAS_LOGIN_COOKIE:
 				return new VXPayHasSessionCookieMessage(!!message.data);
+
+			case VXPayMessage.TYPE_AVS_STATUS:
+				return new VXPayAVSStatusMessage(VXPayAVSStatus.fromData(message.data));
 
 			case VXPayMessage.TYPE_CONTENT_LOADED:
 				return new VXPayContentLoadedMessage();
