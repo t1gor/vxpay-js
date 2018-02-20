@@ -3,7 +3,6 @@ import VXPayHooksConfig from './VXPayHooksConfig'
 class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	constructor() {
 		super();
-
 		this._onViewReady     = [];
 		this._onContentLoaded = [];
 		this._onClose         = [];
@@ -11,9 +10,8 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 		this._onIframeReady   = [];
 		this._onLogin         = [];
 		this._onFlowChange    = [];
-
-		// actions hooks
-		this._onIsLoggedIn = [];
+		this._onIsLoggedIn    = [];
+		this._onTransferToken = [];
 	}
 
 	/**
@@ -22,6 +20,23 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 */
 	onIsLoggedIn(handler) {
 		this._onIsLoggedIn.push(handler);
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnIsLoggedIn(handler) {
+		return this._onIsLoggedIn.indexOf(handler) !== -1;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onTransferToken(handler) {
+		this._onTransferToken.push(handler);
 		return this;
 	}
 
@@ -97,5 +112,6 @@ VXPayPaymentHooksConfig.ON_SUCCESS        = 'onSuccess';
 VXPayPaymentHooksConfig.ON_LOGIN          = 'onLogin';
 VXPayPaymentHooksConfig.ON_FLOW_CHANGE    = 'onFlowChange';
 VXPayPaymentHooksConfig.ON_IS_LOGGED_IN   = 'onIsLoggedIn';
+VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN = 'onTransferToken';
 
 export default VXPayPaymentHooksConfig;

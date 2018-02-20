@@ -1,31 +1,31 @@
-import VXPayConfig                     from './VXPay/VXPayConfig'
-import VXPayLogger                     from './VXPay/VXPayLogger'
-import VXPayHelperFrame                from './VXPay/Dom/Frame/VXPayHelperFrame'
-import VXPayPaymentFrame               from './VXPay/Dom/Frame/VXPayPaymentFrame'
-import VXPayPaymentTab                 from './VXPay/Dom/Frame/VXPayPaymentTab'
-import VXPaySetLoginFlowMiddleware     from './VXPay/Middleware/Flow/VXPaySetLoginFlowMiddleware'
-import VXPayShowLoginMiddleware        from './VXPay/Middleware/Show/VXPayShowLoginMiddleware'
-import VXPayShowSignUpMiddleware       from './VXPay/Middleware/Show/VXPayShowSignUpMiddleware'
-import VXPaySetMoneyChargeMiddleware   from './VXPay/Middleware/Flow/VXPaySetMoneyChargeMiddleware'
-import VXPaySetLimitFlowMiddleware     from './VXPay/Middleware/Flow/VXPaySetLimitFlowMiddleware'
-import VXPaySetSettingsFlowMiddleware  from './VXPay/Middleware/Flow/VXPaySetSettingsFlowMiddleware'
-import VXPayShowMiddleware             from './VXPay/Middleware/Show/VXPayShowMiddleware'
-import VXPaySetVipAboFlowMiddleware    from './VXPay/Middleware/Flow/VXPaySetVipAboFlowMiddleware'
-import VXPayShowAboMiddleware          from './VXPay/Middleware/Show/VXPayShowAboMiddleware'
-import VXPaySetPasswordResetMiddleware from './VXPay/Middleware/Flow/VXPaySetPasswordResetMiddleware'
-import VXPaySetPasswordLostMiddleware  from './VXPay/Middleware/Flow/VXPaySetPasswordLostFlowMiddleware'
-import VXPayInitPaymentMiddleware      from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
-import VXPayInitHelperMiddleware       from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
-import VXPaySetChangeCardMiddleware    from './VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware'
-import VXPaySetVIpAboTrialMiddleware   from './VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware'
-import VXPaySetPromoCodeMiddleware     from './VXPay/Middleware/Flow/VXPaySetPromoCodeMiddleware'
-import VXPayShowPromoCodeMiddleware   from './VXPay/Middleware/Show/VXPayShowPromoCodeMiddleware'
-import VXPaySetScratchCardMiddleware      from './VXPay/Middleware/Flow/VXPaySetScratchCardMiddleware'
-import VXPaySetOneClickMiddleware         from './VXPay/Middleware/Flow/VXPaySetOneClickMiddleware'
-import VXPaySetAutoRechargeMiddleware     from './VXPay/Middleware/Flow/VXPaySetAutoRechargeMiddleware'
-import VXPayShowOpenBalanceMiddleware     from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
-import VXPaySetOpenBalanceMiddleware      from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
-import VXPayIsLoggedInActionMessage       from './VXPay/Message/Actions/VXPayIsLoggedInActionMessage'
+import VXPayConfig                         from './VXPay/VXPayConfig'
+import VXPayLogger                         from './VXPay/VXPayLogger'
+import VXPayHelperFrame                    from './VXPay/Dom/Frame/VXPayHelperFrame'
+import VXPayPaymentFrame                   from './VXPay/Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab                     from './VXPay/Dom/Frame/VXPayPaymentTab'
+import VXPaySetLoginFlowMiddleware         from './VXPay/Middleware/Flow/VXPaySetLoginFlowMiddleware'
+import VXPayShowLoginMiddleware            from './VXPay/Middleware/Show/VXPayShowLoginMiddleware'
+import VXPayShowSignUpMiddleware           from './VXPay/Middleware/Show/VXPayShowSignUpMiddleware'
+import VXPaySetMoneyChargeMiddleware       from './VXPay/Middleware/Flow/VXPaySetMoneyChargeMiddleware'
+import VXPaySetLimitFlowMiddleware         from './VXPay/Middleware/Flow/VXPaySetLimitFlowMiddleware'
+import VXPaySetSettingsFlowMiddleware      from './VXPay/Middleware/Flow/VXPaySetSettingsFlowMiddleware'
+import VXPayShowMiddleware                 from './VXPay/Middleware/Show/VXPayShowMiddleware'
+import VXPaySetVipAboFlowMiddleware        from './VXPay/Middleware/Flow/VXPaySetVipAboFlowMiddleware'
+import VXPayShowAboMiddleware              from './VXPay/Middleware/Show/VXPayShowAboMiddleware'
+import VXPaySetPasswordResetMiddleware     from './VXPay/Middleware/Flow/VXPaySetPasswordResetMiddleware'
+import VXPaySetPasswordLostMiddleware      from './VXPay/Middleware/Flow/VXPaySetPasswordLostFlowMiddleware'
+import VXPayInitPaymentMiddleware          from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
+import VXPayInitHelperMiddleware           from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
+import VXPaySetChangeCardMiddleware        from './VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware'
+import VXPaySetVIpAboTrialMiddleware       from './VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware'
+import VXPaySetPromoCodeMiddleware         from './VXPay/Middleware/Flow/VXPaySetPromoCodeMiddleware'
+import VXPayShowPromoCodeMiddleware        from './VXPay/Middleware/Show/VXPayShowPromoCodeMiddleware'
+import VXPaySetScratchCardMiddleware       from './VXPay/Middleware/Flow/VXPaySetScratchCardMiddleware'
+import VXPaySetOneClickMiddleware          from './VXPay/Middleware/Flow/VXPaySetOneClickMiddleware'
+import VXPaySetAutoRechargeMiddleware      from './VXPay/Middleware/Flow/VXPaySetAutoRechargeMiddleware'
+import VXPayShowOpenBalanceMiddleware      from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
+import VXPaySetOpenBalanceMiddleware       from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
+import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPayListenOrCallLoggedInMiddleware'
 
 export default class VXPay {
 	/**
@@ -37,7 +37,6 @@ export default class VXPay {
 		this.logger      = new VXPayLogger(this.config.logging, window);
 		this._apiVersion = 3;
 		this._window     = window;
-		this._actions    = undefined;
 	}
 
 	/**
@@ -175,19 +174,8 @@ export default class VXPay {
 	isLoggedIn() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => {
-					try {
-						// register listener
-						vxpay.hooks.onIsLoggedIn(msg => {
-							resolve(msg);
-						});
-
-						// trigger post message
-						vxpay.paymentFrame.postMessage(new VXPayIsLoggedInActionMessage);
-					} catch (err) {
-						reject(err);
-					}
-				})
+				.then(vxpay => VXPayListenOrCallLoggedInMiddleware(vxpay, resolve, reject))
+				.catch(reject)
 		});
 	}
 

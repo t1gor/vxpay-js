@@ -213,6 +213,13 @@ class VXPayConfig {
 	}
 
 	/**
+	 * @param {VXPayTransferTokenMessage} message
+	 */
+	setTokenFromMessage(message) {
+		this._token = message.token;
+	}
+
+	/**
 	 * @return {String}
 	 */
 	get promoCode() {

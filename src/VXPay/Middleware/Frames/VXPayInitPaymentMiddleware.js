@@ -31,10 +31,11 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 		// set resolve hook
 		vxpay.paymentFrame
 			.hooks
+			.onTransferToken(vxpay.config.setTokenFromMessage.bind(vxpay.config))
 			.onFlowChange(vxpay.config.updateFlow.bind(vxpay.config))
 			.onViewReady(vxpay.paymentFrame.setVisible.bind(vxpay.paymentFrame))
-			.onSuccess(msg => vxpay.paymentFrame.hide())
-			.onClose(msg => vxpay.paymentFrame.hide())
+			.onSuccess(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
+			.onClose(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
 			.onContentLoaded(msg => resolve(vxpay));
 
 		vxpay.paymentFrame.triggerLoad();
