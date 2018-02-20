@@ -1,10 +1,9 @@
+import VXPayShowMiddleware from './VXPayShowMiddleware'
+
 /**
  * @param {VXPay} vxpay
  * @return {VXPay}
  */
-const VXPayShowLoginMiddleware = (vxpay) => {
-	vxpay.paymentFrame.show('login');
-	return vxpay;
-};
+const VXPayShowLoginMiddleware = (vxpay) => VXPayShowMiddleware(vxpay, 'login');
 
 export default VXPayShowLoginMiddleware;

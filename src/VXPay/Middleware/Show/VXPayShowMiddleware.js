@@ -1,8 +1,9 @@
 /**
  * @param {VXPay} vxpay
+ * @param {String} show
  * @return {VXPay}
  */
-const VXPayShowMiddleware = (vxpay) => {
+const VXPayShowMiddleware = (vxpay, show = '/') => {
 	vxpay.paymentFrame.show();
 	return vxpay;
 };

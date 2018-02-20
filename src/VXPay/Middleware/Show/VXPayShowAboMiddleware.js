@@ -1,10 +1,9 @@
+import VXPayShowMiddleware from './VXPayShowMiddleware'
+
 /**
  * @param {VXPay} vxpay
  * @return {VXPay}
  */
-const VXPayShowAboMiddleware = (vxpay) => {
-	vxpay.paymentFrame.show('abo');
-	return vxpay;
-};
+const VXPayShowAboMiddleware = (vxpay) => VXPayShowMiddleware(vxpay, 'abo');
 
 export default VXPayShowAboMiddleware;

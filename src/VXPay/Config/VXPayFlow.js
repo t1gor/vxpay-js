@@ -19,6 +19,8 @@ class VXPayFlow {
 			VXPayFlow.SETTINGS,
 			VXPayFlow.CHANGE_CARD,
 			VXPayFlow.CHANGE_LS,
+			VXPayFlow.ONE_CLICK,
+			VXPayFlow.AUTO_RECHARGE,
 		];
 	}
 
@@ -35,6 +37,7 @@ VXPayFlow.LIMIT           = 'limit';
 VXPayFlow.LOGIN           = 'login';
 VXPayFlow.MONEY_CHARGE    = 'moneycharge';
 VXPayFlow.OP_COMPENSATION = 'opcompensation';
+VXPayFlow.AUTO_RECHARGE   = 'autorecharge';
 VXPayFlow.PASSWORD_RESET  = 'pwdreset';
 VXPayFlow.PASSWORD_LOST   = 'pwdlost';
 VXPayFlow.PROMOCODE       = 'promocode';
@@ -45,5 +48,6 @@ VXPayFlow.VXTV_ABO        = 'vxtvabo';
 VXPayFlow.SETTINGS        = 'vxsettings';
 VXPayFlow.CHANGE_CARD     = 'changecc';
 VXPayFlow.CHANGE_LS       = 'changels';
+VXPayFlow.ONE_CLICK       = 'oneclick';
 
 export default VXPayFlow;

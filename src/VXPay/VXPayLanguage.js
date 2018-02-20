@@ -19,8 +19,8 @@ class VXPayLanguage {
 	}
 }
 
-VXPayLanguage.DE = 'de';
-VXPayLanguage.EN = 'en';
-VXPayLanguage.NL = 'nl';
+VXPayLanguage.DE = 'DE';
+VXPayLanguage.EN = 'EN';
+VXPayLanguage.NL = 'NL';
 
 export default VXPayLanguage;

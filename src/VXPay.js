@@ -16,8 +16,15 @@ import VXPaySetPasswordResetMiddleware from './VXPay/Middleware/Flow/VXPaySetPas
 import VXPaySetPasswordLostMiddleware  from './VXPay/Middleware/Flow/VXPaySetPasswordLostFlowMiddleware'
 import VXPayInitPaymentMiddleware      from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
 import VXPayInitHelperMiddleware       from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
-import VXPaySetChangeCardMiddleware    from "./VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware";
-import VXPaySetVIpAboTrialMiddleware   from "./VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware";
+import VXPaySetChangeCardMiddleware    from './VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware'
+import VXPaySetVIpAboTrialMiddleware   from './VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware'
+import VXPaySetPromoCodeMiddleware     from './VXPay/Middleware/Flow/VXPaySetPromoCodeMiddleware'
+import VXPayShowPromoCodeMiddleware    from './VXPay/Middleware/Show/VXPayShowPromoCodeMiddleware'
+import VXPaySetScratchCardMiddleware   from './VXPay/Middleware/Flow/VXPaySetScratchCardMiddleware'
+import VXPaySetOneClickMiddleware      from './VXPay/Middleware/Flow/VXPaySetOneClickMiddleware'
+import VXPaySetAutoRechargeMiddleware  from './VXPay/Middleware/Flow/VXPaySetAutoRechargeMiddleware'
+import VXPayShowOpenBalanceMiddleware  from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
+import VXPaySetOpenBalanceMiddleware   from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
 
 export default class VXPay {
 	/**
@@ -61,7 +68,7 @@ export default class VXPay {
 
 	openSignupOrLogin() {
 		this._initHelperFrame()
-			/** @param {VXPay} vxpay */
+		/** @param {VXPay} vxpay */
 			.then(vxpay => vxpay.helperFrame.getLoginCookie())
 			/** @param {VXPayHasSessionCookieMessage} hasLoginCookieMessage */
 			.then(hasLoginCookieMessage => hasLoginCookieMessage.hasCookie ? this.openLogin() : this.openSignup())
@@ -87,14 +94,14 @@ export default class VXPay {
 
 	resetPassword() {
 		this._initPaymentFrame()
-			/** @param {VXPay} vxpay */
+		/** @param {VXPay} vxpay */
 			.then(vxpay => VXPaySetPasswordResetMiddleware(vxpay, this._window))
 			.then(VXPayShowMiddleware)
 	}
 
 	lostPassword() {
 		this._initPaymentFrame()
-			/** @param {VXPay} vxpay */
+		/** @param {VXPay} vxpay */
 			.then(vxpay => VXPaySetPasswordLostMiddleware(vxpay, this._window))
 			.then(VXPayShowMiddleware)
 	}
@@ -128,23 +135,33 @@ export default class VXPay {
 	}
 
 	openPromoCode() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetPromoCodeMiddleware)
+			.then(VXPayShowPromoCodeMiddleware)
 	}
 
 	openScratchCard() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetScratchCardMiddleware)
+			.then(VXPayShowPromoCodeMiddleware)
 	}
 
 	openOneClick() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetOneClickMiddleware)
+			.then(VXPayShowMiddleware)
 	}
 
 	openAutoReCharge() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetAutoRechargeMiddleware)
+			.then(VXPayShowMiddleware)
 	}
 
 	openBalance() {
-
+		this._initPaymentFrame()
+			.then(VXPaySetOpenBalanceMiddleware)
+			.then(VXPayShowOpenBalanceMiddleware)
 	}
 
 	/**

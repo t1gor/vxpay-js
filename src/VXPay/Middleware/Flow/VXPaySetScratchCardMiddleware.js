@@ -4,7 +4,8 @@ import VXPaySetFlowMiddleware from './VXPaySetFlowMiddleware'
 /**
  * @param {VXPay} vxpay
  * @return {VXPay}
+ * @constructor
  */
-const VXPaySetLoginFlowMiddleware = (vxpay) => VXPaySetFlowMiddleware(vxpay, VXPayFlow.LOGIN);
+const VXPaySetScratchCardMiddleware = (vxpay) => VXPaySetFlowMiddleware(vxpay, VXPayFlow.SCRATCH_CARD);
 
-export default VXPaySetLoginFlowMiddleware;
+export default VXPaySetScratchCardMiddleware;
