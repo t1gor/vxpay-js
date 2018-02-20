@@ -27,6 +27,5 @@ module.exports = {
 	devtool: 'source-map',
 	plugins: [
 		// new UglifyJsPlugin()
-		'es6-promise'
 	]
 };

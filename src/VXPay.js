@@ -19,12 +19,13 @@ import VXPayInitHelperMiddleware       from './VXPay/Middleware/Frames/VXPayInit
 import VXPaySetChangeCardMiddleware    from './VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware'
 import VXPaySetVIpAboTrialMiddleware   from './VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware'
 import VXPaySetPromoCodeMiddleware     from './VXPay/Middleware/Flow/VXPaySetPromoCodeMiddleware'
-import VXPayShowPromoCodeMiddleware    from './VXPay/Middleware/Show/VXPayShowPromoCodeMiddleware'
-import VXPaySetScratchCardMiddleware   from './VXPay/Middleware/Flow/VXPaySetScratchCardMiddleware'
-import VXPaySetOneClickMiddleware      from './VXPay/Middleware/Flow/VXPaySetOneClickMiddleware'
-import VXPaySetAutoRechargeMiddleware  from './VXPay/Middleware/Flow/VXPaySetAutoRechargeMiddleware'
-import VXPayShowOpenBalanceMiddleware  from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
-import VXPaySetOpenBalanceMiddleware   from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
+import VXPayShowPromoCodeMiddleware   from './VXPay/Middleware/Show/VXPayShowPromoCodeMiddleware'
+import VXPaySetScratchCardMiddleware      from './VXPay/Middleware/Flow/VXPaySetScratchCardMiddleware'
+import VXPaySetOneClickMiddleware         from './VXPay/Middleware/Flow/VXPaySetOneClickMiddleware'
+import VXPaySetAutoRechargeMiddleware     from './VXPay/Middleware/Flow/VXPaySetAutoRechargeMiddleware'
+import VXPayShowOpenBalanceMiddleware     from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
+import VXPaySetOpenBalanceMiddleware      from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
+import VXPayIsLoggedInActionMessage       from './VXPay/Message/Actions/VXPayIsLoggedInActionMessage'
 
 export default class VXPay {
 	/**
@@ -36,6 +37,7 @@ export default class VXPay {
 		this.logger      = new VXPayLogger(this.config.logging, window);
 		this._apiVersion = 3;
 		this._window     = window;
+		this._actions    = undefined;
 	}
 
 	/**
@@ -158,10 +160,35 @@ export default class VXPay {
 			.then(VXPayShowMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openBalance() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetOpenBalanceMiddleware)
 			.then(VXPayShowOpenBalanceMiddleware)
+	}
+
+	/**
+	 * @return {Promise<VXPayIsLoggedInResponseMessage>}
+	 */
+	isLoggedIn() {
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(vxpay => {
+					try {
+						// register listener
+						vxpay.hooks.onIsLoggedIn(msg => {
+							resolve(msg);
+						});
+
+						// trigger post message
+						vxpay.paymentFrame.postMessage(new VXPayIsLoggedInActionMessage);
+					} catch (err) {
+						reject(err);
+					}
+				})
+		});
 	}
 
 	/**

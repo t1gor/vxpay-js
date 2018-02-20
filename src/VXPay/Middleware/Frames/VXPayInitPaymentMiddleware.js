@@ -1,6 +1,6 @@
-import VXPayPaymentFrame from './../../Dom/Frame/VXPayPaymentFrame'
-import VXPayPaymentTab   from './../../Dom/Frame/VXPayPaymentTab'
-import VXPayLogger       from './../../VXPayLogger'
+import VXPayPaymentFrame   from './../../Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab     from './../../Dom/Frame/VXPayPaymentTab'
+import VXPayLogger         from './../../VXPayLogger'
 
 /**
  * @param {VXPay} vxpay
@@ -33,9 +33,9 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 			.hooks
 			.onFlowChange(vxpay.config.updateFlow.bind(vxpay.config))
 			.onViewReady(vxpay.paymentFrame.setVisible.bind(vxpay.paymentFrame))
-			.onContentLoaded(msg => resolve(vxpay))
+			.onSuccess(msg => vxpay.paymentFrame.hide())
 			.onClose(msg => vxpay.paymentFrame.hide())
-			.onSuccess(msg => vxpay.paymentFrame.hide());
+			.onContentLoaded(msg => resolve(vxpay));
 
 		vxpay.paymentFrame.triggerLoad();
 	}

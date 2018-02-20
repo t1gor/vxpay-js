@@ -39,6 +39,9 @@ const VXPayHookRouter = (hooks, event) => {
 		case VXPayMessage.TYPE_SUCCESS:
 			return hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
 
+		case VXPayMessage.TYPE_IS_LOGGED_IN:
+			return hooks.trigger(VXPayPaymentHooksConfig.ON_IS_LOGGED_IN, [message]);
+
 		case VXPayMessage.TYPE_HOOK:
 			switch (message.hook) {
 				case VXPayHookMessage.HOOK_LOGIN:

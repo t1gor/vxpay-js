@@ -53,10 +53,14 @@ VXPayMessage.TYPE_UPDATE_PARAMS          = 'modalbox-update-params';
 VXPayMessage.TYPE_IS_VISIBLE             = 'modalbox-is-visible';
 VXPayMessage.TYPE_ADDITIONAL_INFO        = 'modalbox-additional-info';
 VXPayMessage.TYPE_CHANGE_ROUTE           = 'modalbox-change-route';
+
+VXPayMessage.TYPE_HAS_LOGIN_COOKIE       = 'modalbox-response-hasLoginCookie';
+VXPayMessage.TYPE_IS_LOGGED_IN           = 'modalbox-response-isLoggedIn';
+
 VXPayMessage.TYPE_ACTION_GET_ACTIVE_ABOS = 'modalbox-action-getactiveabos';
 VXPayMessage.TYPE_ACTION_LOGOUT          = 'modalbox-action-logout';
 VXPayMessage.TYPE_ACTION_GET_AVS_STATUS  = 'modalbox-action-getavsstatus';
-VXPayMessage.TYPE_HAS_LOGIN_COOKIE       = 'modalbox-response-hasLoginCookie';
+VXPayMessage.TYPE_ACTION_IS_LOGGED_IN    = 'modalbox-action-isLoggedIn';
 
 VXPayMessage.TRANSFER_TOKEN_PREFIX = 'transfer_token:';
 

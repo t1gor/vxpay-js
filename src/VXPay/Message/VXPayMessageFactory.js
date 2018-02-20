@@ -1,13 +1,14 @@
-import VXPayMessage                 from './../VXPayMessage'
-import VXPayHasSessionCookieMessage from './VXPayHasSessionCookieMessage'
-import VXPayContentLoadedMessage    from './VXPayContentLoadedMessage'
-import VXPayHookMessageFactory      from './Hooks/VXPayHookMessageFactory'
-import VXPayIframeReadyMessage      from './VXPayIframeReadyMessage'
-import VXPayViewReadyMessage        from './VXPayViewReadyMessage'
-import VXPayTransferTokenMessage    from './VXPayTransferTokenMessage'
-import VXPayIframeCloseMessage      from './VXPayIframeCloseMessage'
-import VXPayIsVisibleMessage        from './VXPayIsVisibleMessage'
-import VXPaySuccessMessage          from './VXPaySuccessMessage'
+import VXPayMessage                   from './../VXPayMessage'
+import VXPayHasSessionCookieMessage   from './VXPayHasSessionCookieMessage'
+import VXPayContentLoadedMessage      from './VXPayContentLoadedMessage'
+import VXPayHookMessageFactory        from './Hooks/VXPayHookMessageFactory'
+import VXPayIframeReadyMessage        from './VXPayIframeReadyMessage'
+import VXPayViewReadyMessage          from './VXPayViewReadyMessage'
+import VXPayTransferTokenMessage      from './VXPayTransferTokenMessage'
+import VXPayIframeCloseMessage        from './VXPayIframeCloseMessage'
+import VXPayIsVisibleMessage          from './VXPayIsVisibleMessage'
+import VXPaySuccessMessage            from './VXPaySuccessMessage'
+import VXPayIsLoggedInResponseMessage from './Actions/VXPayIsLoggedInResponseMessage'
 
 export default class VXPayMessageFactory {
 
@@ -48,6 +49,9 @@ export default class VXPayMessageFactory {
 			case VXPayMessage.TYPE_SUCCESS:
 				return new VXPaySuccessMessage(message.data);
 
+			case VXPayMessage.TYPE_IS_LOGGED_IN:
+				return new VXPayIsLoggedInResponseMessage(message.data);
+
 			default:
 				// transfer token?
 				if (message.type.indexOf(VXPayMessage.TRANSFER_TOKEN_PREFIX) === 0) {
@@ -57,7 +61,7 @@ export default class VXPayMessageFactory {
 
 				// return an unknown message, but still a message
 				const unknown = new VXPayMessage(message.type);
-					  unknown.raw = json;
+				unknown.raw   = json;
 
 				return unknown;
 		}
