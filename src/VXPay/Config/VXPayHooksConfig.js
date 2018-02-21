@@ -51,7 +51,6 @@ class VXPayHooksConfig {
 
 		// process all callbacks
 		this[name].map(callback => {
-			// @todo what if the function has a bounded context?
 			callback.apply(callback, callbackArguments);
 		});
 

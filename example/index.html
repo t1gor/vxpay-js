@@ -15,8 +15,8 @@
 						Open in a new tab
 					</label>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.openLogin()">Login</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.openSignup()">Register</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.openSignupOrLogin()">Login or Register</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.openSignUp()">Register</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.openSignUpOrLogin()">Login or Register</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.resetPassword()">Reset password</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.lostPassword()">Lost password</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:vxpay.openPayment()">General Payment</a>
@@ -40,6 +40,7 @@
 				<div class="mdc-layout-grid__inner">
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:isLoggedInAction()">Is logged in?</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:getAvsStatus()">AVS status</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:getBalance()">Get balance</a>
 				</div>
 			</div>
 		</div>
@@ -67,15 +68,18 @@
 		};
 
 		isLoggedInAction = function() {
-			vxpay.isLoggedIn().then(function(msg) {
-				confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO'));
-			})
+			vxpay.isLoggedIn()
+				.then(msg => confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO')))
 		};
 
 		getAvsStatus = function() {
-			vxpay.getAVSStatus().then(function(status) {
-				console.log(222, status);
-			})
+			vxpay.getAVSStatus()
+				.then(msg => confirm('AVS status: ' + (msg.status.fsk18 === true ? 'FSK18' : '<unknown>')))
+		};
+
+		getBalance = function() {
+			vxpay.getBalance()
+				.then(msg => confirm('Current balance: ' + msg.balance.toString()));
 		}
 	</script>
 	<script type="text/javascript" src="./../build/vxpay.min.js" onload="__init()"></script>

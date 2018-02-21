@@ -11,5 +11,6 @@ describe('main', () => {
 		expect(VX).to.have.property('VXPayFlow');
 		expect(VX).to.have.property('VXPayModalConfig');
 		expect(VX).to.have.property('VXPayPaymentHooksConfig');
+		expect(VX).to.have.property('VXPayCurrency');
 	});
 });

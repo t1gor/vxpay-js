@@ -23,13 +23,16 @@ const VXPayHookRouter = (hooks, event) => {
 	// route any
 	hooks.trigger(VXPayPaymentHooksConfig.ON_ANY, [message]);
 
+
 	switch (message.type) {
 		case VXPayMessage.TYPE_TRANSFER_TOKEN:
 			return hooks.trigger(VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN, [message]);
 
 		case VXPayMessage.TYPE_AVS_STATUS:
-			console.log(JSON.stringify(hooks));
 			return hooks.trigger(VXPayPaymentHooksConfig.ON_AVS_STATUS, [message]);
+
+		case VXPayMessage.TYPE_BALANCE:
+			return hooks.trigger(VXPayPaymentHooksConfig.ON_BALANCE, [message]);
 
 		case VXPayMessage.TYPE_IFRAME_READY:
 			return hooks.trigger(VXPayPaymentHooksConfig.ON_IFRAME_READY, [message]);

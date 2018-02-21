@@ -3,6 +3,7 @@ import VXPayPaymentTab     from './../../Dom/Frame/VXPayPaymentTab'
 import VXPayLogger         from './../../VXPayLogger'
 
 /**
+ * @todo function seems a bit too long, maybe refactor in future?
  * @param {VXPay} vxpay
  * @param {Function} resolve
  * @return {Function}

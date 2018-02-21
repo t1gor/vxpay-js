@@ -28,7 +28,9 @@ import VXPaySetOpenBalanceMiddleware       from './VXPay/Middleware/Flow/VXPaySe
 import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPayListenOrCallLoggedInMiddleware'
 import VXPaySetAVSFlowMiddleware           from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
 import VXPayShowAVSMiddleware              from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
-import VXPayGetAVSStatusMessage            from './VXPay/Message/Actions/VXPayGetAVSStatusMessage'
+import VXPayOnAVSStatusListenMiddleware    from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
+import VXPayAVSStatusTriggerMiddleware     from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
+import VXPayGetBalanceMessage              from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
 
 export default class VXPay {
 	/**
@@ -64,18 +66,18 @@ export default class VXPay {
 			.then(VXPayShowLoginMiddleware);
 	}
 
-	openSignup() {
+	openSignUp() {
 		this._initPaymentFrame()
 			.then(VXPaySetLoginFlowMiddleware)
 			.then(VXPayShowSignUpMiddleware);
 	}
 
-	openSignupOrLogin() {
+	openSignUpOrLogin() {
 		this._initHelperFrame()
 		/** @param {VXPay} vxpay */
 			.then(vxpay => vxpay.helperFrame.getLoginCookie())
 			/** @param {VXPayHasSessionCookieMessage} hasLoginCookieMessage */
-			.then(hasLoginCookieMessage => hasLoginCookieMessage.hasCookie ? this.openLogin() : this.openSignup())
+			.then(hasLoginCookieMessage => hasLoginCookieMessage.hasCookie ? this.openLogin() : this.openSignUp())
 	}
 
 	openPayment() {
@@ -184,29 +186,39 @@ export default class VXPay {
 		});
 	}
 
+	/**
+	 * @return {Promise<VXPayAVSStatusMessage>}
+	 */
 	getAVSStatus() {
 		return new Promise((resolve, reject) => {
 			return this._initPaymentFrame()
+				.then(vxpay => VXPayOnAVSStatusListenMiddleware(vxpay, resolve))
+				.then(VXPayAVSStatusTriggerMiddleware)
+				.catch(reject)
+		})
+	}
+
+	/**
+	 * @return {Promise<VXPayBalanceMessage>}
+	 */
+	getBalance() {
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
 				.then(vxpay => {
-					if (!vxpay.hooks.hasOnAVSStatus(resolve)) {
-						vxpay.hooks.onAVSStatus(resolve);
+					if (!vxpay.hooks.hasOnBalance(resolve)) {
+						vxpay.hooks.onBalance(msg => resolve(msg));
 					}
 
-					// is token already received?
 					if (vxpay.config.token === '') {
-						vxpay.hooks.onTransferToken(msg => {
-							// trigger post message
-							vxpay.paymentFrame.postMessage(new VXPayGetAVSStatusMessage);
-						});
+						vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(new VXPayGetBalanceMessage));
 					} else {
-						// trigger post message
-						vxpay.paymentFrame.postMessage(new VXPayGetAVSStatusMessage);
+						vxpay.paymentFrame.postMessage(new VXPayGetBalanceMessage);
 					}
 
 					return vxpay;
 				})
 				.catch(reject)
-		})
+		});
 	}
 
 	/**

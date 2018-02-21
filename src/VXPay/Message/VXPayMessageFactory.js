@@ -11,6 +11,7 @@ import VXPaySuccessMessage            from './VXPaySuccessMessage'
 import VXPayIsLoggedInResponseMessage from './Actions/VXPayIsLoggedInResponseMessage'
 import VXPayAVSStatusMessage          from "./Actions/VXPayAVSStatusMessage";
 import VXPayAVSStatus                 from "../Model/VXPayAVSStatus";
+import VXPayBalanceMessage            from "./Actions/VXPayBalanceMessage";
 
 export default class VXPayMessageFactory {
 
@@ -32,6 +33,9 @@ export default class VXPayMessageFactory {
 
 			case VXPayMessage.TYPE_AVS_STATUS:
 				return new VXPayAVSStatusMessage(VXPayAVSStatus.fromData(message.data));
+
+			case VXPayMessage.TYPE_BALANCE:
+				return VXPayBalanceMessage.fromData(message.data);
 
 			case VXPayMessage.TYPE_CONTENT_LOADED:
 				return new VXPayContentLoadedMessage();
