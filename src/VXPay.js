@@ -26,11 +26,13 @@ import VXPaySetAutoRechargeMiddleware      from './VXPay/Middleware/Flow/VXPaySe
 import VXPayShowOpenBalanceMiddleware      from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
 import VXPaySetOpenBalanceMiddleware       from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
 import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPayListenOrCallLoggedInMiddleware'
-import VXPaySetAVSFlowMiddleware           from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
-import VXPayShowAVSMiddleware              from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
-import VXPayOnAVSStatusListenMiddleware    from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
-import VXPayAVSStatusTriggerMiddleware     from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
-import VXPayGetBalanceMessage              from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
+import VXPaySetAVSFlowMiddleware        from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
+import VXPayShowAVSMiddleware           from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
+import VXPayOnAVSStatusListenMiddleware from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
+import VXPayAVSStatusTriggerMiddleware  from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
+import VXPayGetBalanceMessage           from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
+import VXPayListenForBalanceMiddleware  from "./VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware";
+import VXPayBalanceTriggerMiddleware    from "./VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware";
 
 export default class VXPay {
 	/**
@@ -204,19 +206,8 @@ export default class VXPay {
 	getBalance() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => {
-					if (!vxpay.hooks.hasOnBalance(resolve)) {
-						vxpay.hooks.onBalance(msg => resolve(msg));
-					}
-
-					if (vxpay.config.token === '') {
-						vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(new VXPayGetBalanceMessage));
-					} else {
-						vxpay.paymentFrame.postMessage(new VXPayGetBalanceMessage);
-					}
-
-					return vxpay;
-				})
+				.then(vxpay => VXPayListenForBalanceMiddleware(vxpay, resolve))
+				.then(VXPayBalanceTriggerMiddleware)
 				.catch(reject)
 		});
 	}

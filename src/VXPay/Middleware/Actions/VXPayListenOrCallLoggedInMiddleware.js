@@ -11,10 +11,10 @@ const VXPayListenOrCallLoggedInMiddleware = (vxpay, resolve, reject) => {
 	// is token already received?
 	if (vxpay.config.token === '') {
 		vxpay.hooks.onTransferToken(msg => VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject));
-		return vxpay;
+	} else {
+		VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject);
 	}
 
-	VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject);
 	return vxpay;
 };
 
