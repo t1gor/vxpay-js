@@ -41,6 +41,7 @@
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:isLoggedInAction()">Is logged in?</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:getAvsStatus()">AVS status</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:getBalance()">Get balance</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-4" href="javascript:getAbos()">Get active abos</a>
 				</div>
 			</div>
 		</div>
@@ -64,6 +65,7 @@
 		__init = function() {
 			config = new VX.VXPayConfig();
 			config.logging = true;
+			config.language = VX.VXPayLanguage.EN;
 			vxpay = new VX.VXPay(config, window);
 		};
 
@@ -80,6 +82,11 @@
 		getBalance = function() {
 			vxpay.getBalance()
 				.then(msg => confirm('Current balance: ' + msg.balance.toString()));
+		};
+
+		getAbos = function() {
+			vxpay.getActiveAbos()
+				.then(msg => confirm('Active abos: ' + msg.abos.length));
 		}
 	</script>
 	<script type="text/javascript" src="./../build/vxpay.min.js" onload="__init()"></script>

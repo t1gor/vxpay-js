@@ -14,6 +14,24 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 		this._onTransferToken = [];
 		this._onAVSStatus     = [];
 		this._onBalance       = [];
+		this._onActiveAbos    = [];
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onActiveAbos(handler) {
+		this._onActiveAbos.push(handler);
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnActiveAbos(handler) {
+		return this._onActiveAbos.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -149,5 +167,6 @@ VXPayPaymentHooksConfig.ON_IS_LOGGED_IN   = 'onIsLoggedIn';
 VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN = 'onTransferToken';
 VXPayPaymentHooksConfig.ON_AVS_STATUS     = 'onAVSStatus';
 VXPayPaymentHooksConfig.ON_BALANCE        = 'onBalance';
+VXPayPaymentHooksConfig.ON_ACTIVE_ABOS    = 'onActiveAbos';
 
 export default VXPayPaymentHooksConfig;

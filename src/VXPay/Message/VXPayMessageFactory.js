@@ -12,6 +12,7 @@ import VXPayIsLoggedInResponseMessage from './Actions/VXPayIsLoggedInResponseMes
 import VXPayAVSStatusMessage          from "./Actions/VXPayAVSStatusMessage";
 import VXPayAVSStatus                 from "../Model/VXPayAVSStatus";
 import VXPayBalanceMessage            from "./Actions/VXPayBalanceMessage";
+import VXPayActiveAbosMessage         from "./Actions/VXPayActiveAbosMessage";
 
 export default class VXPayMessageFactory {
 
@@ -36,6 +37,9 @@ export default class VXPayMessageFactory {
 
 			case VXPayMessage.TYPE_BALANCE:
 				return VXPayBalanceMessage.fromData(message.data);
+
+			case VXPayMessage.TYPE_ACTIVE_ABOS:
+				return VXPayActiveAbosMessage.fromData(message.data);
 
 			case VXPayMessage.TYPE_CONTENT_LOADED:
 				return new VXPayContentLoadedMessage();

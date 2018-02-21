@@ -33,6 +33,7 @@ import VXPayAVSStatusTriggerMiddleware  from './VXPay/Middleware/Actions/VXPayAV
 import VXPayGetBalanceMessage           from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
 import VXPayListenForBalanceMiddleware  from "./VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware";
 import VXPayBalanceTriggerMiddleware    from "./VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware";
+import VXPayGetActiveAbosMessage        from "./VXPay/Message/Actions/VXPayGetActiveAbosMessage";
 
 export default class VXPay {
 	/**
@@ -62,51 +63,72 @@ export default class VXPay {
 		return new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve))
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openLogin() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetLoginFlowMiddleware)
 			.then(VXPayShowLoginMiddleware);
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openSignUp() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetLoginFlowMiddleware)
 			.then(VXPayShowSignUpMiddleware);
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openSignUpOrLogin() {
-		this._initHelperFrame()
-		/** @param {VXPay} vxpay */
+		return this._initHelperFrame()
 			.then(vxpay => vxpay.helperFrame.getLoginCookie())
-			/** @param {VXPayHasSessionCookieMessage} hasLoginCookieMessage */
 			.then(hasLoginCookieMessage => hasLoginCookieMessage.hasCookie ? this.openLogin() : this.openSignUp())
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openPayment() {
 		this._initPaymentFrame()
 			.then(VXPaySetMoneyChargeMiddleware)
 			.then(VXPayShowMiddleware);
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openAbo() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetVipAboFlowMiddleware)
 			.then(VXPayShowAboMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openSettings() {
 		this._initPaymentFrame()
 			.then(VXPaySetSettingsFlowMiddleware)
 			.then(VXPayShowMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	resetPassword() {
-		this._initPaymentFrame()
-		/** @param {VXPay} vxpay */
+		return this._initPaymentFrame()
 			.then(vxpay => VXPaySetPasswordResetMiddleware(vxpay, this._window))
 			.then(VXPayShowMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	lostPassword() {
 		this._initPaymentFrame()
 		/** @param {VXPay} vxpay */
@@ -114,56 +136,83 @@ export default class VXPay {
 			.then(VXPayShowMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	limitPayment() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetLimitFlowMiddleware)
 			.then(VXPayShowMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	changeCard() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetChangeCardMiddleware)
 			.then(VXPayShowMiddleware);
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	vipAboTrial() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetVIpAboTrialMiddleware)
 			.then(VXPayShowMiddleware);
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	premiumAbo() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetVipAboFlowMiddleware)
 			.then(VXPayShowMiddleware);
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openAVS() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetAVSFlowMiddleware)
 			.then(VXPayShowAVSMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openPromoCode() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetPromoCodeMiddleware)
 			.then(VXPayShowPromoCodeMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openScratchCard() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetScratchCardMiddleware)
 			.then(VXPayShowPromoCodeMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openOneClick() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetOneClickMiddleware)
 			.then(VXPayShowMiddleware)
 	}
 
+	/**
+	 * @return {Promise<VXPay>}
+	 */
 	openAutoReCharge() {
-		this._initPaymentFrame()
+		return this._initPaymentFrame()
 			.then(VXPaySetAutoRechargeMiddleware)
 			.then(VXPayShowMiddleware)
 	}
@@ -210,6 +259,29 @@ export default class VXPay {
 				.then(VXPayBalanceTriggerMiddleware)
 				.catch(reject)
 		});
+	}
+
+	/**
+	 * @return {Promise<VXPayActiveAbosMessage>}
+	 */
+	getActiveAbos() {
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(vxpay => {
+					if (!vxpay.hooks.hasOnActiveAbos(resolve)) {
+						vxpay.hooks.onActiveAbos(resolve);
+					}
+
+					if (vxpay.config.token === '') {
+						vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(new VXPayGetActiveAbosMessage));
+					} else {
+						vxpay.paymentFrame.postMessage(new VXPayGetActiveAbosMessage);
+					}
+
+					return vxpay;
+				})
+				.catch(reject)
+		})
 	}
 
 	/**
