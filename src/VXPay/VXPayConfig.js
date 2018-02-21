@@ -40,7 +40,15 @@ class VXPayConfig {
 			: modalConfig;
 		this._modalConfig = modalConfig;
 
+		this._window = window;
 		this._helper = new VXPayUrlHelper(window.URL);
+	}
+
+	/**
+	 * @return {Window|*}
+	 */
+	get window() {
+		return this._window;
 	}
 
 	/**

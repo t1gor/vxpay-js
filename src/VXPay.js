@@ -30,24 +30,21 @@ import VXPaySetAVSFlowMiddleware           from './VXPay/Middleware/Flow/VXPaySe
 import VXPayShowAVSMiddleware              from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
 import VXPayOnAVSStatusListenMiddleware    from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
 import VXPayAVSStatusTriggerMiddleware     from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
-import VXPayListenForBalanceMiddleware    from './VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware'
-import VXPayBalanceTriggerMiddleware      from './VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware'
-import VXPayListenForActiveAbosMiddleware from './VXPay/Middleware/Actions/VXPayListenForActiveAbosMiddleware'
-import VXPayActiveAbosTriggerMiddleware   from './VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware'
-import VXPayLogoutMessage                 from './VXPay/Message/Actions/VXPayLogoutMessage'
-import VXPayListenForLogoutMiddleware     from "./VXPay/Middleware/Actions/VXPayListenForLogoutMiddleware";
-import VXPayLogoutTriggerMiddleware       from "./VXPay/Middleware/Actions/VXPayLogoutTriggerMiddleware";
+import VXPayListenForBalanceMiddleware     from './VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware'
+import VXPayBalanceTriggerMiddleware       from './VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware'
+import VXPayListenForActiveAbosMiddleware  from './VXPay/Middleware/Actions/VXPayListenForActiveAbosMiddleware'
+import VXPayActiveAbosTriggerMiddleware    from './VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware'
+import VXPayListenForLogoutMiddleware      from './VXPay/Middleware/Actions/VXPayListenForLogoutMiddleware'
+import VXPayLogoutTriggerMiddleware        from './VXPay/Middleware/Actions/VXPayLogoutTriggerMiddleware'
 
 export default class VXPay {
 	/**
 	 * @param {VXPayConfig} config
-	 * @param {Window} window
 	 */
-	constructor(config, window = undefined) {
+	constructor(config) {
 		this.config      = config;
-		this.logger      = new VXPayLogger(this.config.logging, window);
+		this.logger      = new VXPayLogger(this.config.logging, this.config.window);
 		this._apiVersion = 3;
-		this._window     = window;
 	}
 
 	/**
@@ -125,7 +122,7 @@ export default class VXPay {
 	 */
 	resetPassword() {
 		return this._initPaymentFrame()
-			.then(vxpay => VXPaySetPasswordResetMiddleware(vxpay, this._window))
+			.then(VXPaySetPasswordResetMiddleware)
 			.then(VXPayShowMiddleware)
 	}
 
@@ -134,8 +131,7 @@ export default class VXPay {
 	 */
 	lostPassword() {
 		this._initPaymentFrame()
-		/** @param {VXPay} vxpay */
-			.then(vxpay => VXPaySetPasswordLostMiddleware(vxpay, this._window))
+			.then(VXPaySetPasswordLostMiddleware)
 			.then(VXPayShowMiddleware)
 	}
 
@@ -386,6 +382,6 @@ export default class VXPay {
 	 * @return {Window|undefined}
 	 */
 	get window() {
-		return this._window;
+		return this.config.window;
 	}
 }

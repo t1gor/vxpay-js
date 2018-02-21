@@ -90,7 +90,7 @@ describe('VXPayMessageFactory', () => {
 			      msg      = VXPayMessageFactory.fromJson(json);
 
 			assert.instanceOf(msg, VXPaySuccessMessage);
-			assert.equal(JSON.stringify(msg.userData), JSON.stringify(userData));
+			assert.equal(JSON.stringify(msg.user), JSON.stringify(userData));
 		});
 	})
 });

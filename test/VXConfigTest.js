@@ -1,22 +1,14 @@
 import {assert}         from 'chai'
-import {JSDOM}          from 'jsdom'
-import {URL} from 'url'
 import VXPayConfig      from '../src/VXPay/VXPayConfig'
 import VXPayEnvironment from './../src/VXPay/VXPayEnvironment'
 import VXPayLanguage    from './../src/VXPay/VXPayLanguage'
-import VXPayFlow        from '../src/VXPay/Config/VXPayFlow'
-
-const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>";
+import VXPayFlow        from './../src/VXPay/Config/VXPayFlow'
+import VXPayTestFx      from './Fixtures/VXPayTestFx'
 
 describe('VXConfig', () => {
 	describe('#constructor()', () => {
 		it('Will set default values', () => {
-			const dom = new JSDOM(testDocument);
-
-			// inject URL (from Node)
-			dom.window.URL = URL;
-
-			const config = new VXPayConfig(dom.window),
+			const config = new VXPayConfig(VXPayTestFx.getWindow()),
 			      defaultLang = VXPayLanguage.getDefault();
 
 			assert.isFalse(config.logging, 'Logging is disabled by default');
@@ -29,7 +21,7 @@ describe('VXConfig', () => {
 	});
 	describe('#env()', () => {
 		it('Will only accept defined environments', () => {
-			const config = new VXPayConfig(),
+			const config = new VXPayConfig(VXPayTestFx.getWindow()),
 			      newEnv = 'bgangdnad',
 			      msg = 'Environment ' + newEnv + ' is not supported. Please select one of ' + VXPayEnvironment.getAvailable();
 
@@ -50,7 +42,7 @@ describe('VXConfig', () => {
 	});
 	describe('#language()', () => {
 		it('Will only accept defined languages', () => {
-			const config = new VXPayConfig(),
+			const config = new VXPayConfig(VXPayTestFx.getWindow()),
 			      newLang = 'fr',
 			      msg = 'Unsupported language: ' + newLang  + '. Allowed: ' + VXPayLanguage.getAvailable().join(', ');
 
@@ -71,7 +63,7 @@ describe('VXConfig', () => {
 	});
 	describe('#flow()', () => {
 		it('Will only accept defined flows', () => {
-			const config = new VXPayConfig(),
+			const config = new VXPayConfig(VXPayTestFx.getWindow()),
 			      newFlow = 'bfdbfdabdbfdab',
 			      msg = 'Flow not allowed: ' + newFlow  + '. Select one of: ' + VXPayFlow.getAllowed().join(', ');
 

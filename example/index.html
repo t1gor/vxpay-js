@@ -60,14 +60,14 @@
 			config = new VX.VXPayConfig(window);
 			config.enableTab = enable;
 			config.logging = true;
-			vxpay = new VX.VXPay(config, window);
+			vxpay = new VX.VXPay(config);
 		};
 
 		__init = function() {
 			config = new VX.VXPayConfig(window);
 			config.logging = true;
 			config.language = VX.VXPayLanguage.EN;
-			vxpay = new VX.VXPay(config, window);
+			vxpay = new VX.VXPay(config);
 		};
 
 		isLoggedInAction = function() {
