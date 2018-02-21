@@ -26,16 +26,17 @@ import VXPaySetAutoRechargeMiddleware      from './VXPay/Middleware/Flow/VXPaySe
 import VXPayShowOpenBalanceMiddleware      from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
 import VXPaySetOpenBalanceMiddleware       from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
 import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPayListenOrCallLoggedInMiddleware'
-import VXPaySetAVSFlowMiddleware        from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
-import VXPayShowAVSMiddleware           from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
-import VXPayOnAVSStatusListenMiddleware from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
-import VXPayAVSStatusTriggerMiddleware    from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
-import VXPayGetBalanceMessage             from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
-import VXPayListenForBalanceMiddleware    from "./VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware";
-import VXPayBalanceTriggerMiddleware      from "./VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware";
-import VXPayGetActiveAbosMessage          from "./VXPay/Message/Actions/VXPayGetActiveAbosMessage";
-import VXPayListenForActiveAbosMiddleware from "./VXPay/Middleware/Actions/VXPayListenForActiveAbosMiddleware";
-import VXPayActiveAbosTriggerMiddleware   from "./VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware";
+import VXPaySetAVSFlowMiddleware           from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
+import VXPayShowAVSMiddleware              from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
+import VXPayOnAVSStatusListenMiddleware    from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
+import VXPayAVSStatusTriggerMiddleware     from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
+import VXPayListenForBalanceMiddleware    from './VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware'
+import VXPayBalanceTriggerMiddleware      from './VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware'
+import VXPayListenForActiveAbosMiddleware from './VXPay/Middleware/Actions/VXPayListenForActiveAbosMiddleware'
+import VXPayActiveAbosTriggerMiddleware   from './VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware'
+import VXPayLogoutMessage                 from './VXPay/Message/Actions/VXPayLogoutMessage'
+import VXPayListenForLogoutMiddleware     from "./VXPay/Middleware/Actions/VXPayListenForLogoutMiddleware";
+import VXPayLogoutTriggerMiddleware       from "./VXPay/Middleware/Actions/VXPayLogoutTriggerMiddleware";
 
 export default class VXPay {
 	/**
@@ -271,6 +272,18 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(vxpay => VXPayListenForActiveAbosMiddleware(vxpay, resolve))
 				.then(VXPayActiveAbosTriggerMiddleware)
+				.catch(reject)
+		})
+	}
+
+	/**
+	 * @return {Promise<VXPayLoggedOutMessage>}
+	 */
+	logout() {
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(vxpay => VXPayListenForLogoutMiddleware(vxpay, resolve))
+				.then(VXPayLogoutTriggerMiddleware)
 				.catch(reject)
 		})
 	}

@@ -9,12 +9,30 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 		this._onSuccess       = [];
 		this._onIframeReady   = [];
 		this._onLogin         = [];
+		this._onLogout        = [];
 		this._onFlowChange    = [];
 		this._onIsLoggedIn    = [];
 		this._onTransferToken = [];
 		this._onAVSStatus     = [];
 		this._onBalance       = [];
 		this._onActiveAbos    = [];
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onLogout(handler) {
+		this._onLogout.push(handler);
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnLogout(handler) {
+		return this._onLogout.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -162,6 +180,7 @@ VXPayPaymentHooksConfig.ON_CONTENT_LOADED = 'onContentLoaded';
 VXPayPaymentHooksConfig.ON_CLOSE          = 'onClose';
 VXPayPaymentHooksConfig.ON_SUCCESS        = 'onSuccess';
 VXPayPaymentHooksConfig.ON_LOGIN          = 'onLogin';
+VXPayPaymentHooksConfig.ON_LOGOUT         = 'onLogout';
 VXPayPaymentHooksConfig.ON_FLOW_CHANGE    = 'onFlowChange';
 VXPayPaymentHooksConfig.ON_IS_LOGGED_IN   = 'onIsLoggedIn';
 VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN = 'onTransferToken';

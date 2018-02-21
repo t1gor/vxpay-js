@@ -68,6 +68,7 @@ VXPayMessage.TYPE_IS_LOGGED_IN           = 'modalbox-response-isLoggedIn';
 VXPayMessage.TYPE_AVS_STATUS             = 'modalbox-response-getavsstatus';
 VXPayMessage.TYPE_BALANCE                = 'modalbox-response-getbalance';
 VXPayMessage.TYPE_ACTIVE_ABOS            = 'modalbox-response-getactiveabos';
+VXPayMessage.TYPE_LOGGED_OUT             = 'modalbox-response-logout';
 
 VXPayMessage.TYPE_ACTION_GET_ACTIVE_ABOS = 'modalbox-action-getactiveabos';
 VXPayMessage.TYPE_ACTION_LOGOUT          = 'modalbox-action-logout';
