@@ -57,14 +57,14 @@
 		 * @param {Boolean} enable
 		 */
 		onToggleTab = function(enable) {
-			config = new VX.VXPayConfig();
+			config = new VX.VXPayConfig(window);
 			config.enableTab = enable;
 			config.logging = true;
 			vxpay = new VX.VXPay(config, window);
 		};
 
 		__init = function() {
-			config = new VX.VXPayConfig();
+			config = new VX.VXPayConfig(window);
 			config.logging = true;
 			config.language = VX.VXPayLanguage.EN;
 			vxpay = new VX.VXPay(config, window);
@@ -94,7 +94,13 @@
 		getAbos = function() {
 			vxpay.getActiveAbos()
 				.then(function(msg) {
-					confirm('Active abos: ' + msg.abos.length)
+					var abos = '';
+
+					msg.abos.forEach(function(abo) {
+						abos += abo.name + ' (' + abo.amount + '), ';
+					});
+
+					confirm('Active abos: ' + abos)
 				});
 		};
 
