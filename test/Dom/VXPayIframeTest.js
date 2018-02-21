@@ -5,13 +5,17 @@ import VXPayIframe from './../../src/VXPay/Dom/VXPayIframe'
 
 const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>";
 
-describe('VXPayDomHelper', () => {
+describe('VXPayIframeTest', () => {
 	describe('#constructor()', () => {
 		it('Should throw an error on an invalid Document', () => {
 			assert.throws(() => new VXPayIframe({}), TypeError, 'An iFrame can only be build on a valid Document object!')
 		});
 		it('Should create an iframe element on valid Document', () => {
 			const dom    = new JSDOM(testDocument);
+
+			// inject URL (from Node)
+			dom.window.URL = URL;
+
 			const iframe = new VXPayIframe(dom.window.document, 'http://example.com', 'test-frame');
 
 			// can't compare instance of objects as node.js doesn't have HTMLIframeElement

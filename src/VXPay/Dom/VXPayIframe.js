@@ -16,7 +16,7 @@ class VXPayIframe extends VXPayEventListener {
 			throw new TypeError('An iFrame can only be build on a valid Document object!');
 		}
 
-		if (!VXPayValidator.isUrl(url)) {
+		if (!VXPayValidator.isUrl(url, document.defaultView.URL)) {
 			throw new TypeError('Please provide a valid URL! ' + url);
 		}
 
@@ -25,7 +25,6 @@ class VXPayIframe extends VXPayEventListener {
 		}
 
 		this._loaded          = false;
-		this._onLoadCallbacks = [];
 		this._frame           = document.createElement(VXPayDomHelper.TAG_IFRAME);
 		this._frame.src       = url;
 		this._frame.id        = id;
@@ -98,7 +97,7 @@ class VXPayIframe extends VXPayEventListener {
 	 * @param {Function} handler
 	 */
 	removeMessageHandler(handler) {
-		VXPayIframe.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.window, handler);
+		VXPayIframe.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
 	}
 
 	show() {

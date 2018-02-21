@@ -2,19 +2,17 @@ import VXPayLanguage    from './VXPayLanguage'
 import VXPayEnvironment from './VXPayEnvironment'
 import VXPayFlow        from './Config/VXPayFlow'
 import VXPayModalConfig from './Config/VXPayModalConfig'
+import VXPayUrlHelper   from './VXPayUrlHelper'
 
 export default class VXPayValidator {
 	/**
 	 * @param {String} url
+	 * @param {URL} urlImplementation
 	 * @return {boolean}
 	 */
-	static isUrl(url) {
-		try {
-			new URL(url);
-			return true;
-		} catch (_) {
-			return false;
-		}
+	static isUrl(url, urlImplementation = undefined) {
+		const helper = new VXPayUrlHelper(urlImplementation);
+		return helper.isValid(url);
 	}
 
 	/**

@@ -1,7 +1,8 @@
 import {JSDOM}        from 'jsdom';
-import VXPayDomHelper from './../../src/VXPay/Dom/VXPayDomHelper';
-import {assert}       from 'chai';
-import sinon          from 'sinon';
+import {assert}       from 'chai'
+import sinon          from 'sinon'
+import {URL}          from 'url'
+import VXPayDomHelper from './../../src/VXPay/Dom/VXPayDomHelper'
 
 const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>";
 

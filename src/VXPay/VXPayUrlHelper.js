@@ -59,4 +59,17 @@ export default class VXPayUrlHelper {
 			return '';
 		}
 	}
+
+	/**
+	 * @param {String} url
+	 * @return {boolean}
+	 */
+	isValid(url) {
+		try {
+			new this._urlImpl(url);
+			return true;
+		} catch (_) {
+			return false;
+		}
+	}
 }

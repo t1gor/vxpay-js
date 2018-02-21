@@ -1,13 +1,22 @@
 import {assert}         from 'chai'
+import {JSDOM}          from 'jsdom'
+import {URL} from 'url'
 import VXPayConfig      from '../src/VXPay/VXPayConfig'
 import VXPayEnvironment from './../src/VXPay/VXPayEnvironment'
 import VXPayLanguage    from './../src/VXPay/VXPayLanguage'
 import VXPayFlow        from '../src/VXPay/Config/VXPayFlow'
 
+const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>";
+
 describe('VXConfig', () => {
 	describe('#constructor()', () => {
 		it('Will set default values', () => {
-			const config = new VXPayConfig(),
+			const dom = new JSDOM(testDocument);
+
+			// inject URL (from Node)
+			dom.window.URL = URL;
+
+			const config = new VXPayConfig(dom.window),
 			      defaultLang = VXPayLanguage.getDefault();
 
 			assert.isFalse(config.logging, 'Logging is disabled by default');

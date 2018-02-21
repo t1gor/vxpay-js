@@ -1,15 +1,16 @@
 import {assert}       from 'chai'
 import {describe, it} from 'mocha'
 import VXPayUrlHelper from './../src/VXPay/VXPayUrlHelper'
-import { URL } from 'url'
+import {URL}          from 'url'
 
 describe('VXPayUrlHelper', () => {
 	describe('#generateUrl()', () => {
 		let helper;
 
 		/** Setup helper with URL */
-		beforeEach(() => {
+		beforeEach(done => {
 			helper = new VXPayUrlHelper(URL);
+			done();
 		});
 
 		it('Should return the base URL if no params or config', () => {
