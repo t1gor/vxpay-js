@@ -29,11 +29,13 @@ import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPa
 import VXPaySetAVSFlowMiddleware        from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
 import VXPayShowAVSMiddleware           from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
 import VXPayOnAVSStatusListenMiddleware from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
-import VXPayAVSStatusTriggerMiddleware  from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
-import VXPayGetBalanceMessage           from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
-import VXPayListenForBalanceMiddleware  from "./VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware";
-import VXPayBalanceTriggerMiddleware    from "./VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware";
-import VXPayGetActiveAbosMessage        from "./VXPay/Message/Actions/VXPayGetActiveAbosMessage";
+import VXPayAVSStatusTriggerMiddleware    from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
+import VXPayGetBalanceMessage             from "./VXPay/Message/Actions/VXPayGetBalanceMessage";
+import VXPayListenForBalanceMiddleware    from "./VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware";
+import VXPayBalanceTriggerMiddleware      from "./VXPay/Middleware/Actions/VXPayBalanceTriggerMiddleware";
+import VXPayGetActiveAbosMessage          from "./VXPay/Message/Actions/VXPayGetActiveAbosMessage";
+import VXPayListenForActiveAbosMiddleware from "./VXPay/Middleware/Actions/VXPayListenForActiveAbosMiddleware";
+import VXPayActiveAbosTriggerMiddleware   from "./VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware";
 
 export default class VXPay {
 	/**
@@ -267,19 +269,8 @@ export default class VXPay {
 	getActiveAbos() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => {
-					if (!vxpay.hooks.hasOnActiveAbos(resolve)) {
-						vxpay.hooks.onActiveAbos(resolve);
-					}
-
-					if (vxpay.config.token === '') {
-						vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(new VXPayGetActiveAbosMessage));
-					} else {
-						vxpay.paymentFrame.postMessage(new VXPayGetActiveAbosMessage);
-					}
-
-					return vxpay;
-				})
+				.then(vxpay => VXPayListenForActiveAbosMiddleware(vxpay, resolve))
+				.then(VXPayActiveAbosTriggerMiddleware)
 				.catch(reject)
 		})
 	}
