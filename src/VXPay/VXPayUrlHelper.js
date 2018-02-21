@@ -1,14 +1,19 @@
-import { URL } from 'whatwg-url'
-
 export default class VXPayUrlHelper {
+	/**
+	 * @param {Function} urlImplementation
+	 */
+	constructor(urlImplementation = undefined) {
+		this._urlImpl = typeof urlImplementation === 'undefined' ? window.URL : urlImplementation;
+	}
+
 	/**
 	 * @param {String} baseUrl
 	 * @param {Object} params
 	 * @param {Object} config
 	 * @return {string}
 	 */
-	static generate(baseUrl, params = undefined, config = undefined) {
-		let url = new URL(baseUrl);
+	 generate(baseUrl, params = undefined, config = undefined) {
+		let url = new this._urlImpl(baseUrl);
 
 		// fix url, remove existing hashes
 		url.hash = '';

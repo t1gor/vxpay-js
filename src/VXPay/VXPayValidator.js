@@ -1,8 +1,7 @@
 import VXPayLanguage    from './VXPayLanguage'
 import VXPayEnvironment from './VXPayEnvironment'
 import VXPayFlow        from './Config/VXPayFlow'
-import { URL }          from 'whatwg-url'
-import VXPayModalConfig from "./Config/VXPayModalConfig";
+import VXPayModalConfig from './Config/VXPayModalConfig'
 
 export default class VXPayValidator {
 	/**

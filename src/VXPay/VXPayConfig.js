@@ -9,9 +9,10 @@ import VXPayFlowChangedHookMessage from "./Message/Hooks/VXPayFlowChangedMessage
 
 class VXPayConfig {
 	/**
+	 * @param {Window} window
 	 * @param {VXPayModalConfig} modalConfig
 	 */
-	constructor(modalConfig = undefined) {
+	constructor(window, modalConfig = undefined) {
 		this._env     = VXPayEnvironment.DEVELOPMENT;
 		this._logging = false;
 		this._flow    = VXPayFlow.getDefault();
@@ -38,6 +39,8 @@ class VXPayConfig {
 			? new VXPayModalConfig()
 			: modalConfig;
 		this._modalConfig = modalConfig;
+
+		this._helper = new VXPayUrlHelper(window.URL);
 	}
 
 	/**
@@ -45,7 +48,7 @@ class VXPayConfig {
 	 * @return {string}
 	 */
 	getPaymentFrameUrl() {
-		return VXPayUrlHelper.generate(
+		return this._helper.generate(
 			VXPayIframe.ORIGIN + '/VXPAY-V' + this._apiVersion + '/',
 			this.getOptions(),
 			this._modalConfig

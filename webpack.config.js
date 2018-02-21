@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-	entry: ['babel-polyfill', './src/main.js'],
+	entry: ['babel-polyfill', 'url-polyfill', './src/main.js'],
 	output: {
 		path: path.resolve(__dirname, 'build'),
 		filename: 'vxpay.min.js',

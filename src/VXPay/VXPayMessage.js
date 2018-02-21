@@ -1,5 +1,3 @@
-import VXPay from "../VXPay";
-
 class VXPayMessage {
 
 	/**

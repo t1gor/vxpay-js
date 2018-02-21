@@ -50,13 +50,13 @@
 
 	<!-- Load the library -->
 	<script type="text/javascript">
-		let vxpay, config;
+		var vxpay, config;
 
 		/**
 		 * Re-init as tab
-		 * @param enable
+		 * @param {Boolean} enable
 		 */
-		onToggleTab = function(enable = false) {
+		onToggleTab = function(enable) {
 			config = new VX.VXPayConfig();
 			config.enableTab = enable;
 			config.logging = true;
@@ -72,26 +72,36 @@
 
 		isLoggedInAction = function() {
 			vxpay.isLoggedIn()
-				.then(msg => confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO')))
+				.then(function(msg) {
+					confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO'))
+				})
 		};
 
 		getAvsStatus = function() {
 			vxpay.getAVSStatus()
-				.then(msg => confirm('AVS status: ' + (msg.status.fsk18 === true ? 'FSK18' : '<unknown>')))
+				.then(function(msg) {
+					confirm('AVS status: ' + (msg.status.fsk18 === true ? 'FSK18' : '<unknown>'))
+				})
 		};
 
 		getBalance = function() {
 			vxpay.getBalance()
-				.then(msg => confirm('Current balance: ' + msg.balance.toString()));
+				.then(function(msg) {
+					confirm('Current balance: ' + msg.balance.toString())
+				});
 		};
 
 		getAbos = function() {
 			vxpay.getActiveAbos()
-				.then(msg => confirm('Active abos: ' + msg.abos.length));
+				.then(function(msg) {
+					confirm('Active abos: ' + msg.abos.length)
+				});
 		};
 
 		logout = function() {
-			vxpay.logout().then(msg => alert('User logged out'));
+			vxpay.logout().then(function(msg) {
+				alert('User logged out');
+			});
 		}
 	</script>
 	<script type="text/javascript" src="./../build/vxpay.min.js" onload="__init()"></script>
