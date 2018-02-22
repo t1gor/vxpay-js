@@ -51,9 +51,9 @@ export default class VXPayUrlHelper {
 	 * @param {String} name
 	 * @return {String}
 	 */
-	static getQueryParam(location, name) {
+	 getQueryParam(location, name) {
 		try {
-			const url = new URL(location);
+			const url = new this._urlImpl(location);
 			return url.searchParams[name];
 		} catch (err) {
 			return '';

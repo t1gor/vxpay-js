@@ -3,17 +3,9 @@ import VXPayLogger                         from './VXPay/VXPayLogger'
 import VXPayHelperFrame                    from './VXPay/Dom/Frame/VXPayHelperFrame'
 import VXPayPaymentFrame                   from './VXPay/Dom/Frame/VXPayPaymentFrame'
 import VXPayPaymentTab                     from './VXPay/Dom/Frame/VXPayPaymentTab'
-import VXPaySetLoginFlowMiddleware         from './VXPay/Middleware/Flow/VXPaySetLoginFlowMiddleware'
-import VXPayShowLoginMiddleware            from './VXPay/Middleware/Show/VXPayShowLoginMiddleware'
-import VXPayShowSignUpMiddleware           from './VXPay/Middleware/Show/VXPayShowSignUpMiddleware'
-import VXPaySetMoneyChargeMiddleware       from './VXPay/Middleware/Flow/VXPaySetMoneyChargeMiddleware'
 import VXPaySetLimitFlowMiddleware         from './VXPay/Middleware/Flow/VXPaySetLimitFlowMiddleware'
-import VXPaySetSettingsFlowMiddleware      from './VXPay/Middleware/Flow/VXPaySetSettingsFlowMiddleware'
 import VXPayShowMiddleware                 from './VXPay/Middleware/Show/VXPayShowMiddleware'
 import VXPaySetVipAboFlowMiddleware        from './VXPay/Middleware/Flow/VXPaySetVipAboFlowMiddleware'
-import VXPayShowAboMiddleware              from './VXPay/Middleware/Show/VXPayShowAboMiddleware'
-import VXPaySetPasswordResetMiddleware     from './VXPay/Middleware/Flow/VXPaySetPasswordResetMiddleware'
-import VXPaySetPasswordLostMiddleware      from './VXPay/Middleware/Flow/VXPaySetPasswordLostFlowMiddleware'
 import VXPayInitPaymentMiddleware          from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
 import VXPayInitHelperMiddleware           from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
 import VXPaySetChangeCardMiddleware        from './VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware'
@@ -36,6 +28,16 @@ import VXPayListenForActiveAbosMiddleware  from './VXPay/Middleware/Actions/VXPa
 import VXPayActiveAbosTriggerMiddleware    from './VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware'
 import VXPayListenForLogoutMiddleware      from './VXPay/Middleware/Actions/VXPayListenForLogoutMiddleware'
 import VXPayLogoutTriggerMiddleware        from './VXPay/Middleware/Actions/VXPayLogoutTriggerMiddleware'
+import VXPayState                          from './VXPay/Model/VXPayState'
+import VXPayWhenTokenTransferred           from './VXPay/Middleware/Condition/VXPayWhenTokenTransferred'
+import VXPayOpenLoginCommand               from './VXPay/Middleware/Command/VXPayOpenLoginCommand'
+import VXPayOpenSignUpCommand              from './VXPay/Middleware/Command/VXPayOpenSignUpCommand'
+import VXPayOpenVoiceCallCommand           from './VXPay/Middleware/Command/VXPayOpenVoiceCallCommand'
+import VXPayOpenPaymentCommand             from './VXPay/Middleware/Command/VXPayOpenPaymentCommand'
+import VXPayOpenSettingsCommand            from './VXPay/Middleware/Command/VXPayOpenSettingsCommand'
+import VXPayOpenAboCommand                 from './VXPay/Middleware/Command/VXPayOpenAboCommand'
+import VXPayResetPasswordCommand           from './VXPay/Middleware/Command/VXPayResetPasswordCommand'
+import VXPayLostPasswordCommand            from './VXPay/Middleware/Command/VXPayLostPasswordCommand'
 
 export default class VXPay {
 	/**
@@ -44,7 +46,15 @@ export default class VXPay {
 	constructor(config) {
 		this.config      = config;
 		this.logger      = new VXPayLogger(this.config.logging, this.config.window);
+		this._state      = new VXPayState();
 		this._apiVersion = 3;
+	}
+
+	/**
+	 * @return {VXPayState}
+	 */
+	get state() {
+		return this._state;
 	}
 
 	/**
@@ -67,18 +77,39 @@ export default class VXPay {
 	 * @return {Promise<VXPay>}
 	 */
 	openLogin() {
-		return this._initPaymentFrame()
-			.then(VXPaySetLoginFlowMiddleware)
-			.then(VXPayShowLoginMiddleware);
+		return new Promise((resolve, reject) => {
+			return this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenLoginCommand)
+				.then(resolve)
+				.catch(reject)
+		});
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openSignUp() {
-		return this._initPaymentFrame()
-			.then(VXPaySetLoginFlowMiddleware)
-			.then(VXPayShowSignUpMiddleware);
+		return new Promise((resolve, reject) => {
+			return this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenSignUpCommand)
+				.then(resolve)
+				.catch(reject)
+		});
+	}
+
+	/**
+	 * @return {Promise<VXPay>}
+	 */
+	openVoiceCall() {
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenVoiceCallCommand.run)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
@@ -87,52 +118,75 @@ export default class VXPay {
 	openSignUpOrLogin() {
 		return this._initHelperFrame()
 			.then(vxpay => vxpay.helperFrame.getLoginCookie())
-			.then(hasLoginCookieMessage => hasLoginCookieMessage.hasCookie ? this.openLogin() : this.openSignUp())
+			.then(msg => msg.hasCookie ? this.openLogin() : this.openSignUp())
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openPayment() {
-		this._initPaymentFrame()
-			.then(VXPaySetMoneyChargeMiddleware)
-			.then(VXPayShowMiddleware);
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenPaymentCommand.run)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openAbo() {
-		return this._initPaymentFrame()
-			.then(VXPaySetVipAboFlowMiddleware)
-			.then(VXPayShowAboMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenAboCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openSettings() {
-		this._initPaymentFrame()
-			.then(VXPaySetSettingsFlowMiddleware)
-			.then(VXPayShowMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenSettingsCommand.run)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
+	 * @note most times opens registration?
+	 * @note some times view-ready is not fired?
+	 *
 	 * @return {Promise<VXPay>}
 	 */
 	resetPassword() {
-		return this._initPaymentFrame()
-			.then(VXPaySetPasswordResetMiddleware)
-			.then(VXPayShowMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayResetPasswordCommand.run)
+				.then(resolve)
+				.catch(reject);
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	lostPassword() {
-		this._initPaymentFrame()
-			.then(VXPaySetPasswordLostMiddleware)
-			.then(VXPayShowMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayLostPasswordCommand.run)
+				.then(resolve)
+				.catch(reject);
+		})
 	}
 
 	/**

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>VXPay - sample integration</title>
@@ -14,13 +15,13 @@
 						<input type="checkbox" name="use-tab" id="use-tab" onchange="onToggleTab(document.getElementById('use-tab').checked)" />
 						Open in a new tab
 					</label>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openLogin()">Login</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openSignUp()">Register</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openSignUpOrLogin()">Login or Register</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.resetPassword()">Reset password</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.lostPassword()">Lost password</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-login">Login</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-signup">Register</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-login-or-signup">Login or Register</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="reset-password">Reset password</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="lost-password">Lost password</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openPayment()">General Payment</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#">Voice call</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-voice-call">Voice call</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.limitPayment()">Limited payment</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.changeCard()">Change card</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openAbo()">VIP abo</a>
@@ -69,6 +70,43 @@
 			config.language = VX.VXPayLanguage.EN;
 			vxpay = new VX.VXPay(config);
 		};
+
+		document.addEventListener('DOMContentLoaded', function() {
+			/** Open login click handler */
+			document.getElementById('open-login').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openLogin().then(function() { console.log('Login opened') });
+			};
+
+			/** Open registration */
+			document.getElementById('open-signup').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openSignUp().then(function() { console.log('SignUp opened') });
+			};
+
+			/** Open registration or login */
+			document.getElementById('open-login-or-signup').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openSignUpOrLogin().then(function() { console.log('Opened') });
+			};
+
+			/** Password reset */
+			document.getElementById('reset-password').onclick = function(e) {
+				e.preventDefault();
+				vxpay.resetPassword().then(function() { console.log('Opened password reset') });
+			};
+
+			/** Password lost */
+			document.getElementById('lost-password').onclick = function(e) {
+				e.preventDefault();
+				vxpay.lostPassword().then(function() { console.log('Opened password lost') });
+			};
+
+			document.getElementById('open-voice-call').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openVoiceCall().then(function() { console.log('Open voice call') });
+			}
+		});
 
 		isLoggedInAction = function() {
 			vxpay.isLoggedIn()

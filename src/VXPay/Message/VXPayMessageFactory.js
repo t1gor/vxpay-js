@@ -58,7 +58,7 @@ export default class VXPayMessageFactory {
 				return new VXPayViewReadyMessage();
 
 			case VXPayMessage.TYPE_IFRAME_CLOSE:
-				return new VXPayIframeCloseMessage();
+				return new VXPayIframeCloseMessage(message.data);
 
 			case VXPayMessage.TYPE_IS_VISIBLE:
 				return new VXPayIsVisibleMessage();

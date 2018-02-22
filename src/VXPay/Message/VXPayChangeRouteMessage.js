@@ -6,6 +6,10 @@ export default class VXPayChangeRouteMessage extends VXPayMessage {
 	 */
 	constructor(route = '') {
 		super(VXPayMessage.TYPE_CHANGE_ROUTE);
-		this.route = route;
+
+		// change route message can be empty
+		if (route.length > 0) {
+			this.route = route;
+		}
 	}
 }

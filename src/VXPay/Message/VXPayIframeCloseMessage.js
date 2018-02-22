@@ -1,7 +1,11 @@
 import VXPayMessage from './../VXPayMessage'
 
 export default class VXPayIframeCloseMessage extends VXPayMessage {
-	constructor(type = '') {
+	/**
+	 * @param {Object} data
+	 */
+	constructor(data = {}) {
 		super(VXPayMessage.TYPE_IFRAME_CLOSE);
+		this.data = data;
 	}
 }

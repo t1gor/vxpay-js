@@ -20,7 +20,9 @@ class VXPayConfig {
 		this._urls    = {
 			abg:     VXPayConfig.ABG_DEFAULT.replace('{language}', this._lang),
 			privacy: VXPayConfig.PRIVACY_DEFAULT.replace('{language}', this._lang),
-			ruri:    ''
+			ruri:    '',
+			suri:    '',
+			purl:    ''
 		};
 
 		this._pfm        = '';
@@ -85,6 +87,20 @@ class VXPayConfig {
 			tt:          this._token,
 			ruri:        this._urls.ruri,
 			host:        this._host
+		};
+	}
+
+	/**
+	 * @return {Object}
+	 */
+	getAdditionalOptions() {
+		return {
+			ref:   this._wmId,
+			ruri:  this._urls.ruri,
+			surl:  this._urls.suri,
+			aurl:  this.abgUrl,
+			prurl: this.privacyUrl,
+			purl:  this._urls.purl
 		};
 	}
 

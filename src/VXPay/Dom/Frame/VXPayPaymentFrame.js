@@ -1,14 +1,15 @@
 import VXPayIframe              from './../VXPayIframe'
 import VXPayInitSessionMessage  from './../../Message/VXPayInitSessionMessage'
 import VXPayUpdateParamsMessage from './../../Message/VXPayUpdateParamsMessage'
-import VXPayChangeRouteMessage  from './../../Message/VXPayChangeRouteMessage'
-import VXPayUserAgentHelper     from './../../VXPayUserAgentHelper'
-import VXPayDomHelper           from './../VXPayDomHelper'
-import VXPayEventListener       from './../../Event/VXPayEventListener'
-import VXPayPaymentHooksConfig  from './../../Config/VXPayPaymentHooksConfig'
-import VXPayMessage             from './../../VXPayMessage'
-import VXPayHookRouter          from './../../Message/Hooks/VXPayHookRouter'
-import VXPayIsVisibleMessage    from "../../Message/VXPayIsVisibleMessage";
+import VXPayChangeRouteMessage       from './../../Message/VXPayChangeRouteMessage'
+import VXPayUserAgentHelper          from './../../VXPayUserAgentHelper'
+import VXPayDomHelper                from './../VXPayDomHelper'
+import VXPayEventListener            from './../../Event/VXPayEventListener'
+import VXPayPaymentHooksConfig       from './../../Config/VXPayPaymentHooksConfig'
+import VXPayMessage                  from './../../VXPayMessage'
+import VXPayHookRouter               from './../../Message/Hooks/VXPayHookRouter'
+import VXPayIsVisibleMessage         from "../../Message/VXPayIsVisibleMessage";
+import VXPayAdditionalOptionsMessage from "../../Message/VXPayAdditionalOptionsMessage";
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
@@ -30,7 +31,9 @@ class VXPayPaymentFrame extends VXPayIframe {
 		this._frame.name              = 'vxpay';
 
 		// hooks config
-		this._hooks = new VXPayPaymentHooksConfig();
+		this._hooks        = new VXPayPaymentHooksConfig();
+		this._currentRoute = '';
+		this._sessionInitialized = false;
 
 		// listen for incoming post messages
 		this.startListening();
@@ -113,24 +116,30 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 * Override to add a before send hook
 	 * @param {String|VXPayMessage} message
 	 * @param {String} origin
+	 * @return {VXPayPaymentFrame}
 	 */
 	postMessage(message, origin = '*') {
 		this._hooks.trigger(VXPayPaymentHooksConfig.ON_BEFORE_SEND, [message]);
 		super.postMessage(message, origin);
+		return this;
 	}
 
 	/**
 	 * @param {String|undefined} token
+	 * @return {VXPayPaymentFrame}
 	 */
 	initSession(token = undefined) {
+		if (this._sessionInitialized) {
+			return this;
+		}
+
 		token = token || null;
 
 		// init lazy loading session
 		this.postMessage(new VXPayInitSessionMessage(token));
-	}
+		this._sessionInitialized = true;
 
-	sendAction() {
-
+		return this;
 	}
 
 	/**
@@ -143,19 +152,20 @@ class VXPayPaymentFrame extends VXPayIframe {
 	}
 
 	/**
-	 * @param {String} path
+	 * @param {Object} options
+	 * @return {VXPayPaymentFrame}
 	 */
-	show(path = 'login') {
-		this.changeRoute('/' + path);
-		this.initSession();
-		super.show();
+	sendAdditionalOptions(options = {}) {
+		this.postMessage(new VXPayAdditionalOptionsMessage(options));
+		return this;
 	}
 
 	/**
 	 * @param {String} route
+	 * @return {VXPayPaymentFrame}
 	 */
-	changeRoute(route) {
-		this.postMessage(new VXPayChangeRouteMessage(route));
+	changeRoute(route = '') {
+		return this.postMessage(new VXPayChangeRouteMessage(route));
 	}
 
 	/**

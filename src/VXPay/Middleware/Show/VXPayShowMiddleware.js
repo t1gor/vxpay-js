@@ -3,8 +3,8 @@
  * @param {String} show
  * @return {VXPay}
  */
-const VXPayShowMiddleware = (vxpay, show = '/') => {
-	vxpay.paymentFrame.show();
+const VXPayShowMiddleware = (vxpay, show = '') => {
+	vxpay.paymentFrame.show(show);
 	return vxpay;
 };
 

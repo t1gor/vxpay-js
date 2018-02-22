@@ -1,5 +1,5 @@
 import {assert}         from 'chai'
-import VXPayConfig      from '../src/VXPay/VXPayConfig'
+import VXPayConfig      from './../src/VXPay/VXPayConfig'
 import VXPayEnvironment from './../src/VXPay/VXPayEnvironment'
 import VXPayLanguage    from './../src/VXPay/VXPayLanguage'
 import VXPayFlow        from './../src/VXPay/Config/VXPayFlow'

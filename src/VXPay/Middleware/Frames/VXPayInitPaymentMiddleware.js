@@ -32,9 +32,16 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 		// set resolve hook
 		vxpay.paymentFrame
 			.hooks
+			// state updates
+			.onIframeReady(vxpay.state.markFrameReady.bind(vxpay.state))
+			.onContentLoaded(vxpay.state.markContentLoaded.bind(vxpay.state))
+			.onTransferToken(vxpay.state.markHasToken.bind(vxpay.state))
+			// functional hooks
 			.onTransferToken(vxpay.config.setTokenFromMessage.bind(vxpay.config))
 			.onFlowChange(vxpay.config.updateFlow.bind(vxpay.config))
+			// show frame and send isVisible
 			.onViewReady(vxpay.paymentFrame.setVisible.bind(vxpay.paymentFrame))
+			.onViewReady(vxpay.paymentFrame.show.bind(vxpay.paymentFrame))
 			.onSuccess(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
 			.onClose(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
 			.onContentLoaded(msg => resolve(vxpay));

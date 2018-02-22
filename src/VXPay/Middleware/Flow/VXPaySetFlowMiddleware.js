@@ -4,11 +4,6 @@
  * @return {VXPay}
  */
 const VXPaySetFlowMiddleware = (vxpay, flow) => {
-	// check not already same
-	if (vxpay.config.flow === flow) {
-		return vxpay;
-	}
-
 	const newFlow = {
 		flow: flow
 	};

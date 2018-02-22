@@ -1,0 +1,26 @@
+import VXPayPaymentType   from './../../Config/VXPayPaymentType'
+import VXPayFlow          from './../../Config/VXPayFlow'
+import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
+
+class VXPayOpenVoiceCallCommand {
+	/**
+	 * @param {VXPay} vxpay
+	 * @return {VXPay}
+	 */
+	static run(vxpay) {
+		vxpay.paymentFrame
+			.sendOptions(VXPayOpenVoiceCallCommand.PARAMS)
+			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+			.changeRoute(VXPayPaymentRoutes.PAYMENT)
+			.initSession();
+
+		return vxpay;
+	}
+}
+
+VXPayOpenVoiceCallCommand.PARAMS = {
+	flow:    VXPayFlow.MONEY_CHARGE,
+	paytype: VXPayPaymentType.VOICE_CALL
+};
+
+export default VXPayOpenVoiceCallCommand;

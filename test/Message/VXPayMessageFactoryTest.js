@@ -84,13 +84,5 @@ describe('VXPayMessageFactory', () => {
 			// assert called with correct data
 			sinon.assert.calledWith(fromData, JSON.parse(json).data);
 		});
-		it('Will return a VXPaySuccessMessage object on corresponding event', () => {
-			const json     = VXPayTestFx.getMessage('login-success'),
-			      userData = JSON.parse(json).data,
-			      msg      = VXPayMessageFactory.fromJson(json);
-
-			assert.instanceOf(msg, VXPaySuccessMessage);
-			assert.equal(JSON.stringify(msg.user), JSON.stringify(userData));
-		});
 	})
 });
