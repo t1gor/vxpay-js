@@ -20,20 +20,19 @@
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-login-or-signup">Login or Register</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="reset-password">Reset password</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="lost-password">Lost password</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openPayment()">General Payment</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-payment">General Payment</a>
 					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-voice-call">Voice call</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.limitPayment()">Limited payment</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.changeCard()">Change card</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openAbo()">VIP abo</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.vipAboTrial()">VIP trial abo</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.premiumAbo()">Premium abo</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openSettings()">Extended settings</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openAVS()">Age verification</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openPromoCode()">Promo code</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openScratchCard()">Scratch card</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openOneClick()">One click</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openAutoReCharge()">Auto recharge</a>
-					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="javascript:vxpay.openBalance()">Open balance</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-limited">Limited payment</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-abo">VIP abo</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-abo-trial">VIP trial abo</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-abo-premium">Premium abo</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-settings">Extended settings</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-avs">Age verification</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-promo-code">Promo code</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-scratch-card">Scratch card</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-one-click">One click</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-auto-recharge">Auto recharge</a>
+					<a class="mdc-button mdc-button--raised mdc-layout-grid__cell--span-3" href="#" id="open-balance">Open balance</a>
 				</div>
 			</div>
 			<div class="mdc-layout-grid__cell--span-12">
@@ -105,6 +104,81 @@
 			document.getElementById('open-voice-call').onclick = function(e) {
 				e.preventDefault();
 				vxpay.openVoiceCall().then(function() { console.log('Open voice call') });
+			};
+
+			document.getElementById('open-payment').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openPayment().then(function() { console.log('Open payment') });
+			};
+
+			document.getElementById('open-limited').onclick = function(e) {
+				e.preventDefault();
+				vxpay.limitPayment().then(function() { console.log('Open payment (limited)') });
+			};
+
+			document.getElementById('open-limited').onclick = function(e) {
+				e.preventDefault();
+				vxpay.limitPayment().then(function() { console.log('Open payment (limited)'); });
+			};
+
+			document.getElementById('open-abo').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openAbo().then(function() { console.log('Open abo'); });
+			};
+
+			document.getElementById('open-abo-trial').onclick = function(e) {
+				e.preventDefault();
+				vxpay.vipAboTrial().then(function() { console.log('Open abo (trial)'); });
+			};
+
+			document.getElementById('open-abo-premium').onclick = function(e) {
+				e.preventDefault();
+				vxpay.premiumAbo().then(function() { console.log('Open abo (premium)'); });
+			};
+
+			document.getElementById('open-settings').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openSettings().then(function() { console.log('Open settings'); });
+			};
+
+			document.getElementById('open-settings').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openSettings().then(function() { console.log('Open settings'); });
+			};
+
+			document.getElementById('open-avs').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openAVS().then(function() { console.log('Open age verification'); });
+			};
+
+			document.getElementById('open-avs').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openAVS().then(function() { console.log('Open age verification'); });
+			};
+
+			document.getElementById('open-promo-code').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openPromoCode().then(function() { console.log('Open promo code'); });
+			};
+
+			document.getElementById('open-scratch-card').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openScratchCard().then(function() { console.log('Open scratch card'); });
+			};
+
+			document.getElementById('open-one-click').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openOneClick().then(function() { console.log('Open one click'); });
+			};
+
+			document.getElementById('open-auto-recharge').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openAutoReCharge().then(function() { console.log('Open one auto re-charge'); });
+			};
+
+			document.getElementById('open-balance').onclick = function(e) {
+				e.preventDefault();
+				vxpay.openBalance().then(function() { console.log('Open `open balance`'); });
 			}
 		});
 

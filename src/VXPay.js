@@ -3,23 +3,9 @@ import VXPayLogger                         from './VXPay/VXPayLogger'
 import VXPayHelperFrame                    from './VXPay/Dom/Frame/VXPayHelperFrame'
 import VXPayPaymentFrame                   from './VXPay/Dom/Frame/VXPayPaymentFrame'
 import VXPayPaymentTab                     from './VXPay/Dom/Frame/VXPayPaymentTab'
-import VXPaySetLimitFlowMiddleware         from './VXPay/Middleware/Flow/VXPaySetLimitFlowMiddleware'
-import VXPayShowMiddleware                 from './VXPay/Middleware/Show/VXPayShowMiddleware'
-import VXPaySetVipAboFlowMiddleware        from './VXPay/Middleware/Flow/VXPaySetVipAboFlowMiddleware'
 import VXPayInitPaymentMiddleware          from './VXPay/Middleware/Frames/VXPayInitPaymentMiddleware'
 import VXPayInitHelperMiddleware           from './VXPay/Middleware/Frames/VXPayInitHelperMiddleware'
-import VXPaySetChangeCardMiddleware        from './VXPay/Middleware/Flow/VXPaySetChangeCardMiddleware'
-import VXPaySetVIpAboTrialMiddleware       from './VXPay/Middleware/Flow/VXPaySetVIpAboTrialMiddleware'
-import VXPaySetPromoCodeMiddleware         from './VXPay/Middleware/Flow/VXPaySetPromoCodeMiddleware'
-import VXPayShowPromoCodeMiddleware        from './VXPay/Middleware/Show/VXPayShowPromoCodeMiddleware'
-import VXPaySetScratchCardMiddleware       from './VXPay/Middleware/Flow/VXPaySetScratchCardMiddleware'
-import VXPaySetOneClickMiddleware          from './VXPay/Middleware/Flow/VXPaySetOneClickMiddleware'
-import VXPaySetAutoRechargeMiddleware      from './VXPay/Middleware/Flow/VXPaySetAutoRechargeMiddleware'
-import VXPayShowOpenBalanceMiddleware      from './VXPay/Middleware/Show/VXPayShowOpenBalanceMiddleware'
-import VXPaySetOpenBalanceMiddleware       from './VXPay/Middleware/Flow/VXPaySetOpenBalanceMiddleware'
 import VXPayListenOrCallLoggedInMiddleware from './VXPay/Middleware/Actions/VXPayListenOrCallLoggedInMiddleware'
-import VXPaySetAVSFlowMiddleware           from './VXPay/Middleware/Flow/VXPaySetAVSFlowMiddleware'
-import VXPayShowAVSMiddleware              from './VXPay/Middleware/Show/VXPayShowAVSMiddleware'
 import VXPayOnAVSStatusListenMiddleware    from './VXPay/Middleware/Actions/VXPayOnAVSStatusListenMiddleware'
 import VXPayAVSStatusTriggerMiddleware     from './VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
 import VXPayListenForBalanceMiddleware     from './VXPay/Middleware/Actions/VXPayListenForBalanceMiddleware'
@@ -38,6 +24,14 @@ import VXPayOpenSettingsCommand            from './VXPay/Middleware/Command/VXPa
 import VXPayOpenAboCommand                 from './VXPay/Middleware/Command/VXPayOpenAboCommand'
 import VXPayResetPasswordCommand           from './VXPay/Middleware/Command/VXPayResetPasswordCommand'
 import VXPayLostPasswordCommand            from './VXPay/Middleware/Command/VXPayLostPasswordCommand'
+import VXPayOpenLimitedPaymentCommand      from './VXPay/Middleware/Command/VXPayOpenLimitedPaymentCommand'
+import VXPayOpenVipAboTrialCommand         from './VXPay/Middleware/Command/VXPayOpenVipAboTrialCommand'
+import VXPayOpenPremiumAboCommand          from './VXPay/Middleware/Command/VXPayOpenPremiumAboCommand'
+import VXPayOpenAVSCommand                 from './VXPay/Middleware/Command/VXPayOpenAVSCommand'
+import VXPayOpenPromoCodeCommand           from './VXPay/Middleware/Command/VXPayOpenPromoCodeCommand'
+import VXPayOpenOneClickCommand            from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
+import VXPayOpenAutoRechargeCommand        from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
+import VXPayOpenOpenBalanceCommand         from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
 
 export default class VXPay {
 	/**
@@ -172,7 +166,7 @@ export default class VXPay {
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayResetPasswordCommand.run)
 				.then(resolve)
-				.catch(reject);
+				.catch(reject)
 		})
 	}
 
@@ -185,7 +179,7 @@ export default class VXPay {
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayLostPasswordCommand.run)
 				.then(resolve)
-				.catch(reject);
+				.catch(reject)
 		})
 	}
 
@@ -193,90 +187,117 @@ export default class VXPay {
 	 * @return {Promise<VXPay>}
 	 */
 	limitPayment() {
-		return this._initPaymentFrame()
-			.then(VXPaySetLimitFlowMiddleware)
-			.then(VXPayShowMiddleware)
-	}
-
-	/**
-	 * @return {Promise<VXPay>}
-	 */
-	changeCard() {
-		return this._initPaymentFrame()
-			.then(VXPaySetChangeCardMiddleware)
-			.then(VXPayShowMiddleware);
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenLimitedPaymentCommand.run)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	vipAboTrial() {
-		return this._initPaymentFrame()
-			.then(VXPaySetVIpAboTrialMiddleware)
-			.then(VXPayShowMiddleware);
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenVipAboTrialCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	premiumAbo() {
-		return this._initPaymentFrame()
-			.then(VXPaySetVipAboFlowMiddleware)
-			.then(VXPayShowMiddleware);
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenPremiumAboCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openAVS() {
-		return this._initPaymentFrame()
-			.then(VXPaySetAVSFlowMiddleware)
-			.then(VXPayShowAVSMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenAVSCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openPromoCode() {
-		return this._initPaymentFrame()
-			.then(VXPaySetPromoCodeMiddleware)
-			.then(VXPayShowPromoCodeMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenPromoCodeCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openScratchCard() {
-		return this._initPaymentFrame()
-			.then(VXPaySetScratchCardMiddleware)
-			.then(VXPayShowPromoCodeMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenPromoCodeCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openOneClick() {
-		return this._initPaymentFrame()
-			.then(VXPaySetOneClickMiddleware)
-			.then(VXPayShowMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenOneClickCommand.run)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openAutoReCharge() {
-		return this._initPaymentFrame()
-			.then(VXPaySetAutoRechargeMiddleware)
-			.then(VXPayShowMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenAutoRechargeCommand.run)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openBalance() {
-		return this._initPaymentFrame()
-			.then(VXPaySetOpenBalanceMiddleware)
-			.then(VXPayShowOpenBalanceMiddleware)
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(VXPayWhenTokenTransferred)
+				.then(VXPayOpenOpenBalanceCommand)
+				.then(resolve)
+				.catch(reject)
+		})
 	}
 
 	/**
