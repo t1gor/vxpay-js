@@ -1,8 +1,15 @@
-import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
-import VXPayEventListener      from './../../Event/VXPayEventListener'
-import VXPayIframe             from './../VXPayIframe'
-import VXPayHookRouter         from './../../Message/Hooks/VXPayHookRouter'
-import VXPayIsVisibleMessage   from "../../Message/VXPayIsVisibleMessage";
+import VXPayPaymentHooksConfig       from './../../Config/VXPayPaymentHooksConfig'
+import VXPayEventListener            from './../../Event/VXPayEventListener'
+import VXPayIframe                   from './../VXPayIframe'
+import VXPayHookRouter               from './../../Message/Hooks/VXPayHookRouter'
+import VXPayIsVisibleMessage         from "../../Message/VXPayIsVisibleMessage";
+import VXPayAdditionalOptionsMessage from "../../Message/VXPayAdditionalOptionsMessage";
+import VXPayUpdateParamsMessage      from "../../Message/VXPayUpdateParamsMessage";
+import VXPayChangeRouteMessage       from "../../Message/VXPayChangeRouteMessage";
+import VXPayInitSessionMessage       from "../../Message/VXPayInitSessionMessage";
+import VXPayIframeReadyMessage       from "../../Message/VXPayIframeReadyMessage";
+import VXPayViewReadyMessage         from "../../Message/VXPayViewReadyMessage";
+import VXPayContentLoadedMessage     from "../../Message/VXPayContentLoadedMessage";
 
 /**
  * @link https://www.npmjs.com/package/es6-interface
@@ -10,73 +17,41 @@ import VXPayIsVisibleMessage   from "../../Message/VXPayIsVisibleMessage";
 class VXPayPaymentTab {
 	/**
 	 * @param {Document} document
-	 * @param {String} url
 	 * @param {String} name
+	 * @param {VXPayConfig} config
 	 */
-	constructor(document, url, name) {
+	constructor(document, name, config) {
 		this._document = document;
-		this._url = url;
 		this._hooks = new VXPayPaymentHooksConfig();
 		this._loaded = false;
 		this._name = name;
+		this._config = config;
+		this._route = '/';
 	}
 
 	/**
 	 * Open the window
 	 */
 	triggerLoad() {
-		if (this._loaded) {
-			return;
-		}
-
-		this.getNewTab(this._document, this._url)
-			.then(win => this.startListening);
+		this.getNewTab()
+			.then(this.startListening.bind(this))
+			.catch(console.error)
 	}
 
 	/**
-	 * @param {Document} document
-	 * @param {String} url
-	 *
 	 * @return {Promise<Window>}
 	 */
-	getNewTab(document, url) {
-		const that = this;
+	getNewTab() {
+		const url = this._config.getPaymentFrameUrl() + '#' + this._route;
 
 		return new Promise(resolve => {
-			if (this.hasOwnProperty('_window')) {
-				return this._window;
+			if (this.hasOwnProperty('_window') && !this._window.closed) {
+				resolve(this._window);
 			}
 
-			this._window = document.defaultView.open(url, this._name);
-			VXPayEventListener.addEvent(
-				VXPayIframe.EVENT_LOAD,
-				this._window,
-				() => console.log('bfsbsf')
-			);
-
+			this._window = this._document.defaultView.open(url, this._name);
 			resolve(this._window);
 		});
-	}
-
-	_markLoaded() {
-		this._loaded = true;
-		return this._hooks.trigger(VXPayPaymentHooksConfig.ON_LOAD);
-	}
-
-	hide() {
-		console.log('11111 2222');
-	}
-
-	setVisible() {
-		console.log('VXPayPaymentTab::setVisible');
-	}
-
-	sendOptions(opts) {
-		console.log('VXPayPaymentTab::sendOptions', opts);
-	}
-
-	show() {
-		console.log('VXPayPaymentTab::show', arguments);
 	}
 
 	get hooks() {
@@ -85,13 +60,79 @@ class VXPayPaymentTab {
 
 	/**
 	 * listen for incoming messages
+	 * @param {Window} window
+	 * @return {Window}
 	 */
-	startListening() {
+	startListening(window) {
 		VXPayEventListener.addEvent(
 			VXPayIframe.EVENT_MESSAGE,
 			document.defaultView,
 			(event) => VXPayHookRouter(this._hooks, event)
 		);
+
+		return window;
+	}
+
+	/**
+	 * @param {Object} options
+	 * @return {VXPayPaymentTab}
+	 */
+	sendOptions(options = {}) {
+		console.log('VXPayPaymentTab::sendOptions', options);
+		this._config.merge(options);
+		return this;
+	}
+
+	/**
+	 * @param {Object} options
+	 * @return {VXPayPaymentTab}
+	 */
+	sendAdditionalOptions(options = {}) {
+		console.log('VXPayPaymentTab::sendAdditionalOptions', options);
+		this._config.merge(options);
+		return this;
+	}
+
+	/**
+	 * @param {String|undefined} token
+	 * @return {VXPayPaymentTab}
+	 */
+	initSession(token = undefined) {
+		console.log('VXPayPaymentTab::initSession');
+		return this;
+	}
+
+	/**
+	 * @param {String} route
+	 * @return {VXPayPaymentTab}
+	 */
+	changeRoute(route = '') {
+		console.log('VXPayPaymentTab::changeRoute', route);
+		this._route = route;
+		return this;
+	}
+
+	/**
+	 * @param {VXPayViewReadyMessage} message
+	 */
+	setVisible(message) {
+		this.triggerLoad();
+	}
+
+	show() {
+		console.log('VXPayPaymentTab::show');
+		this.triggerLoad();
+		return this;
+	}
+
+	hide() {
+		console.log('VXPayPaymentTab::hide');
+
+		if (!this._window.closed) {
+			this._window.close();
+		}
+
+		return this;
 	}
 }
 

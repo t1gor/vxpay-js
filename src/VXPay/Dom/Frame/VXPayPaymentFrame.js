@@ -32,7 +32,6 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 		// hooks config
 		this._hooks        = new VXPayPaymentHooksConfig();
-		this._currentRoute = '';
 		this._sessionInitialized = false;
 
 		// listen for incoming post messages

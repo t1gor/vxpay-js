@@ -1,6 +1,11 @@
-import VXPayPaymentFrame   from './../../Dom/Frame/VXPayPaymentFrame'
-import VXPayPaymentTab     from './../../Dom/Frame/VXPayPaymentTab'
-import VXPayLogger         from './../../VXPayLogger'
+import VXPayPaymentFrame         from './../../Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab           from './../../Dom/Frame/VXPayPaymentTab'
+import VXPayLogger               from './../../VXPayLogger'
+import VXPayHooksConfig          from "../../Config/VXPayHooksConfig";
+import VXPayPaymentHooksConfig   from "../../Config/VXPayPaymentHooksConfig";
+import VXPayViewReadyMessage     from "../../Message/VXPayViewReadyMessage";
+import VXPayContentLoadedMessage from "../../Message/VXPayContentLoadedMessage";
+import VXPayIframeReadyMessage   from "../../Message/VXPayIframeReadyMessage";
 
 /**
  * @todo function seems a bit too long, maybe refactor in future?
@@ -17,7 +22,7 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 
 	// tab or frame?
 	vxpay.paymentFrame = vxpay.config.enableTab
-		? new VXPayPaymentTab(vxpay.window.document, vxpay.config.getPaymentFrameUrl(), VXPayPaymentTab.NAME)
+		? new VXPayPaymentTab(vxpay.window.document, VXPayPaymentTab.NAME, vxpay.config)
 		: new VXPayPaymentFrame(vxpay.window.document, vxpay.config.getPaymentFrameUrl(), VXPayPaymentFrame.NAME);
 
 	// do we need logging?
@@ -46,7 +51,13 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 			.onClose(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
 			.onContentLoaded(msg => resolve(vxpay));
 
-		vxpay.paymentFrame.triggerLoad();
+		// trigger load if not tab
+		if (!vxpay.config.enableTab) {
+			vxpay.paymentFrame.triggerLoad();
+		} else {
+			// resolve promise
+			resolve(vxpay);
+		}
 	}
 };
 

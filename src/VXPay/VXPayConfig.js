@@ -81,7 +81,7 @@ class VXPayConfig {
 			wt:          this._wmToken,
 			adtv:        this._adtv,
 			sub:         this._subRef,
-			enableTab:   this._enableTab,
+			enableTab:   this._enableTab ? 1 : 0,
 			option:      '',
 			pc:          this._promoCode,
 			tt:          this._token,

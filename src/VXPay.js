@@ -27,11 +27,12 @@ import VXPayLostPasswordCommand            from './VXPay/Middleware/Command/VXPa
 import VXPayOpenLimitedPaymentCommand      from './VXPay/Middleware/Command/VXPayOpenLimitedPaymentCommand'
 import VXPayOpenVipAboTrialCommand         from './VXPay/Middleware/Command/VXPayOpenVipAboTrialCommand'
 import VXPayOpenPremiumAboCommand          from './VXPay/Middleware/Command/VXPayOpenPremiumAboCommand'
-import VXPayOpenAVSCommand                 from './VXPay/Middleware/Command/VXPayOpenAVSCommand'
-import VXPayOpenPromoCodeCommand           from './VXPay/Middleware/Command/VXPayOpenPromoCodeCommand'
-import VXPayOpenOneClickCommand            from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
-import VXPayOpenAutoRechargeCommand        from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
-import VXPayOpenOpenBalanceCommand         from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
+import VXPayOpenAVSCommand          from './VXPay/Middleware/Command/VXPayOpenAVSCommand'
+import VXPayOpenPromoCodeCommand    from './VXPay/Middleware/Command/VXPayOpenPromoCodeCommand'
+import VXPayOpenOneClickCommand     from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
+import VXPayOpenAutoRechargeCommand from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
+import VXPayOpenOpenBalanceCommand  from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
+import VXPayTriggerShowForTab       from "./VXPay/Middleware/Frames/VXPayTriggerShowForTab";
 
 export default class VXPay {
 	/**
@@ -75,6 +76,7 @@ export default class VXPay {
 			return this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenLoginCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		});
@@ -88,6 +90,7 @@ export default class VXPay {
 			return this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenSignUpCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		});
@@ -101,6 +104,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenVoiceCallCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -123,6 +127,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenPaymentCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -149,6 +154,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenSettingsCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -165,6 +171,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayResetPasswordCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -178,6 +185,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayLostPasswordCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -191,6 +199,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenLimitedPaymentCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -204,6 +213,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenVipAboTrialCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -217,6 +227,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenPremiumAboCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -230,6 +241,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenAVSCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -243,6 +255,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenPromoCodeCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -256,6 +269,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenPromoCodeCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -269,6 +283,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenOneClickCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -282,6 +297,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenAutoRechargeCommand.run)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -295,6 +311,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenOpenBalanceCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})
@@ -429,7 +446,7 @@ export default class VXPay {
 	 */
 	set paymentFrame(value) {
 		if (!(value instanceof VXPayPaymentFrame) && !(value instanceof VXPayPaymentTab)) {
-			throw new TypeError('Helper frame should be an instance of VXPayPaymentFrame or VXPayPaymentTab');
+			throw new TypeError('Payment frame should be an instance of VXPayPaymentFrame or VXPayPaymentTab');
 		}
 
 		this._paymentFrame = value;
