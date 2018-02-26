@@ -4,17 +4,28 @@ class VXPayEnvironment {
 	 */
 	static getAvailable() {
 		return [
-			VXPayEnvironment.DEVELOPMENT,
-			VXPayEnvironment.STAGING,
-			VXPayEnvironment.PRODUCTION,
-			VXPayEnvironment.VXONE
+			VXPayEnvironment.LANDING_PAGE,
+			VXPayEnvironment.CULT_BABES,
+			VXPayEnvironment.TV_CHAT,
+			VXPayEnvironment.SLP,
+			VXPayEnvironment.VXONE_LP,
+			VXPayEnvironment.VXONE,
 		]
+	}
+
+	/**
+	 * @return {string}
+	 */
+	static getDefault() {
+		return VXPayEnvironment.VXONE;
 	}
 }
 
-VXPayEnvironment.DEVELOPMENT = 'development';
-VXPayEnvironment.STAGING     = 'staging';
-VXPayEnvironment.PRODUCTION  = 'production';
-VXPayEnvironment.VXONE       = 'vxone';
+VXPayEnvironment.LANDING_PAGE = 'lp';
+VXPayEnvironment.CULT_BABES   = 'cultbabes';
+VXPayEnvironment.TV_CHAT      = 'tvchat';
+VXPayEnvironment.SLP          = 'slp';
+VXPayEnvironment.VXONE_LP     = 'vxonelp';
+VXPayEnvironment.VXONE        = 'vxone';
 
 export default VXPayEnvironment;

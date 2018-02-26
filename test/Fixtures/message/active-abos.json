@@ -1,0 +1,23 @@
+{
+	"type": "modalbox-response-getactiveabos",
+	"data": {
+		"vxtv_vip": {
+			"name": "VXTV_VIP",
+			"endDate": 1535760000,
+			"isPaidAbo": false,
+			"isTrialAbo": true,
+			"isActive": true,
+			"isFreeAbo": false,
+			"amount": 4.99
+		},
+		"viptrial": {
+			"name": "VIP Club",
+			"endDate": 1535760000,
+			"isPaidAbo": false,
+			"isTrialAbo": false,
+			"isActive": true,
+			"isFreeAbo": true,
+			"amount": 9.95
+		}
+	}
+}

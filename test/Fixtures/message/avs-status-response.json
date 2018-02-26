@@ -1,0 +1,6 @@
+{
+	"type": "modalbox-response-getavsstatus",
+	"data": {
+		"fsk18": true
+	}
+}

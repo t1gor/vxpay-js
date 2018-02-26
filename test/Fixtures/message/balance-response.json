@@ -1,0 +1,7 @@
+{
+	"type": "modalbox-response-getbalance",
+	"data": {
+		"balance": 12.34,
+		"currency": "EUR"
+	}
+}

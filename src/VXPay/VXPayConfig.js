@@ -13,7 +13,7 @@ class VXPayConfig {
 	 * @param {VXPayModalConfig} modalConfig
 	 */
 	constructor(window, modalConfig = undefined) {
-		this._env     = VXPayEnvironment.DEVELOPMENT;
+		this._env     = VXPayEnvironment.getDefault();
 		this._logging = false;
 		this._flow    = VXPayFlow.getDefault();
 		this._lang    = VXPayLanguage.getDefault();
@@ -40,7 +40,6 @@ class VXPayConfig {
 		this._modalConfig = typeof modalConfig === 'undefined'
 			? new VXPayModalConfig()
 			: modalConfig;
-		this._modalConfig = modalConfig;
 
 		this._window = window;
 		this._helper = new VXPayUrlHelper(window.URL);

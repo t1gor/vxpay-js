@@ -2,7 +2,7 @@ import VXPayMessageFactory     from './../VXPayMessageFactory'
 import VXPayMessage            from './../../VXPayMessage'
 import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
 import VXPayHookMessage        from './VXPayHookMessage'
-import VXPayIframe             from "../../Dom/VXPayIframe";
+import VXPayIframe             from './../../Dom/VXPayIframe'
 
 /**
  * @param {VXPayPaymentHooksConfig} hooks

@@ -12,7 +12,7 @@ describe('VXConfig', () => {
 			      defaultLang = VXPayLanguage.getDefault();
 
 			assert.isFalse(config.logging, 'Logging is disabled by default');
-			assert.equal(config.env, VXPayEnvironment.DEVELOPMENT, 'Development by default');
+			assert.equal(config.env, VXPayEnvironment.getDefault(), 'Development by default');
 			assert.equal(config.language, defaultLang, 'Default lang will be set - e.g. DE');
 			assert.equal(config.flow, VXPayFlow.getDefault(), 'Login is a default flow');
 			assert.equal(config.privacyUrl, VXPayConfig.PRIVACY_DEFAULT.replace('{language}', defaultLang), 'Default localized privacy URl');
@@ -26,15 +26,15 @@ describe('VXConfig', () => {
 			      msg = 'Environment ' + newEnv + ' is not supported. Please select one of ' + VXPayEnvironment.getAvailable();
 
 			// default is DEV
-			assert.equal(VXPayEnvironment.DEVELOPMENT, config.env);
+			assert.equal(VXPayEnvironment.getDefault(), config.env);
 
 			// change to stage and confirm
-			config.env = VXPayEnvironment.STAGING;
-			assert.equal(VXPayEnvironment.STAGING, config.env);
+			config.env = VXPayEnvironment.VXONE_LP;
+			assert.equal(VXPayEnvironment.VXONE_LP, config.env);
 
 			// change to production and confirm
-			config.env = VXPayEnvironment.PRODUCTION;
-			assert.equal(VXPayEnvironment.PRODUCTION, config.env);
+			config.env = VXPayEnvironment.SLP;
+			assert.equal(VXPayEnvironment.SLP, config.env);
 
 			// change to dummy
 			assert.throws(() => config.env = newEnv, TypeError, msg);
