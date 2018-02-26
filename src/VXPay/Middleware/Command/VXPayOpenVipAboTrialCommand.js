@@ -1,6 +1,11 @@
 import VXPayFlow          from './../../Config/VXPayFlow'
 import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
 
+/**
+ * @param {VXPay} vxpay
+ * @return {VXPay}
+ * @constructor
+ */
 const VXPayOpenVipAboTrialCommand = (vxpay) => {
 	vxpay.paymentFrame
 		.initSession()

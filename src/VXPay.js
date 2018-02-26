@@ -43,6 +43,7 @@ export default class VXPay {
 		this.logger      = new VXPayLogger(this.config.logging, this.config.window);
 		this._state      = new VXPayState();
 		this._apiVersion = 3;
+		this.logger.log('VXPay::constructor - ' + JSON.stringify(this.config.getOptions()));
 	}
 
 	/**
@@ -141,6 +142,7 @@ export default class VXPay {
 			this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
 				.then(VXPayOpenAboCommand)
+				.then(VXPayTriggerShowForTab)
 				.then(resolve)
 				.catch(reject)
 		})

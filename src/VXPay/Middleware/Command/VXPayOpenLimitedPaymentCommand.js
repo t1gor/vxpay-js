@@ -10,7 +10,7 @@ class VXPayOpenLimitedPaymentCommand {
 		vxpay.paymentFrame
 			.sendOptions(VXPayOpenLimitedPaymentCommand.PARAMS)
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.PAYMENT)
+			.changeRoute(VXPayPaymentRoutes.LIMIT)
 			.initSession();
 
 		return vxpay;

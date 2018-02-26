@@ -11,7 +11,7 @@ class VXPayOpenVoiceCallCommand {
 		vxpay.paymentFrame
 			.sendOptions(VXPayOpenVoiceCallCommand.PARAMS)
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.PAYMENT)
+			.changeRoute(VXPayPaymentRoutes.VOICE_CALL)
 			.initSession();
 
 		return vxpay;

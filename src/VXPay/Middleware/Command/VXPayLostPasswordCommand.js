@@ -1,5 +1,6 @@
-import VXPayUrlHelper from './../../VXPayUrlHelper'
-import VXPayFlow      from './../../Config/VXPayFlow'
+import VXPayUrlHelper     from './../../VXPayUrlHelper'
+import VXPayFlow          from './../../Config/VXPayFlow'
+import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
 
 export default class VXPayLostPasswordCommand {
 	/**
@@ -11,7 +12,7 @@ export default class VXPayLostPasswordCommand {
 			.initSession()
 			.sendOptions(VXPayLostPasswordCommand.getParams(vxpay.config))
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute();
+			.changeRoute(VXPayPaymentRoutes.PASSWORD);
 
 		return vxpay;
 	}

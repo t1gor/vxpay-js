@@ -176,7 +176,7 @@ class VXPayConfig {
 	 * @return {String}
 	 */
 	get language() {
-		return this._lang;
+		return this._lang.toUpperCase();
 	}
 
 	/**
