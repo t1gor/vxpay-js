@@ -70,10 +70,9 @@ describe('VXPayMessageFactory', () => {
 			);
 		});
 		it('Will return a VXPayIsLoggedInResponseMessage object on corresponding event', () => {
-			assert.instanceOf(
-				VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('is-logged-in')),
-				VXPayIsLoggedInResponseMessage
-			);
+			const msg = VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('is-logged-in'));
+			assert.instanceOf(msg, VXPayIsLoggedInResponseMessage);
+			assert.isTrue(msg.loggedIn);
 		});
 		it('Will return a VXPayIsLoggedInResponseMessage object on corresponding event', () => {
 			const msg = VXPayMessageFactory.fromJson(VXPayTestFx.getMessage('avs-status-response'));

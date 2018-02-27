@@ -9,12 +9,17 @@ import VXPayHasSessionCookieMessage from './../../src/VXPay/Message/VXPayHasSess
 import VXPayIframeReadyMessage      from './../../src/VXPay/Message/VXPayIframeReadyMessage'
 import VXPayContentLoadedMessage from './../../src/VXPay/Message/VXPayContentLoadedMessage'
 import VXPayViewReadyMessage     from './../../src/VXPay/Message/VXPayViewReadyMessage'
-import VXPayIframeCloseMessage   from './../../src/VXPay/Message/VXPayIframeCloseMessage'
-import VXPaySuccessMessage       from './../../src/VXPay/Message/VXPaySuccessMessage'
-import VXPayHookMessage          from './../../src/VXPay/Message/Hooks/VXPayHookMessage'
-import VXPayTransferTokenMessage from './../../src/VXPay/Message/VXPayTransferTokenMessage'
-import VXPayAVSStatusMessage     from './../../src/VXPay/Message/Actions/VXPayAVSStatusMessage'
-import VXPayAVSStatus            from './../../src/VXPay/Model/VXPayAVSStatus'
+import VXPayIframeCloseMessage        from './../../src/VXPay/Message/VXPayIframeCloseMessage'
+import VXPaySuccessMessage            from './../../src/VXPay/Message/VXPaySuccessMessage'
+import VXPayHookMessage               from './../../src/VXPay/Message/Hooks/VXPayHookMessage'
+import VXPayTransferTokenMessage      from './../../src/VXPay/Message/VXPayTransferTokenMessage'
+import VXPayAVSStatusMessage          from './../../src/VXPay/Message/Actions/VXPayAVSStatusMessage'
+import VXPayAVSStatus                 from './../../src/VXPay/Model/VXPayAVSStatus'
+import VXPayIsLoggedInResponseMessage from "../../src/VXPay/Message/Actions/VXPayIsLoggedInResponseMessage";
+import VXPayLoggedOutMessage          from "../../src/VXPay/Message/Actions/VXPayLoggedOutMessage";
+import VXPayActiveAbosMessage         from "../../src/VXPay/Message/Actions/VXPayActiveAbosMessage";
+import VXPayBalanceMessage            from "../../src/VXPay/Message/Actions/VXPayBalanceMessage";
+import VXPayFlowChangedHookMessage    from "../../src/VXPay/Message/Hooks/VXPayFlowChangedMessage";
 
 describe('VXPayHookRouter', () => {
 	it('Will parse event data', () => {
@@ -160,5 +165,61 @@ describe('VXPayHookRouter', () => {
 
 		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
 		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_AVS_STATUS, [msgInstance]);
+	});
+	it('Will trigger `onAny` && `onIsLoggedIn` on corresponding messages', () => {
+		const config      = new VXPayPaymentHooksConfig(),
+		      eventString = VXPayTestFx.getMessage('is-logged-in'),
+		      msgInstance = new VXPayIsLoggedInResponseMessage(true),
+		      trigger     = sinon.spy(config, 'trigger');
+
+		VXPayHookRouter(config, {data: eventString});
+
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_IS_LOGGED_IN, [msgInstance]);
+	});
+	it('Will trigger `onAny` && `onLogout` on corresponding messages', () => {
+		const config      = new VXPayPaymentHooksConfig(),
+		      eventString = VXPayTestFx.getMessage('logout'),
+		      msgInstance = new VXPayLoggedOutMessage,
+		      trigger     = sinon.spy(config, 'trigger');
+
+		VXPayHookRouter(config, {data: eventString});
+
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_LOGOUT, [msgInstance]);
+	});
+	it('Will trigger `onAny` && `onActiveAbos` on corresponding messages', () => {
+		const config      = new VXPayPaymentHooksConfig(),
+		      eventString = VXPayTestFx.getMessage('active-abos'),
+		      msgInstance = VXPayActiveAbosMessage.fromData(JSON.parse(eventString).data),
+		      trigger     = sinon.spy(config, 'trigger');
+
+		VXPayHookRouter(config, {data: eventString});
+
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ACTIVE_ABOS, [msgInstance]);
+	});
+	it('Will trigger `onAny` && `onBalance` on corresponding messages', () => {
+		const config      = new VXPayPaymentHooksConfig(),
+		      eventString = VXPayTestFx.getMessage('balance-response'),
+		      msgInstance = VXPayBalanceMessage.fromData(JSON.parse(eventString).data),
+		      trigger     = sinon.spy(config, 'trigger');
+
+		VXPayHookRouter(config, {data: eventString});
+
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_BALANCE, [msgInstance]);
+	});
+	it('Will trigger `onAny` && `onFlowChange` on corresponding messages', () => {
+		const config      = new VXPayPaymentHooksConfig(),
+		      eventString = VXPayTestFx.getMessage('hook-flow-changed'),
+		      event       = JSON.parse(eventString).data,
+		      msgInstance = new VXPayFlowChangedHookMessage(event.prevFlow, event.flow),
+		      trigger     = sinon.spy(config, 'trigger');
+
+		VXPayHookRouter(config, {data: eventString});
+
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_FLOW_CHANGE, [msgInstance]);
 	});
 });
