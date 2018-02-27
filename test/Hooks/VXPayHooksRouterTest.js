@@ -1,17 +1,20 @@
 import sinon                        from 'sinon'
 import {assert}                     from 'chai'
+import {describe, it}               from 'mocha'
 import VXPayPaymentHooksConfig      from './../../src/VXPay/Config/VXPayPaymentHooksConfig'
 import VXPayMessageFactory          from './../../src/VXPay/Message/VXPayMessageFactory'
 import VXPayHookRouter              from './../../src/VXPay/Message/Hooks/VXPayHookRouter'
 import VXPayTestFx                  from './../Fixtures/VXPayTestFx'
 import VXPayHasSessionCookieMessage from './../../src/VXPay/Message/VXPayHasSessionCookieMessage'
-import VXPayIframeReadyMessage   from './../../src/VXPay/Message/VXPayIframeReadyMessage'
+import VXPayIframeReadyMessage      from './../../src/VXPay/Message/VXPayIframeReadyMessage'
 import VXPayContentLoadedMessage from './../../src/VXPay/Message/VXPayContentLoadedMessage'
 import VXPayViewReadyMessage     from './../../src/VXPay/Message/VXPayViewReadyMessage'
 import VXPayIframeCloseMessage   from './../../src/VXPay/Message/VXPayIframeCloseMessage'
 import VXPaySuccessMessage       from './../../src/VXPay/Message/VXPaySuccessMessage'
 import VXPayHookMessage          from './../../src/VXPay/Message/Hooks/VXPayHookMessage'
-import VXPayTransferTokenMessage from "../../src/VXPay/Message/VXPayTransferTokenMessage";
+import VXPayTransferTokenMessage from './../../src/VXPay/Message/VXPayTransferTokenMessage'
+import VXPayAVSStatusMessage     from './../../src/VXPay/Message/Actions/VXPayAVSStatusMessage'
+import VXPayAVSStatus            from './../../src/VXPay/Model/VXPayAVSStatus'
 
 describe('VXPayHookRouter', () => {
 	it('Will parse event data', () => {
@@ -143,5 +146,19 @@ describe('VXPayHookRouter', () => {
 
 		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
 		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN, [msgInstance]);
-	})
+	});
+	it('Will trigger `onAny` && `onAvsStatus` on corresponding message', () => {
+		const config      = new VXPayPaymentHooksConfig(),
+		      eventString = VXPayTestFx.getMessage('avs-status-response'),
+		      status      = new VXPayAVSStatus(),
+		      msgInstance = new VXPayAVSStatusMessage(status),
+		      trigger     = sinon.spy(config, 'trigger');
+
+		status.fsk18 = true;
+
+		VXPayHookRouter(config, {data: eventString});
+
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_ANY, [msgInstance]);
+		sinon.assert.calledWith(trigger, VXPayPaymentHooksConfig.ON_AVS_STATUS, [msgInstance]);
+	});
 });

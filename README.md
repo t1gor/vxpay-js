@@ -1,13 +1,20 @@
 # Visit-X payment SDK
 
+VXPay-js is an SDK for integrating the Visit-X payment/funnel for 3rd party code.
 
 ## Installation
 
-@todo
+SDK is available for installation via npm/yarn:
+
+```bash
+## using yarn:
+yarn add git+https://github.com/VISIT-X/vxpay-js.git
+## or with npm:
+npm install --save git+https://github.com/VISIT-X/vxpay-js.git
+```
 
 ## Including in your bundle (single-page-apps example)
 
-@todo missing step here - install via npm.
 After the installation, just include the code in your app's code as usual:
 
 ```javascript
