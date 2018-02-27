@@ -1,7 +1,7 @@
 class VXPayAbo {
 	constructor() {
 		this._amount = 0;
-		this._endDate = {};
+		this._endDate = 0;
 		this._isActive = false;
 		this._isFreeAbo = false;
 		this._isPaidAbo = true;
@@ -24,14 +24,14 @@ class VXPayAbo {
 	}
 
 	/**
-	 * @return {{}|*}
+	 * @return {Number}
 	 */
 	get endDate() {
 		return this._endDate;
 	}
 
 	/**
-	 * @param {{}|*} value
+	 * @param {Number} value
 	 */
 	set endDate(value) {
 		this._endDate = value;
@@ -63,6 +63,7 @@ class VXPayAbo {
 	 */
 	set isFreeAbo(value) {
 		this._isFreeAbo = value;
+		this._isPaidAbo = !value;
 	}
 
 	/**
@@ -77,6 +78,7 @@ class VXPayAbo {
 	 */
 	set isPaidAbo(value) {
 		this._isPaidAbo = value;
+		this._isFreeAbo = !value;
 	}
 
 	/**

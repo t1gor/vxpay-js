@@ -28,7 +28,7 @@ class VXPayBalance {
 	 * @return {string}
 	 */
 	toString() {
-		return this._amount + ' ' + this._currency;
+		return this._amount.toFixed(2) + ' ' + this._currency;
 	}
 }
 

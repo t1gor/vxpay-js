@@ -55,10 +55,16 @@ export default class VXPayState {
 		this._isSessionInitialized = value;
 	}
 
+	/**
+	 * @return {void}
+	 */
 	markFrameReady() {
 		this._isFrameReady = true;
 	}
 
+	/**
+	 * @return {void}
+	 */
 	markContentLoaded() {
 		this._isContentLoaded = true;
 	}
