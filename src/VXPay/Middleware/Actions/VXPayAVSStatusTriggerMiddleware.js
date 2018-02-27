@@ -9,7 +9,7 @@ const VXPayAVSStatusTriggerMiddleware = (vxpay) => {
 	const message = new VXPayGetAVSStatusMessage;
 
 	// is token already received?
-	if (vxpay.config.token === '') {
+	if (!vxpay.state.hasToken) {
 		vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(message));
 	} else {
 		// or trigger post message

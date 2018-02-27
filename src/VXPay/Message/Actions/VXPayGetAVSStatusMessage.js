@@ -1,7 +1,7 @@
 import VXPayMessage from './../../VXPayMessage'
 
 export default class VXPayGetAVSStatusMessage extends VXPayMessage {
-	constructor(type = '') {
+	constructor() {
 		super(VXPayMessage.TYPE_ACTION_GET_AVS_STATUS);
 	}
 }
