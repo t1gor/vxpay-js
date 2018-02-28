@@ -8,8 +8,8 @@ import VXPayEventListener            from './../../Event/VXPayEventListener'
 import VXPayPaymentHooksConfig       from './../../Config/VXPayPaymentHooksConfig'
 import VXPayMessage                  from './../../VXPayMessage'
 import VXPayHookRouter               from './../../Message/Hooks/VXPayHookRouter'
-import VXPayIsVisibleMessage         from "../../Message/VXPayIsVisibleMessage";
-import VXPayAdditionalOptionsMessage from "../../Message/VXPayAdditionalOptionsMessage";
+import VXPayIsVisibleMessage         from './../../Message/VXPayIsVisibleMessage'
+import VXPayAdditionalOptionsMessage from './../../Message/VXPayAdditionalOptionsMessage'
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
@@ -31,7 +31,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 		this._frame.name              = 'vxpay';
 
 		// hooks config
-		this._hooks        = new VXPayPaymentHooksConfig();
+		this._hooks              = new VXPayPaymentHooksConfig();
 		this._sessionInitialized = false;
 
 		// listen for incoming post messages

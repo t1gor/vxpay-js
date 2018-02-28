@@ -8,7 +8,7 @@ import VXPayGetActiveAbosMessage from './../../Message/Actions/VXPayGetActiveAbo
 const VXPayActiveAbosTriggerMiddleware = (vxpay) => {
 	const message = new VXPayGetActiveAbosMessage;
 
-	if (vxpay.config.token === '') {
+	if (!vxpay.state.hasToken) {
 		vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(message));
 	} else {
 		vxpay.paymentFrame.postMessage(message);

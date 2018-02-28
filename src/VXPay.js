@@ -27,12 +27,12 @@ import VXPayLostPasswordCommand            from './VXPay/Middleware/Command/VXPa
 import VXPayOpenLimitedPaymentCommand      from './VXPay/Middleware/Command/VXPayOpenLimitedPaymentCommand'
 import VXPayOpenVipAboTrialCommand         from './VXPay/Middleware/Command/VXPayOpenVipAboTrialCommand'
 import VXPayOpenPremiumAboCommand          from './VXPay/Middleware/Command/VXPayOpenPremiumAboCommand'
-import VXPayOpenAVSCommand          from './VXPay/Middleware/Command/VXPayOpenAVSCommand'
-import VXPayOpenPromoCodeCommand    from './VXPay/Middleware/Command/VXPayOpenPromoCodeCommand'
-import VXPayOpenOneClickCommand     from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
-import VXPayOpenAutoRechargeCommand from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
-import VXPayOpenOpenBalanceCommand  from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
-import VXPayTriggerShowForTab       from "./VXPay/Middleware/Frames/VXPayTriggerShowForTab";
+import VXPayOpenAVSCommand                 from './VXPay/Middleware/Command/VXPayOpenAVSCommand'
+import VXPayOpenPromoCodeCommand           from './VXPay/Middleware/Command/VXPayOpenPromoCodeCommand'
+import VXPayOpenOneClickCommand            from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
+import VXPayOpenAutoRechargeCommand        from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
+import VXPayOpenOpenBalanceCommand         from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
+import VXPayTriggerShowForTab              from './VXPay/Middleware/Frames/VXPayTriggerShowForTab'
 
 export default class VXPay {
 	/**
@@ -360,7 +360,7 @@ export default class VXPay {
 	getActiveAbos() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => VXPayListenForActiveAbosMiddleware(vxpay, resolve))
+				.then(vxpay => VXPayListenForActiveAbosMiddleware(vxpay, resolve, reject))
 				.then(VXPayActiveAbosTriggerMiddleware)
 				.catch(reject)
 		})

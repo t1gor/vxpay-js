@@ -1,15 +1,15 @@
-import {assert}                        from 'chai'
-import {describe, it}                  from 'mocha'
-import sinon                           from 'sinon'
-import VXPay                           from './../../../src/VXPay'
-import VXPayConfig                     from './../../../src/VXPay/VXPayConfig'
-import VXPayTestFx                     from './../../Fixtures/VXPayTestFx'
-import VXPayAVSStatusTriggerMiddleware from './../../../src/VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
-import VXPayGetAVSStatusMessage        from './../../../src/VXPay/Message/Actions/VXPayGetAVSStatusMessage'
-import VXPayTransferTokenMessage       from './../../../src/VXPay/Message/VXPayTransferTokenMessage'
-import VXPayPaymentHooksConfig         from "../../../src/VXPay/Config/VXPayPaymentHooksConfig";
+import {assert}                         from 'chai'
+import {describe, it}                   from 'mocha'
+import sinon                            from 'sinon'
+import VXPay                            from './../../../src/VXPay'
+import VXPayConfig                      from './../../../src/VXPay/VXPayConfig'
+import VXPayTestFx                      from './../../Fixtures/VXPayTestFx'
+import VXPayActiveAbosTriggerMiddleware from './../../../src/VXPay/Middleware/Actions/VXPayActiveAbosTriggerMiddleware'
+import VXPayTransferTokenMessage        from './../../../src/VXPay/Message/VXPayTransferTokenMessage'
+import VXPayGetActiveAbosMessage        from './../../../src/VXPay/Message/Actions/VXPayGetActiveAbosMessage'
+import VXPayPaymentHooksConfig          from './../../../src/VXPay/Config/VXPayPaymentHooksConfig'
 
-describe('VXPayAVSStatusTriggerMiddleware', () => {
+describe('VXPayActiveAbosTriggerMiddleware', () => {
 
 	/** @var {VXPay} */
 	let vxpay;
@@ -26,7 +26,7 @@ describe('VXPayAVSStatusTriggerMiddleware', () => {
 			// should have 2 default handlers
 			assert.lengthOf(vxpay.hooks._onTransferToken, 2);
 
-			const after = VXPayAVSStatusTriggerMiddleware(vxpay);
+			const after = VXPayActiveAbosTriggerMiddleware(vxpay);
 
 			// and now another one
 			assert.lengthOf(vxpay.hooks._onTransferToken, 3);
@@ -40,7 +40,7 @@ describe('VXPayAVSStatusTriggerMiddleware', () => {
 			vxpay.state.markHasToken(new VXPayTransferTokenMessage('token'));
 
 			// call middleware
-			const after = VXPayAVSStatusTriggerMiddleware(vxpay);
+			const after = VXPayActiveAbosTriggerMiddleware(vxpay);
 
 			// hooks count not changed
 			assert.lengthOf(vxpay.hooks._onTransferToken, 2);
@@ -49,7 +49,7 @@ describe('VXPayAVSStatusTriggerMiddleware', () => {
 			// check post message sent (compare in JSON)
 			assert.equal(
 				JSON.stringify(vxpay._paymentFrame.postMessage.getCall(0).args[0]),
-				(new VXPayGetAVSStatusMessage).toString()
+				(new VXPayGetActiveAbosMessage).toString()
 			);
 
 			// clean up
@@ -60,7 +60,7 @@ describe('VXPayAVSStatusTriggerMiddleware', () => {
 			sinon.spy(vxpay._paymentFrame, 'postMessage');
 
 			// call middleware
-			const after = VXPayAVSStatusTriggerMiddleware(vxpay);
+			const after = VXPayActiveAbosTriggerMiddleware(vxpay);
 
 			// hooks count not changed
 			assert.lengthOf(vxpay.hooks._onTransferToken, 3);
@@ -75,7 +75,7 @@ describe('VXPayAVSStatusTriggerMiddleware', () => {
 			// check post message sent (compare in JSON)
 			assert.equal(
 				JSON.stringify(vxpay._paymentFrame.postMessage.getCall(0).args[0]),
-				(new VXPayGetAVSStatusMessage).toString()
+				(new VXPayGetActiveAbosMessage).toString()
 			);
 
 			// clean up
