@@ -15,7 +15,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 	/**
 	 * Override styles
 	 */
-	constructor(document, url, id, style = {}) {
+	constructor(document, url, id = VXPayPaymentFrame.NAME, style = {}) {
 		// merge default with incoming
 		style = Object.assign(
 			{},

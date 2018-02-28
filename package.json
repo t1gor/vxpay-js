@@ -33,5 +33,9 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "url-polyfill": "^1.0.11"
+  },
+  "engines": {
+    "node": ">=8.0",
+    "yarn": ">=1.3"
   }
 }

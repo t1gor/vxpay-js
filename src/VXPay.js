@@ -42,7 +42,6 @@ export default class VXPay {
 		this.config      = config;
 		this.logger      = new VXPayLogger(this.config.logging, this.config.window);
 		this._state      = new VXPayState();
-		this._apiVersion = 3;
 		this.logger.log('VXPay::constructor - ' + JSON.stringify(this.config.getOptions()));
 	}
 
@@ -418,14 +417,14 @@ export default class VXPay {
 	 * @return {Number}
 	 */
 	get apiVersion() {
-		return this._apiVersion;
+		return this.config.apiVersion;
 	}
 
 	/**
 	 * @param {Number} value
 	 */
 	set apiVersion(value) {
-		this._apiVersion = value;
+		this.config.apiVersion = value;
 	}
 
 	/**

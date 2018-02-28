@@ -5,7 +5,6 @@ import VXPayConfig               from './../../../src/VXPay/VXPayConfig'
 import VXPayTestFx               from './../../Fixtures/VXPayTestFx'
 import VXPayWhenTokenTransferred from './../../../src/VXPay/Middleware/Condition/VXPayWhenTokenTransferred'
 import VXPayTransferTokenMessage from './../../../src/VXPay/Message/VXPayTransferTokenMessage'
-import VXPayPaymentHooksConfig   from './../../../src/VXPay/Config/VXPayPaymentHooksConfig'
 
 describe('VXPayWhenTokenTransferred', () => {
 	/** @var {VXPay} */
@@ -39,10 +38,7 @@ describe('VXPayWhenTokenTransferred', () => {
 			VXPayWhenTokenTransferred(vxpay)
 				.then(returned => assert.instanceOf(returned, VXPay));
 
-			vxpay.hooks.trigger(
-				VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN,
-				[new VXPayTransferTokenMessage('token')]
-			)
+			vxpay.state.markHasToken(new VXPayTransferTokenMessage('token'));
 		});
 		it('Resolves when enableTab = true', () => {
 			vxpay.config.enableTab = true;
