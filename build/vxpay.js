@@ -61,7 +61,7 @@ var VX =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 152);
+/******/ 	return __webpack_require__(__webpack_require__.s = 153);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -3316,7 +3316,7 @@ module.exports = __webpack_require__(24).getIteratorMethod = function (it) {
 
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(245);
+var speciesConstructor = __webpack_require__(246);
 
 module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
@@ -5653,6 +5653,10 @@ var _VXPayFlowChangedMessage = __webpack_require__(142);
 
 var _VXPayFlowChangedMessage2 = _interopRequireDefault(_VXPayFlowChangedMessage);
 
+var _VXPayUserAgentHelper = __webpack_require__(143);
+
+var _VXPayUserAgentHelper2 = _interopRequireDefault(_VXPayUserAgentHelper);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5679,8 +5683,10 @@ var VXPayConfig = function () {
 			purl: ''
 		};
 
+		console.log('Is mobile? ', new _VXPayUserAgentHelper2.default(window.navigator.userAgent || '').isMobile());
+
 		this._pfm = '';
-		this._enableTab = false;
+		this._enableTab = new _VXPayUserAgentHelper2.default(window.navigator.userAgent || '').isMobile();
 		this._host = '';
 		this._token = '';
 		this._promoCode = '';
@@ -6338,17 +6344,81 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _isMobile = __webpack_require__(360);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var VXPayUserAgentHelper = function () {
+	/**
+  * @param {String} uaString
+  */
+	function VXPayUserAgentHelper() {
+		var uaString = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+		_classCallCheck(this, VXPayUserAgentHelper);
+
+		this._userAgent = uaString;
+	}
+
+	/**
+  * @return {boolean}
+  */
+
+
+	_createClass(VXPayUserAgentHelper, [{
+		key: 'isMobile',
+		value: function isMobile() {
+			return (0, _isMobile.mobile)(this._userAgent);
+		}
+
+		/**
+   * @return {string}
+   */
+
+	}, {
+		key: 'userAgent',
+		get: function get() {
+			return this._userAgent;
+		}
+
+		/**
+   * @param {string} value
+   */
+		,
+		set: function set(value) {
+			this._userAgent = value;
+		}
+	}]);
+
+	return VXPayUserAgentHelper;
+}();
+
+exports.default = VXPayUserAgentHelper;
+
+/***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 var _VXPayIframe2 = __webpack_require__(49);
 
 var _VXPayIframe3 = _interopRequireDefault(_VXPayIframe2);
 
-var _VXPayHasSessionCookieMessage = __webpack_require__(144);
+var _VXPayHasSessionCookieMessage = __webpack_require__(145);
 
 var _VXPayHasSessionCookieMessage2 = _interopRequireDefault(_VXPayHasSessionCookieMessage);
 
-var _VXPayMessageFactory = __webpack_require__(145);
+var _VXPayMessageFactory = __webpack_require__(146);
 
 var _VXPayMessageFactory2 = _interopRequireDefault(_VXPayMessageFactory);
 
@@ -6356,7 +6426,7 @@ var _VXPayEventListener = __webpack_require__(68);
 
 var _VXPayEventListener2 = _interopRequireDefault(_VXPayEventListener);
 
-var _VXPayHelperHooksConfig = __webpack_require__(374);
+var _VXPayHelperHooksConfig = __webpack_require__(376);
 
 var _VXPayHelperHooksConfig2 = _interopRequireDefault(_VXPayHelperHooksConfig);
 
@@ -6496,7 +6566,7 @@ VXPayHelperFrame.NAME = 'vx-helper-frame-payment';
 exports.default = VXPayHelperFrame;
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6541,7 +6611,7 @@ var VXPayHasSessionCookieMessage = function (_VXPayMessage) {
 exports.default = VXPayHasSessionCookieMessage;
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6557,63 +6627,63 @@ var _VXPayMessage = __webpack_require__(5);
 
 var _VXPayMessage2 = _interopRequireDefault(_VXPayMessage);
 
-var _VXPayHasSessionCookieMessage = __webpack_require__(144);
+var _VXPayHasSessionCookieMessage = __webpack_require__(145);
 
 var _VXPayHasSessionCookieMessage2 = _interopRequireDefault(_VXPayHasSessionCookieMessage);
 
-var _VXPayContentLoadedMessage = __webpack_require__(359);
+var _VXPayContentLoadedMessage = __webpack_require__(361);
 
 var _VXPayContentLoadedMessage2 = _interopRequireDefault(_VXPayContentLoadedMessage);
 
-var _VXPayHookMessageFactory = __webpack_require__(360);
+var _VXPayHookMessageFactory = __webpack_require__(362);
 
 var _VXPayHookMessageFactory2 = _interopRequireDefault(_VXPayHookMessageFactory);
 
-var _VXPayIframeReadyMessage = __webpack_require__(362);
+var _VXPayIframeReadyMessage = __webpack_require__(364);
 
 var _VXPayIframeReadyMessage2 = _interopRequireDefault(_VXPayIframeReadyMessage);
 
-var _VXPayViewReadyMessage = __webpack_require__(146);
+var _VXPayViewReadyMessage = __webpack_require__(147);
 
 var _VXPayViewReadyMessage2 = _interopRequireDefault(_VXPayViewReadyMessage);
 
-var _VXPayTransferTokenMessage = __webpack_require__(363);
+var _VXPayTransferTokenMessage = __webpack_require__(365);
 
 var _VXPayTransferTokenMessage2 = _interopRequireDefault(_VXPayTransferTokenMessage);
 
-var _VXPayIframeCloseMessage = __webpack_require__(364);
+var _VXPayIframeCloseMessage = __webpack_require__(366);
 
 var _VXPayIframeCloseMessage2 = _interopRequireDefault(_VXPayIframeCloseMessage);
 
-var _VXPayIsVisibleMessage = __webpack_require__(147);
+var _VXPayIsVisibleMessage = __webpack_require__(148);
 
 var _VXPayIsVisibleMessage2 = _interopRequireDefault(_VXPayIsVisibleMessage);
 
-var _VXPaySuccessMessage = __webpack_require__(365);
+var _VXPaySuccessMessage = __webpack_require__(367);
 
 var _VXPaySuccessMessage2 = _interopRequireDefault(_VXPaySuccessMessage);
 
-var _VXPayIsLoggedInResponseMessage = __webpack_require__(367);
+var _VXPayIsLoggedInResponseMessage = __webpack_require__(369);
 
 var _VXPayIsLoggedInResponseMessage2 = _interopRequireDefault(_VXPayIsLoggedInResponseMessage);
 
-var _VXPayAVSStatusMessage = __webpack_require__(368);
+var _VXPayAVSStatusMessage = __webpack_require__(370);
 
 var _VXPayAVSStatusMessage2 = _interopRequireDefault(_VXPayAVSStatusMessage);
 
-var _VXPayAVSStatus = __webpack_require__(148);
+var _VXPayAVSStatus = __webpack_require__(149);
 
 var _VXPayAVSStatus2 = _interopRequireDefault(_VXPayAVSStatus);
 
-var _VXPayBalanceMessage = __webpack_require__(369);
+var _VXPayBalanceMessage = __webpack_require__(371);
 
 var _VXPayBalanceMessage2 = _interopRequireDefault(_VXPayBalanceMessage);
 
-var _VXPayActiveAbosMessage = __webpack_require__(371);
+var _VXPayActiveAbosMessage = __webpack_require__(373);
 
 var _VXPayActiveAbosMessage2 = _interopRequireDefault(_VXPayActiveAbosMessage);
 
-var _VXPayLoggedOutMessage = __webpack_require__(373);
+var _VXPayLoggedOutMessage = __webpack_require__(375);
 
 var _VXPayLoggedOutMessage2 = _interopRequireDefault(_VXPayLoggedOutMessage);
 
@@ -6706,7 +6776,7 @@ var VXPayMessageFactory = function () {
 exports.default = VXPayMessageFactory;
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6745,7 +6815,7 @@ var VXPayViewReadyMessage = function (_VXPayMessage) {
 exports.default = VXPayViewReadyMessage;
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6785,7 +6855,7 @@ var VXPayIsVisibleMessage = function (_VXPayMessage) {
 exports.default = VXPayIsVisibleMessage;
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6847,7 +6917,7 @@ var VXPayAVSStatus = function () {
 exports.default = VXPayAVSStatus;
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6867,19 +6937,19 @@ var _VXPayIframe2 = __webpack_require__(49);
 
 var _VXPayIframe3 = _interopRequireDefault(_VXPayIframe2);
 
-var _VXPayInitSessionMessage = __webpack_require__(375);
+var _VXPayInitSessionMessage = __webpack_require__(377);
 
 var _VXPayInitSessionMessage2 = _interopRequireDefault(_VXPayInitSessionMessage);
 
-var _VXPayUpdateParamsMessage = __webpack_require__(376);
+var _VXPayUpdateParamsMessage = __webpack_require__(378);
 
 var _VXPayUpdateParamsMessage2 = _interopRequireDefault(_VXPayUpdateParamsMessage);
 
-var _VXPayChangeRouteMessage = __webpack_require__(377);
+var _VXPayChangeRouteMessage = __webpack_require__(379);
 
 var _VXPayChangeRouteMessage2 = _interopRequireDefault(_VXPayChangeRouteMessage);
 
-var _VXPayUserAgentHelper = __webpack_require__(378);
+var _VXPayUserAgentHelper = __webpack_require__(143);
 
 var _VXPayUserAgentHelper2 = _interopRequireDefault(_VXPayUserAgentHelper);
 
@@ -6899,15 +6969,15 @@ var _VXPayMessage = __webpack_require__(5);
 
 var _VXPayMessage2 = _interopRequireDefault(_VXPayMessage);
 
-var _VXPayHookRouter = __webpack_require__(150);
+var _VXPayHookRouter = __webpack_require__(151);
 
 var _VXPayHookRouter2 = _interopRequireDefault(_VXPayHookRouter);
 
-var _VXPayIsVisibleMessage = __webpack_require__(147);
+var _VXPayIsVisibleMessage = __webpack_require__(148);
 
 var _VXPayIsVisibleMessage2 = _interopRequireDefault(_VXPayIsVisibleMessage);
 
-var _VXPayAdditionalOptionsMessage = __webpack_require__(379);
+var _VXPayAdditionalOptionsMessage = __webpack_require__(380);
 
 var _VXPayAdditionalOptionsMessage2 = _interopRequireDefault(_VXPayAdditionalOptionsMessage);
 
@@ -7141,7 +7211,7 @@ VXPayPaymentFrame.NAME = 'vx-payment-frame-payment';
 exports.default = VXPayPaymentFrame;
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7151,7 +7221,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayMessageFactory = __webpack_require__(145);
+var _VXPayMessageFactory = __webpack_require__(146);
 
 var _VXPayMessageFactory2 = _interopRequireDefault(_VXPayMessageFactory);
 
@@ -7240,7 +7310,7 @@ var VXPayHookRouter = function VXPayHookRouter(hooks, event) {
 exports.default = VXPayHookRouter;
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7264,11 +7334,11 @@ var _VXPayIframe = __webpack_require__(49);
 
 var _VXPayIframe2 = _interopRequireDefault(_VXPayIframe);
 
-var _VXPayHookRouter = __webpack_require__(150);
+var _VXPayHookRouter = __webpack_require__(151);
 
 var _VXPayHookRouter2 = _interopRequireDefault(_VXPayHookRouter);
 
-var _VXPayViewReadyMessage = __webpack_require__(146);
+var _VXPayViewReadyMessage = __webpack_require__(147);
 
 var _VXPayViewReadyMessage2 = _interopRequireDefault(_VXPayViewReadyMessage);
 
@@ -7447,26 +7517,26 @@ VXPayPaymentTab.NAME = 'vx-payment-tab-payment';
 exports.default = VXPayPaymentTab;
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(153);
-__webpack_require__(356);
-module.exports = __webpack_require__(357);
+__webpack_require__(154);
+__webpack_require__(357);
+module.exports = __webpack_require__(358);
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-__webpack_require__(154);
+__webpack_require__(155);
 
-__webpack_require__(351);
+__webpack_require__(352);
 
-__webpack_require__(353);
+__webpack_require__(354);
 
 if (global._babelPolyfill) {
   throw new Error("only one instance of babel-polyfill is allowed");
@@ -7491,14 +7561,13 @@ define(String.prototype, "padRight", "".padEnd);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(71)))
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(155);
-__webpack_require__(157);
+__webpack_require__(156);
 __webpack_require__(158);
 __webpack_require__(159);
 __webpack_require__(160);
@@ -7513,7 +7582,7 @@ __webpack_require__(168);
 __webpack_require__(169);
 __webpack_require__(170);
 __webpack_require__(171);
-__webpack_require__(173);
+__webpack_require__(172);
 __webpack_require__(174);
 __webpack_require__(175);
 __webpack_require__(176);
@@ -7574,16 +7643,16 @@ __webpack_require__(230);
 __webpack_require__(231);
 __webpack_require__(232);
 __webpack_require__(233);
-__webpack_require__(235);
+__webpack_require__(234);
 __webpack_require__(236);
-__webpack_require__(238);
+__webpack_require__(237);
 __webpack_require__(239);
 __webpack_require__(240);
 __webpack_require__(241);
 __webpack_require__(242);
 __webpack_require__(243);
 __webpack_require__(244);
-__webpack_require__(246);
+__webpack_require__(245);
 __webpack_require__(247);
 __webpack_require__(248);
 __webpack_require__(249);
@@ -7596,19 +7665,19 @@ __webpack_require__(255);
 __webpack_require__(256);
 __webpack_require__(257);
 __webpack_require__(258);
-__webpack_require__(93);
 __webpack_require__(259);
+__webpack_require__(93);
 __webpack_require__(260);
-__webpack_require__(124);
 __webpack_require__(261);
+__webpack_require__(124);
 __webpack_require__(262);
 __webpack_require__(263);
 __webpack_require__(264);
 __webpack_require__(265);
+__webpack_require__(266);
 __webpack_require__(127);
 __webpack_require__(129);
 __webpack_require__(130);
-__webpack_require__(266);
 __webpack_require__(267);
 __webpack_require__(268);
 __webpack_require__(269);
@@ -7693,10 +7762,11 @@ __webpack_require__(347);
 __webpack_require__(348);
 __webpack_require__(349);
 __webpack_require__(350);
+__webpack_require__(351);
 module.exports = __webpack_require__(24);
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7718,7 +7788,7 @@ var uid = __webpack_require__(35);
 var wks = __webpack_require__(6);
 var wksExt = __webpack_require__(107);
 var wksDefine = __webpack_require__(73);
-var enumKeys = __webpack_require__(156);
+var enumKeys = __webpack_require__(157);
 var isArray = __webpack_require__(56);
 var anObject = __webpack_require__(1);
 var isObject = __webpack_require__(4);
@@ -7946,7 +8016,7 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7971,7 +8041,7 @@ module.exports = function (it) {
 };
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7982,7 +8052,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Object', { create: __webpack_require__(39) });
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7993,7 +8063,7 @@ var $export = __webpack_require__(0);
 $export($export.S + $export.F * !__webpack_require__(7), 'Object', { defineProperty: __webpack_require__(8).f });
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8004,7 +8074,7 @@ var $export = __webpack_require__(0);
 $export($export.S + $export.F * !__webpack_require__(7), 'Object', { defineProperties: __webpack_require__(109) });
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8021,7 +8091,7 @@ __webpack_require__(28)('getOwnPropertyDescriptor', function () {
 });
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8038,7 +8108,7 @@ __webpack_require__(28)('getPrototypeOf', function () {
 });
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8055,7 +8125,7 @@ __webpack_require__(28)('keys', function () {
 });
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8067,7 +8137,7 @@ __webpack_require__(28)('getOwnPropertyNames', function () {
 });
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8084,7 +8154,7 @@ __webpack_require__(28)('freeze', function ($freeze) {
 });
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8101,7 +8171,7 @@ __webpack_require__(28)('seal', function ($seal) {
 });
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8118,7 +8188,7 @@ __webpack_require__(28)('preventExtensions', function ($preventExtensions) {
 });
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8134,7 +8204,7 @@ __webpack_require__(28)('isFrozen', function ($isFrozen) {
 });
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8150,7 +8220,7 @@ __webpack_require__(28)('isSealed', function ($isSealed) {
 });
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8166,7 +8236,7 @@ __webpack_require__(28)('isExtensible', function ($isExtensible) {
 });
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8178,7 +8248,7 @@ var $export = __webpack_require__(0);
 $export($export.S + $export.F, 'Object', { assign: __webpack_require__(111) });
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8186,10 +8256,10 @@ $export($export.S + $export.F, 'Object', { assign: __webpack_require__(111) });
 
 // 19.1.3.10 Object.is(value1, value2)
 var $export = __webpack_require__(0);
-$export($export.S, 'Object', { is: __webpack_require__(172) });
+$export($export.S, 'Object', { is: __webpack_require__(173) });
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8202,7 +8272,7 @@ module.exports = Object.is || function is(x, y) {
 };
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8213,7 +8283,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Object', { setPrototypeOf: __webpack_require__(77).set });
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8230,7 +8300,7 @@ if (test + '' != '[object z]') {
 }
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8242,7 +8312,7 @@ var $export = __webpack_require__(0);
 $export($export.P, 'Function', { bind: __webpack_require__(112) });
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8266,7 +8336,7 @@ NAME in FProto || __webpack_require__(7) && dP(FProto, NAME, {
 });
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8287,7 +8357,7 @@ if (!(HAS_INSTANCE in FunctionProto)) __webpack_require__(8).f(FunctionProto, HA
   } });
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8299,7 +8369,7 @@ var $parseInt = __webpack_require__(114);
 $export($export.G + $export.F * (parseInt != $parseInt), { parseInt: $parseInt });
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8311,7 +8381,7 @@ var $parseFloat = __webpack_require__(115);
 $export($export.G + $export.F * (parseFloat != $parseFloat), { parseFloat: $parseFloat });
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8389,7 +8459,7 @@ if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
 }
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8505,7 +8575,7 @@ $export($export.P + $export.F * (!!$toFixed && (0.00008.toFixed(3) !== '0.000' |
 });
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8530,7 +8600,7 @@ $export($export.P + $export.F * ($fails(function () {
 });
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8542,7 +8612,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', { EPSILON: Math.pow(2, -52) });
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8559,7 +8629,7 @@ $export($export.S, 'Number', {
 });
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8571,7 +8641,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', { isInteger: __webpack_require__(117) });
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8588,7 +8658,7 @@ $export($export.S, 'Number', {
 });
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8606,7 +8676,7 @@ $export($export.S, 'Number', {
 });
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8618,7 +8688,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', { MAX_SAFE_INTEGER: 0x1fffffffffffff });
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8630,7 +8700,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', { MIN_SAFE_INTEGER: -0x1fffffffffffff });
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8642,7 +8712,7 @@ var $parseFloat = __webpack_require__(115);
 $export($export.S + $export.F * (Number.parseFloat != $parseFloat), 'Number', { parseFloat: $parseFloat });
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8654,7 +8724,7 @@ var $parseInt = __webpack_require__(114);
 $export($export.S + $export.F * (Number.parseInt != $parseInt), 'Number', { parseInt: $parseInt });
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8677,7 +8747,7 @@ $export($export.S + $export.F * !($acosh
 });
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8695,7 +8765,7 @@ function asinh(x) {
 $export($export.S + $export.F * !($asinh && 1 / $asinh(0) > 0), 'Math', { asinh: asinh });
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8713,7 +8783,7 @@ $export($export.S + $export.F * !($atanh && 1 / $atanh(-0) < 0), 'Math', {
 });
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8730,7 +8800,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8746,7 +8816,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8763,7 +8833,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8776,7 +8846,7 @@ var $expm1 = __webpack_require__(82);
 $export($export.S + $export.F * ($expm1 != Math.expm1), 'Math', { expm1: $expm1 });
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8788,7 +8858,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', { fround: __webpack_require__(119) });
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8822,7 +8892,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8847,7 +8917,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8863,7 +8933,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8875,7 +8945,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', { log1p: __webpack_require__(118) });
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8891,7 +8961,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8903,7 +8973,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', { sign: __webpack_require__(81) });
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8924,7 +8994,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8944,7 +9014,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8960,7 +9030,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8989,7 +9059,7 @@ $export($export.S + $export.F * (!!$fromCodePoint && $fromCodePoint.length != 1)
 });
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9015,7 +9085,7 @@ $export($export.S, 'String', {
 });
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9029,7 +9099,7 @@ __webpack_require__(46)('trim', function ($trim) {
 });
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9053,7 +9123,7 @@ __webpack_require__(84)(String, 'String', function (iterated) {
 });
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9069,7 +9139,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9094,7 +9164,7 @@ $export($export.P + $export.F * __webpack_require__(87)(ENDS_WITH), 'String', {
 });
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9112,7 +9182,7 @@ $export($export.P + $export.F * __webpack_require__(87)(INCLUDES), 'String', {
 });
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9126,7 +9196,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9149,7 +9219,7 @@ $export($export.P + $export.F * __webpack_require__(87)(STARTS_WITH), 'String', 
 });
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9163,7 +9233,7 @@ __webpack_require__(17)('anchor', function (createHTML) {
 });
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9177,7 +9247,7 @@ __webpack_require__(17)('big', function (createHTML) {
 });
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9191,7 +9261,7 @@ __webpack_require__(17)('blink', function (createHTML) {
 });
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9205,7 +9275,7 @@ __webpack_require__(17)('bold', function (createHTML) {
 });
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9219,7 +9289,7 @@ __webpack_require__(17)('fixed', function (createHTML) {
 });
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9233,7 +9303,7 @@ __webpack_require__(17)('fontcolor', function (createHTML) {
 });
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9247,7 +9317,7 @@ __webpack_require__(17)('fontsize', function (createHTML) {
 });
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9261,7 +9331,7 @@ __webpack_require__(17)('italics', function (createHTML) {
 });
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9275,7 +9345,7 @@ __webpack_require__(17)('link', function (createHTML) {
 });
 
 /***/ }),
-/* 227 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9289,7 +9359,7 @@ __webpack_require__(17)('small', function (createHTML) {
 });
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9303,7 +9373,7 @@ __webpack_require__(17)('strike', function (createHTML) {
 });
 
 /***/ }),
-/* 229 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9317,7 +9387,7 @@ __webpack_require__(17)('sub', function (createHTML) {
 });
 
 /***/ }),
-/* 230 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9331,7 +9401,7 @@ __webpack_require__(17)('sup', function (createHTML) {
 });
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9345,7 +9415,7 @@ $export($export.S, 'Date', { now: function now() {
   } });
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9369,7 +9439,7 @@ $export($export.P + $export.F * __webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9377,7 +9447,7 @@ $export($export.P + $export.F * __webpack_require__(3)(function () {
 
 // 20.3.4.36 / 15.9.5.43 Date.prototype.toISOString()
 var $export = __webpack_require__(0);
-var toISOString = __webpack_require__(234);
+var toISOString = __webpack_require__(235);
 
 // PhantomJS / old WebKit has a broken implementations
 $export($export.P + $export.F * (Date.prototype.toISOString !== toISOString), 'Date', {
@@ -9385,7 +9455,7 @@ $export($export.P + $export.F * (Date.prototype.toISOString !== toISOString), 'D
 });
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9415,7 +9485,7 @@ module.exports = fails(function () {
 } : $toISOString;
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9435,7 +9505,7 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 }
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9444,10 +9514,10 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 var TO_PRIMITIVE = __webpack_require__(6)('toPrimitive');
 var proto = Date.prototype;
 
-if (!(TO_PRIMITIVE in proto)) __webpack_require__(15)(proto, TO_PRIMITIVE, __webpack_require__(237));
+if (!(TO_PRIMITIVE in proto)) __webpack_require__(15)(proto, TO_PRIMITIVE, __webpack_require__(238));
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9463,7 +9533,7 @@ module.exports = function (hint) {
 };
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9475,7 +9545,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Array', { isArray: __webpack_require__(56) });
 
 /***/ }),
-/* 239 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9521,7 +9591,7 @@ $export($export.S + $export.F * !__webpack_require__(58)(function (iter) {
 });
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9548,7 +9618,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9567,7 +9637,7 @@ $export($export.P + $export.F * (__webpack_require__(50) != Object || !__webpack
 });
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9601,7 +9671,7 @@ $export($export.P + $export.F * __webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9629,7 +9699,7 @@ $export($export.P + $export.F * (fails(function () {
 });
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9647,7 +9717,7 @@ $export($export.P + $export.F * !STRICT, 'Array', {
 });
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9671,7 +9741,7 @@ module.exports = function (original) {
 };
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9688,7 +9758,7 @@ $export($export.P + $export.F * !__webpack_require__(23)([].map, true), 'Array',
 });
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9705,7 +9775,7 @@ $export($export.P + $export.F * !__webpack_require__(23)([].filter, true), 'Arra
 });
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9722,7 +9792,7 @@ $export($export.P + $export.F * !__webpack_require__(23)([].some, true), 'Array'
 });
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9739,7 +9809,7 @@ $export($export.P + $export.F * !__webpack_require__(23)([].every, true), 'Array
 });
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9756,7 +9826,7 @@ $export($export.P + $export.F * !__webpack_require__(23)([].reduce, true), 'Arra
 });
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9773,7 +9843,7 @@ $export($export.P + $export.F * !__webpack_require__(23)([].reduceRight, true), 
 });
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9794,7 +9864,7 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(23)($nati
 });
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9824,7 +9894,7 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(23)($nati
 });
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9838,7 +9908,7 @@ $export($export.P, 'Array', { copyWithin: __webpack_require__(122) });
 __webpack_require__(33)('copyWithin');
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9852,7 +9922,7 @@ $export($export.P, 'Array', { fill: __webpack_require__(92) });
 __webpack_require__(33)('fill');
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9875,7 +9945,7 @@ $export($export.P + $export.F * forced, 'Array', {
 __webpack_require__(33)(KEY);
 
 /***/ }),
-/* 257 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9898,7 +9968,7 @@ $export($export.P + $export.F * forced, 'Array', {
 __webpack_require__(33)(KEY);
 
 /***/ }),
-/* 258 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9907,7 +9977,7 @@ __webpack_require__(33)(KEY);
 __webpack_require__(41)('Array');
 
 /***/ }),
-/* 259 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9959,7 +10029,7 @@ if (__webpack_require__(7) && (!CORRECT_NEW || __webpack_require__(3)(function (
 __webpack_require__(41)('RegExp');
 
 /***/ }),
-/* 260 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9992,7 +10062,7 @@ if (__webpack_require__(3)(function () {
 }
 
 /***/ }),
-/* 261 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10011,7 +10081,7 @@ __webpack_require__(60)('match', 1, function (defined, MATCH, $match) {
 });
 
 /***/ }),
-/* 262 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10030,7 +10100,7 @@ __webpack_require__(60)('replace', 2, function (defined, REPLACE, $replace) {
 });
 
 /***/ }),
-/* 263 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10049,7 +10119,7 @@ __webpack_require__(60)('search', 1, function (defined, SEARCH, $search) {
 });
 
 /***/ }),
-/* 264 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10121,7 +10191,7 @@ __webpack_require__(60)('split', 2, function (defined, SPLIT, $split) {
 });
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10400,7 +10470,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(58)(function
 });
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10423,7 +10493,7 @@ __webpack_require__(62)(WEAK_SET, function (get) {
 }, weak, false, true);
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10476,7 +10546,7 @@ $export($export.P + $export.U + $export.F * __webpack_require__(3)(function () {
 __webpack_require__(41)(ARRAY_BUFFER);
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10488,7 +10558,7 @@ $export($export.G + $export.W + $export.F * !__webpack_require__(63).ABV, {
 });
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10501,7 +10571,7 @@ __webpack_require__(30)('Int8', 1, function (init) {
 });
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10514,7 +10584,7 @@ __webpack_require__(30)('Uint8', 1, function (init) {
 });
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10527,7 +10597,7 @@ __webpack_require__(30)('Uint8', 1, function (init) {
 }, true);
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10540,7 +10610,7 @@ __webpack_require__(30)('Int16', 2, function (init) {
 });
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10553,7 +10623,7 @@ __webpack_require__(30)('Uint16', 2, function (init) {
 });
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10566,7 +10636,7 @@ __webpack_require__(30)('Int32', 4, function (init) {
 });
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10579,7 +10649,7 @@ __webpack_require__(30)('Uint32', 4, function (init) {
 });
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10592,7 +10662,7 @@ __webpack_require__(30)('Float32', 4, function (init) {
 });
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10605,7 +10675,7 @@ __webpack_require__(30)('Float64', 8, function (init) {
 });
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10629,7 +10699,7 @@ $export($export.S + $export.F * !__webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10689,7 +10759,7 @@ $export($export.S + $export.F * (NEW_TARGET_BUG || ARGS_BUG), 'Reflect', {
 });
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10720,7 +10790,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function () {
 });
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10739,7 +10809,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10774,7 +10844,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10799,7 +10869,7 @@ function get(target, propertyKey /* , receiver */) {
 $export($export.S, 'Reflect', { get: get });
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10817,7 +10887,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10835,7 +10905,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10851,7 +10921,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10870,7 +10940,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10882,7 +10952,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Reflect', { ownKeys: __webpack_require__(133) });
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10906,7 +10976,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10945,7 +11015,7 @@ function set(target, propertyKey, V /* , receiver */) {
 $export($export.S, 'Reflect', { set: set });
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10968,7 +11038,7 @@ if (setProto) $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10987,7 +11057,7 @@ $export($export.P, 'Array', {
 __webpack_require__(33)('includes');
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11016,7 +11086,7 @@ $export($export.P, 'Array', {
 __webpack_require__(33)('flatMap');
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11044,7 +11114,7 @@ $export($export.P, 'Array', {
 __webpack_require__(33)('flatten');
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11061,7 +11131,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11080,7 +11150,7 @@ $export($export.P + $export.F * /Version\/10\.\d+(\.\d+)? Safari\//.test(userAge
 });
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11099,7 +11169,7 @@ $export($export.P + $export.F * /Version\/10\.\d+(\.\d+)? Safari\//.test(userAge
 });
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11113,7 +11183,7 @@ __webpack_require__(46)('trimLeft', function ($trim) {
 }, 'trimStart');
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11127,7 +11197,7 @@ __webpack_require__(46)('trimRight', function ($trim) {
 }, 'trimEnd');
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11164,7 +11234,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 301 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11173,7 +11243,7 @@ $export($export.P, 'String', {
 __webpack_require__(73)('asyncIterator');
 
 /***/ }),
-/* 302 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11182,7 +11252,7 @@ __webpack_require__(73)('asyncIterator');
 __webpack_require__(73)('observable');
 
 /***/ }),
-/* 303 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11212,7 +11282,7 @@ $export($export.S, 'Object', {
 });
 
 /***/ }),
-/* 304 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11229,7 +11299,7 @@ $export($export.S, 'Object', {
 });
 
 /***/ }),
-/* 305 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11246,7 +11316,7 @@ $export($export.S, 'Object', {
 });
 
 /***/ }),
-/* 306 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11265,7 +11335,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(64), 'Object',
 });
 
 /***/ }),
-/* 307 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11284,7 +11354,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(64), 'Object',
 });
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11309,7 +11379,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(64), 'Object',
 });
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11334,7 +11404,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(64), 'Object',
 });
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11346,7 +11416,7 @@ var $export = __webpack_require__(0);
 $export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(137)('Map') });
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11358,7 +11428,7 @@ var $export = __webpack_require__(0);
 $export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(137)('Set') });
 
 /***/ }),
-/* 312 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11368,7 +11438,7 @@ $export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(137)('Set') 
 __webpack_require__(65)('Map');
 
 /***/ }),
-/* 313 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11378,7 +11448,7 @@ __webpack_require__(65)('Map');
 __webpack_require__(65)('Set');
 
 /***/ }),
-/* 314 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11388,7 +11458,7 @@ __webpack_require__(65)('Set');
 __webpack_require__(65)('WeakMap');
 
 /***/ }),
-/* 315 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11398,7 +11468,7 @@ __webpack_require__(65)('WeakMap');
 __webpack_require__(65)('WeakSet');
 
 /***/ }),
-/* 316 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11408,7 +11478,7 @@ __webpack_require__(65)('WeakSet');
 __webpack_require__(66)('Map');
 
 /***/ }),
-/* 317 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11418,7 +11488,7 @@ __webpack_require__(66)('Map');
 __webpack_require__(66)('Set');
 
 /***/ }),
-/* 318 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11428,7 +11498,7 @@ __webpack_require__(66)('Set');
 __webpack_require__(66)('WeakMap');
 
 /***/ }),
-/* 319 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11436,18 +11506,6 @@ __webpack_require__(66)('WeakMap');
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-weakset.from
 __webpack_require__(66)('WeakSet');
-
-/***/ }),
-/* 320 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// https://github.com/tc39/proposal-global
-var $export = __webpack_require__(0);
-
-$export($export.G, { global: __webpack_require__(2) });
 
 /***/ }),
 /* 321 */
@@ -11459,10 +11517,22 @@ $export($export.G, { global: __webpack_require__(2) });
 // https://github.com/tc39/proposal-global
 var $export = __webpack_require__(0);
 
-$export($export.S, 'System', { global: __webpack_require__(2) });
+$export($export.G, { global: __webpack_require__(2) });
 
 /***/ }),
 /* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// https://github.com/tc39/proposal-global
+var $export = __webpack_require__(0);
+
+$export($export.S, 'System', { global: __webpack_require__(2) });
+
+/***/ }),
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11479,7 +11549,7 @@ $export($export.S, 'Error', {
 });
 
 /***/ }),
-/* 323 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11495,7 +11565,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 324 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11507,7 +11577,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', { DEG_PER_RAD: Math.PI / 180 });
 
 /***/ }),
-/* 325 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11524,7 +11594,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 326 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11542,7 +11612,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 327 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11561,7 +11631,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 328 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11580,7 +11650,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 329 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11604,7 +11674,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 330 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11616,7 +11686,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', { RAD_PER_DEG: 180 / Math.PI });
 
 /***/ }),
-/* 331 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11633,7 +11703,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 332 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11645,7 +11715,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', { scale: __webpack_require__(139) });
 
 /***/ }),
-/* 333 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11669,7 +11739,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 334 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11684,7 +11754,7 @@ $export($export.S, 'Math', { signbit: function signbit(x) {
   } });
 
 /***/ }),
-/* 335 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11712,7 +11782,7 @@ $export($export.P + $export.R, 'Promise', { 'finally': function _finally(onFinal
   } });
 
 /***/ }),
-/* 336 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11731,7 +11801,7 @@ $export($export.S, 'Promise', { 'try': function _try(callbackfn) {
   } });
 
 /***/ }),
-/* 337 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11747,7 +11817,7 @@ metadata.exp({ defineMetadata: function defineMetadata(metadataKey, metadataValu
   } });
 
 /***/ }),
-/* 338 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11770,7 +11840,7 @@ metadata.exp({ deleteMetadata: function deleteMetadata(metadataKey, target /* , 
   } });
 
 /***/ }),
-/* 339 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11795,7 +11865,7 @@ metadata.exp({ getMetadata: function getMetadata(metadataKey, target /* , target
   } });
 
 /***/ }),
-/* 340 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11822,7 +11892,7 @@ metadata.exp({ getMetadataKeys: function getMetadataKeys(target /* , targetKey *
   } });
 
 /***/ }),
-/* 341 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11838,7 +11908,7 @@ metadata.exp({ getOwnMetadata: function getOwnMetadata(metadataKey, target /* , 
   } });
 
 /***/ }),
-/* 342 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11854,7 +11924,7 @@ metadata.exp({ getOwnMetadataKeys: function getOwnMetadataKeys(target /* , targe
   } });
 
 /***/ }),
-/* 343 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11878,7 +11948,7 @@ metadata.exp({ hasMetadata: function hasMetadata(metadataKey, target /* , target
   } });
 
 /***/ }),
-/* 344 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11894,7 +11964,7 @@ metadata.exp({ hasOwnMetadata: function hasOwnMetadata(metadataKey, target /* , 
   } });
 
 /***/ }),
-/* 345 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11913,7 +11983,7 @@ $metadata.exp({ metadata: function metadata(metadataKey, metadataValue) {
   } });
 
 /***/ }),
-/* 346 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11933,7 +12003,7 @@ $export($export.G, {
 });
 
 /***/ }),
-/* 347 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12149,7 +12219,7 @@ $export($export.G, { Observable: $Observable });
 __webpack_require__(41)('Observable');
 
 /***/ }),
-/* 348 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12177,7 +12247,7 @@ $export($export.G + $export.B + $export.F * MSIE, {
 });
 
 /***/ }),
-/* 349 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12191,7 +12261,7 @@ $export($export.G + $export.B, {
 });
 
 /***/ }),
-/* 350 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12259,7 +12329,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 }
 
 /***/ }),
-/* 351 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12969,10 +13039,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 // object, this seems to be the most reliable technique that does not
 // use indirect eval (which violates Content Security Policy).
 (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" ? global : (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" ? window : (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" ? self : undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(71), __webpack_require__(352)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(71), __webpack_require__(353)(module)))
 
 /***/ }),
-/* 352 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13002,17 +13072,17 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 353 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(354);
+__webpack_require__(355);
 module.exports = __webpack_require__(24).RegExp.escape;
 
 /***/ }),
-/* 354 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13020,14 +13090,14 @@ module.exports = __webpack_require__(24).RegExp.escape;
 
 // https://github.com/benjamingr/RexExp.escape
 var $export = __webpack_require__(0);
-var $re = __webpack_require__(355)(/[\\^$*+?.()|[\]{}]/g, '\\$&');
+var $re = __webpack_require__(356)(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 
 $export($export.S, 'RegExp', { escape: function escape(it) {
     return $re(it);
   } });
 
 /***/ }),
-/* 355 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13043,7 +13113,7 @@ module.exports = function (regExp, replace) {
 };
 
 /***/ }),
-/* 356 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13364,7 +13434,7 @@ module.exports = function (regExp, replace) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(71)))
 
 /***/ }),
-/* 357 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13375,7 +13445,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.VXPayCurrency = exports.VXPayFlow = exports.VXPayPaymentHooksConfig = exports.VXPayModalConfig = exports.VXPayNotifications = exports.VXPayLanguage = exports.VXPayEnvironment = exports.VXPayConfig = exports.VXPay = undefined;
 
-var _VXPay = __webpack_require__(358);
+var _VXPay = __webpack_require__(359);
 
 var _VXPay2 = _interopRequireDefault(_VXPay);
 
@@ -13391,7 +13461,7 @@ var _VXPayLanguage = __webpack_require__(100);
 
 var _VXPayLanguage2 = _interopRequireDefault(_VXPayLanguage);
 
-var _VXPayNotifications = __webpack_require__(417);
+var _VXPayNotifications = __webpack_require__(418);
 
 var _VXPayNotifications2 = _interopRequireDefault(_VXPayNotifications);
 
@@ -13424,7 +13494,7 @@ exports.VXPayFlow = _VXPayFlow2.default;
 exports.VXPayCurrency = _VXPayCurrency2.default;
 
 /***/ }),
-/* 358 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13444,135 +13514,135 @@ var _VXPayLogger = __webpack_require__(103);
 
 var _VXPayLogger2 = _interopRequireDefault(_VXPayLogger);
 
-var _VXPayHelperFrame = __webpack_require__(143);
+var _VXPayHelperFrame = __webpack_require__(144);
 
 var _VXPayHelperFrame2 = _interopRequireDefault(_VXPayHelperFrame);
 
-var _VXPayPaymentFrame = __webpack_require__(149);
+var _VXPayPaymentFrame = __webpack_require__(150);
 
 var _VXPayPaymentFrame2 = _interopRequireDefault(_VXPayPaymentFrame);
 
-var _VXPayPaymentTab = __webpack_require__(151);
+var _VXPayPaymentTab = __webpack_require__(152);
 
 var _VXPayPaymentTab2 = _interopRequireDefault(_VXPayPaymentTab);
 
-var _VXPayInitPaymentMiddleware = __webpack_require__(380);
+var _VXPayInitPaymentMiddleware = __webpack_require__(381);
 
 var _VXPayInitPaymentMiddleware2 = _interopRequireDefault(_VXPayInitPaymentMiddleware);
 
-var _VXPayInitHelperMiddleware = __webpack_require__(381);
+var _VXPayInitHelperMiddleware = __webpack_require__(382);
 
 var _VXPayInitHelperMiddleware2 = _interopRequireDefault(_VXPayInitHelperMiddleware);
 
-var _VXPayListenOrCallLoggedInMiddleware = __webpack_require__(382);
+var _VXPayListenOrCallLoggedInMiddleware = __webpack_require__(383);
 
 var _VXPayListenOrCallLoggedInMiddleware2 = _interopRequireDefault(_VXPayListenOrCallLoggedInMiddleware);
 
-var _VXPayOnAVSStatusListenMiddleware = __webpack_require__(385);
+var _VXPayOnAVSStatusListenMiddleware = __webpack_require__(386);
 
 var _VXPayOnAVSStatusListenMiddleware2 = _interopRequireDefault(_VXPayOnAVSStatusListenMiddleware);
 
-var _VXPayAVSStatusTriggerMiddleware = __webpack_require__(386);
+var _VXPayAVSStatusTriggerMiddleware = __webpack_require__(387);
 
 var _VXPayAVSStatusTriggerMiddleware2 = _interopRequireDefault(_VXPayAVSStatusTriggerMiddleware);
 
-var _VXPayListenForBalanceMiddleware = __webpack_require__(388);
+var _VXPayListenForBalanceMiddleware = __webpack_require__(389);
 
 var _VXPayListenForBalanceMiddleware2 = _interopRequireDefault(_VXPayListenForBalanceMiddleware);
 
-var _VXPayBalanceTriggerMiddleware = __webpack_require__(389);
+var _VXPayBalanceTriggerMiddleware = __webpack_require__(390);
 
 var _VXPayBalanceTriggerMiddleware2 = _interopRequireDefault(_VXPayBalanceTriggerMiddleware);
 
-var _VXPayListenForActiveAbosMiddleware = __webpack_require__(391);
+var _VXPayListenForActiveAbosMiddleware = __webpack_require__(392);
 
 var _VXPayListenForActiveAbosMiddleware2 = _interopRequireDefault(_VXPayListenForActiveAbosMiddleware);
 
-var _VXPayActiveAbosTriggerMiddleware = __webpack_require__(392);
+var _VXPayActiveAbosTriggerMiddleware = __webpack_require__(393);
 
 var _VXPayActiveAbosTriggerMiddleware2 = _interopRequireDefault(_VXPayActiveAbosTriggerMiddleware);
 
-var _VXPayListenForLogoutMiddleware = __webpack_require__(394);
+var _VXPayListenForLogoutMiddleware = __webpack_require__(395);
 
 var _VXPayListenForLogoutMiddleware2 = _interopRequireDefault(_VXPayListenForLogoutMiddleware);
 
-var _VXPayLogoutTriggerMiddleware = __webpack_require__(395);
+var _VXPayLogoutTriggerMiddleware = __webpack_require__(396);
 
 var _VXPayLogoutTriggerMiddleware2 = _interopRequireDefault(_VXPayLogoutTriggerMiddleware);
 
-var _VXPayState = __webpack_require__(397);
+var _VXPayState = __webpack_require__(398);
 
 var _VXPayState2 = _interopRequireDefault(_VXPayState);
 
-var _VXPayWhenTokenTransferred = __webpack_require__(398);
+var _VXPayWhenTokenTransferred = __webpack_require__(399);
 
 var _VXPayWhenTokenTransferred2 = _interopRequireDefault(_VXPayWhenTokenTransferred);
 
-var _VXPayOpenLoginCommand = __webpack_require__(399);
+var _VXPayOpenLoginCommand = __webpack_require__(400);
 
 var _VXPayOpenLoginCommand2 = _interopRequireDefault(_VXPayOpenLoginCommand);
 
-var _VXPayOpenSignUpCommand = __webpack_require__(400);
+var _VXPayOpenSignUpCommand = __webpack_require__(401);
 
 var _VXPayOpenSignUpCommand2 = _interopRequireDefault(_VXPayOpenSignUpCommand);
 
-var _VXPayOpenVoiceCallCommand = __webpack_require__(401);
+var _VXPayOpenVoiceCallCommand = __webpack_require__(402);
 
 var _VXPayOpenVoiceCallCommand2 = _interopRequireDefault(_VXPayOpenVoiceCallCommand);
 
-var _VXPayOpenPaymentCommand = __webpack_require__(403);
+var _VXPayOpenPaymentCommand = __webpack_require__(404);
 
 var _VXPayOpenPaymentCommand2 = _interopRequireDefault(_VXPayOpenPaymentCommand);
 
-var _VXPayOpenSettingsCommand = __webpack_require__(404);
+var _VXPayOpenSettingsCommand = __webpack_require__(405);
 
 var _VXPayOpenSettingsCommand2 = _interopRequireDefault(_VXPayOpenSettingsCommand);
 
-var _VXPayOpenAboCommand = __webpack_require__(405);
+var _VXPayOpenAboCommand = __webpack_require__(406);
 
 var _VXPayOpenAboCommand2 = _interopRequireDefault(_VXPayOpenAboCommand);
 
-var _VXPayResetPasswordCommand = __webpack_require__(406);
+var _VXPayResetPasswordCommand = __webpack_require__(407);
 
 var _VXPayResetPasswordCommand2 = _interopRequireDefault(_VXPayResetPasswordCommand);
 
-var _VXPayLostPasswordCommand = __webpack_require__(407);
+var _VXPayLostPasswordCommand = __webpack_require__(408);
 
 var _VXPayLostPasswordCommand2 = _interopRequireDefault(_VXPayLostPasswordCommand);
 
-var _VXPayOpenLimitedPaymentCommand = __webpack_require__(408);
+var _VXPayOpenLimitedPaymentCommand = __webpack_require__(409);
 
 var _VXPayOpenLimitedPaymentCommand2 = _interopRequireDefault(_VXPayOpenLimitedPaymentCommand);
 
-var _VXPayOpenVipAboTrialCommand = __webpack_require__(409);
+var _VXPayOpenVipAboTrialCommand = __webpack_require__(410);
 
 var _VXPayOpenVipAboTrialCommand2 = _interopRequireDefault(_VXPayOpenVipAboTrialCommand);
 
-var _VXPayOpenPremiumAboCommand = __webpack_require__(410);
+var _VXPayOpenPremiumAboCommand = __webpack_require__(411);
 
 var _VXPayOpenPremiumAboCommand2 = _interopRequireDefault(_VXPayOpenPremiumAboCommand);
 
-var _VXPayOpenAVSCommand = __webpack_require__(411);
+var _VXPayOpenAVSCommand = __webpack_require__(412);
 
 var _VXPayOpenAVSCommand2 = _interopRequireDefault(_VXPayOpenAVSCommand);
 
-var _VXPayOpenPromoCodeCommand = __webpack_require__(412);
+var _VXPayOpenPromoCodeCommand = __webpack_require__(413);
 
 var _VXPayOpenPromoCodeCommand2 = _interopRequireDefault(_VXPayOpenPromoCodeCommand);
 
-var _VXPayOpenOneClickCommand = __webpack_require__(413);
+var _VXPayOpenOneClickCommand = __webpack_require__(414);
 
 var _VXPayOpenOneClickCommand2 = _interopRequireDefault(_VXPayOpenOneClickCommand);
 
-var _VXPayOpenAutoRechargeCommand = __webpack_require__(414);
+var _VXPayOpenAutoRechargeCommand = __webpack_require__(415);
 
 var _VXPayOpenAutoRechargeCommand2 = _interopRequireDefault(_VXPayOpenAutoRechargeCommand);
 
-var _VXPayOpenOpenBalanceCommand = __webpack_require__(415);
+var _VXPayOpenOpenBalanceCommand = __webpack_require__(416);
 
 var _VXPayOpenOpenBalanceCommand2 = _interopRequireDefault(_VXPayOpenOpenBalanceCommand);
 
-var _VXPayTriggerShowForTab = __webpack_require__(416);
+var _VXPayTriggerShowForTab = __webpack_require__(417);
 
 var _VXPayTriggerShowForTab2 = _interopRequireDefault(_VXPayTriggerShowForTab);
 
@@ -14105,7 +14175,27 @@ var VXPay = function () {
 exports.default = VXPay;
 
 /***/ }),
-/* 359 */
+/* 360 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = isMobile;
+
+function isMobile(ua) {
+  if (!ua && typeof navigator != 'undefined') ua = navigator.userAgent;
+  if (ua && ua.headers && typeof ua.headers['user-agent'] == 'string') {
+    ua = ua.headers['user-agent'];
+  }
+  if (typeof ua != 'string') return false;
+
+  return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(ua) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(ua.substr(0, 4))
+  );
+}
+
+/***/ }),
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14144,7 +14234,7 @@ var VXPayContentLoadedMessage = function (_VXPayMessage) {
 exports.default = VXPayContentLoadedMessage;
 
 /***/ }),
-/* 360 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14164,7 +14254,7 @@ var _VXPayFlowChangedMessage = __webpack_require__(142);
 
 var _VXPayFlowChangedMessage2 = _interopRequireDefault(_VXPayFlowChangedMessage);
 
-var _VXPayLoggedInMessage = __webpack_require__(361);
+var _VXPayLoggedInMessage = __webpack_require__(363);
 
 var _VXPayLoggedInMessage2 = _interopRequireDefault(_VXPayLoggedInMessage);
 
@@ -14211,7 +14301,7 @@ var VXPayHookMessageFactory = function () {
 exports.default = VXPayHookMessageFactory;
 
 /***/ }),
-/* 361 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14250,7 +14340,7 @@ var VXPayLoggedInMessage = function (_VXPayHookMessage) {
 exports.default = VXPayLoggedInMessage;
 
 /***/ }),
-/* 362 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14289,7 +14379,7 @@ var VXPayIframeReadyMessage = function (_VXPayMessage) {
 exports.default = VXPayIframeReadyMessage;
 
 /***/ }),
-/* 363 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14332,7 +14422,7 @@ var VXPayTransferTokenMessage = function (_VXPayMessage) {
 exports.default = VXPayTransferTokenMessage;
 
 /***/ }),
-/* 364 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14377,7 +14467,7 @@ var VXPayIframeCloseMessage = function (_VXPayMessage) {
 exports.default = VXPayIframeCloseMessage;
 
 /***/ }),
-/* 365 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14391,7 +14481,7 @@ var _VXPayMessage2 = __webpack_require__(5);
 
 var _VXPayMessage3 = _interopRequireDefault(_VXPayMessage2);
 
-var _VXPayUser = __webpack_require__(366);
+var _VXPayUser = __webpack_require__(368);
 
 var _VXPayUser2 = _interopRequireDefault(_VXPayUser);
 
@@ -14453,7 +14543,7 @@ VXPaySuccessMessage.USER_DATA_STRUCT = {
 exports.default = VXPaySuccessMessage;
 
 /***/ }),
-/* 366 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14557,7 +14647,7 @@ var VXPayUser = function () {
 exports.default = VXPayUser;
 
 /***/ }),
-/* 367 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14602,7 +14692,7 @@ var VXPayIsLoggedInResponseMessage = function (_VXPayMessage) {
 exports.default = VXPayIsLoggedInResponseMessage;
 
 /***/ }),
-/* 368 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14616,7 +14706,7 @@ var _VXPayMessage2 = __webpack_require__(5);
 
 var _VXPayMessage3 = _interopRequireDefault(_VXPayMessage2);
 
-var _VXPayAVSStatus = __webpack_require__(148);
+var _VXPayAVSStatus = __webpack_require__(149);
 
 var _VXPayAVSStatus2 = _interopRequireDefault(_VXPayAVSStatus);
 
@@ -14651,7 +14741,7 @@ var VXPayAVSStatusMessage = function (_VXPayMessage) {
 exports.default = VXPayAVSStatusMessage;
 
 /***/ }),
-/* 369 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14671,7 +14761,7 @@ var _VXPayCurrency = __webpack_require__(104);
 
 var _VXPayCurrency2 = _interopRequireDefault(_VXPayCurrency);
 
-var _VXPayBalance = __webpack_require__(370);
+var _VXPayBalance = __webpack_require__(372);
 
 var _VXPayBalance2 = _interopRequireDefault(_VXPayBalance);
 
@@ -14723,7 +14813,7 @@ VXPayBalanceMessage.SAMPLE_DATA = {
 exports.default = VXPayBalanceMessage;
 
 /***/ }),
-/* 370 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14796,7 +14886,7 @@ var VXPayBalance = function () {
 exports.default = VXPayBalance;
 
 /***/ }),
-/* 371 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14812,7 +14902,7 @@ var _VXPayMessage2 = __webpack_require__(5);
 
 var _VXPayMessage3 = _interopRequireDefault(_VXPayMessage2);
 
-var _VXPayAbo = __webpack_require__(372);
+var _VXPayAbo = __webpack_require__(374);
 
 var _VXPayAbo2 = _interopRequireDefault(_VXPayAbo);
 
@@ -14896,7 +14986,7 @@ VXPayActiveAbosMessage.SAMPLE_DATA = {
 exports.default = VXPayActiveAbosMessage;
 
 /***/ }),
-/* 372 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15059,7 +15149,7 @@ var VXPayAbo = function () {
 exports.default = VXPayAbo;
 
 /***/ }),
-/* 373 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15097,7 +15187,7 @@ var VXPayLoggedOutMessage = function (_VXPayMessage) {
 exports.default = VXPayLoggedOutMessage;
 
 /***/ }),
-/* 374 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15134,7 +15224,7 @@ var VXPayHelperHooksConfig = function (_VXPayHooksConfig) {
 exports.default = VXPayHelperHooksConfig;
 
 /***/ }),
-/* 375 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15179,7 +15269,7 @@ var VXPayInitSessionMessage = function (_VXPayMessage) {
 exports.default = VXPayInitSessionMessage;
 
 /***/ }),
-/* 376 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15224,7 +15314,7 @@ var VXPayUpdateParamsMessage = function (_VXPayMessage) {
 exports.default = VXPayUpdateParamsMessage;
 
 /***/ }),
-/* 377 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15272,70 +15362,7 @@ var VXPayChangeRouteMessage = function (_VXPayMessage) {
 exports.default = VXPayChangeRouteMessage;
 
 /***/ }),
-/* 378 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var VXPayUserAgentHelper = function () {
-	/**
-  * @param {String} uaString
-  */
-	function VXPayUserAgentHelper() {
-		var uaString = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-		_classCallCheck(this, VXPayUserAgentHelper);
-
-		this._userAgent = uaString;
-	}
-
-	/**
-  * @return {boolean}
-  */
-
-
-	_createClass(VXPayUserAgentHelper, [{
-		key: 'isMobile',
-		value: function isMobile() {
-			return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(this._userAgent)
-			);
-		}
-
-		/**
-   * @return {string}
-   */
-
-	}, {
-		key: 'userAgent',
-		get: function get() {
-			return this._userAgent;
-		}
-
-		/**
-   * @param {string} value
-   */
-		,
-		set: function set(value) {
-			this._userAgent = value;
-		}
-	}]);
-
-	return VXPayUserAgentHelper;
-}();
-
-exports.default = VXPayUserAgentHelper;
-
-/***/ }),
-/* 379 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15380,7 +15407,7 @@ var VXPayAdditionalOptionsMessage = function (_VXPayMessage) {
 exports.default = VXPayAdditionalOptionsMessage;
 
 /***/ }),
-/* 380 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15390,11 +15417,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayPaymentFrame = __webpack_require__(149);
+var _VXPayPaymentFrame = __webpack_require__(150);
 
 var _VXPayPaymentFrame2 = _interopRequireDefault(_VXPayPaymentFrame);
 
-var _VXPayPaymentTab = __webpack_require__(151);
+var _VXPayPaymentTab = __webpack_require__(152);
 
 var _VXPayPaymentTab2 = _interopRequireDefault(_VXPayPaymentTab);
 
@@ -15454,7 +15481,7 @@ var VXPayInitPaymentMiddleware = function VXPayInitPaymentMiddleware(vxpay, reso
 exports.default = VXPayInitPaymentMiddleware;
 
 /***/ }),
-/* 381 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15464,7 +15491,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayHelperFrame = __webpack_require__(143);
+var _VXPayHelperFrame = __webpack_require__(144);
 
 var _VXPayHelperFrame2 = _interopRequireDefault(_VXPayHelperFrame);
 
@@ -15507,7 +15534,7 @@ var VXPayInitHelperMiddleware = function VXPayInitHelperMiddleware(vxpay, resolv
 exports.default = VXPayInitHelperMiddleware;
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15517,7 +15544,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayIsLoggedInTriggerMiddleware = __webpack_require__(383);
+var _VXPayIsLoggedInTriggerMiddleware = __webpack_require__(384);
 
 var _VXPayIsLoggedInTriggerMiddleware2 = _interopRequireDefault(_VXPayIsLoggedInTriggerMiddleware);
 
@@ -15546,7 +15573,7 @@ var VXPayListenOrCallLoggedInMiddleware = function VXPayListenOrCallLoggedInMidd
 exports.default = VXPayListenOrCallLoggedInMiddleware;
 
 /***/ }),
-/* 383 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15556,7 +15583,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayIsLoggedInActionMessage = __webpack_require__(384);
+var _VXPayIsLoggedInActionMessage = __webpack_require__(385);
 
 var _VXPayIsLoggedInActionMessage2 = _interopRequireDefault(_VXPayIsLoggedInActionMessage);
 
@@ -15587,7 +15614,7 @@ var VXPayIsLoggedInTriggerMiddleware = function VXPayIsLoggedInTriggerMiddleware
 exports.default = VXPayIsLoggedInTriggerMiddleware;
 
 /***/ }),
-/* 384 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15624,7 +15651,7 @@ var VXPayIsLoggedInActionMessage = function (_VXPayMessage) {
 exports.default = VXPayIsLoggedInActionMessage;
 
 /***/ }),
-/* 385 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15650,7 +15677,7 @@ var VXPayOnAVSStatusListenMiddleware = function VXPayOnAVSStatusListenMiddleware
 exports.default = VXPayOnAVSStatusListenMiddleware;
 
 /***/ }),
-/* 386 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15660,7 +15687,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayGetAVSStatusMessage = __webpack_require__(387);
+var _VXPayGetAVSStatusMessage = __webpack_require__(388);
 
 var _VXPayGetAVSStatusMessage2 = _interopRequireDefault(_VXPayGetAVSStatusMessage);
 
@@ -15690,7 +15717,7 @@ var VXPayAVSStatusTriggerMiddleware = function VXPayAVSStatusTriggerMiddleware(v
 exports.default = VXPayAVSStatusTriggerMiddleware;
 
 /***/ }),
-/* 387 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15727,7 +15754,7 @@ var VXPayGetAVSStatusMessage = function (_VXPayMessage) {
 exports.default = VXPayGetAVSStatusMessage;
 
 /***/ }),
-/* 388 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15753,7 +15780,7 @@ var VXPayListenForBalanceMiddleware = function VXPayListenForBalanceMiddleware(v
 exports.default = VXPayListenForBalanceMiddleware;
 
 /***/ }),
-/* 389 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15763,7 +15790,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayGetBalanceMessage = __webpack_require__(390);
+var _VXPayGetBalanceMessage = __webpack_require__(391);
 
 var _VXPayGetBalanceMessage2 = _interopRequireDefault(_VXPayGetBalanceMessage);
 
@@ -15791,7 +15818,7 @@ var VXPayBalanceTriggerMiddleware = function VXPayBalanceTriggerMiddleware(vxpay
 exports.default = VXPayBalanceTriggerMiddleware;
 
 /***/ }),
-/* 390 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15828,7 +15855,7 @@ var VXPayGetBalanceMessage = function (_VXPayMessage) {
 exports.default = VXPayGetBalanceMessage;
 
 /***/ }),
-/* 391 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15859,7 +15886,7 @@ var VXPayListenForActiveAbosMiddleware = function VXPayListenForActiveAbosMiddle
 exports.default = VXPayListenForActiveAbosMiddleware;
 
 /***/ }),
-/* 392 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15869,7 +15896,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayGetActiveAbosMessage = __webpack_require__(393);
+var _VXPayGetActiveAbosMessage = __webpack_require__(394);
 
 var _VXPayGetActiveAbosMessage2 = _interopRequireDefault(_VXPayGetActiveAbosMessage);
 
@@ -15897,7 +15924,7 @@ var VXPayActiveAbosTriggerMiddleware = function VXPayActiveAbosTriggerMiddleware
 exports.default = VXPayActiveAbosTriggerMiddleware;
 
 /***/ }),
-/* 393 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15934,7 +15961,7 @@ var VXPayGetActiveAbosMessage = function (_VXPayMessage) {
 exports.default = VXPayGetActiveAbosMessage;
 
 /***/ }),
-/* 394 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15960,7 +15987,7 @@ var VXPayListenForLogoutMiddleware = function VXPayListenForLogoutMiddleware(vxp
 exports.default = VXPayListenForLogoutMiddleware;
 
 /***/ }),
-/* 395 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15970,7 +15997,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _VXPayLogoutMessage = __webpack_require__(396);
+var _VXPayLogoutMessage = __webpack_require__(397);
 
 var _VXPayLogoutMessage2 = _interopRequireDefault(_VXPayLogoutMessage);
 
@@ -15996,7 +16023,7 @@ var VXPayLogoutTriggerMiddleware = function VXPayLogoutTriggerMiddleware(vxpay) 
 exports.default = VXPayLogoutTriggerMiddleware;
 
 /***/ }),
-/* 396 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16033,7 +16060,7 @@ var VXPayLogoutMessage = function (_VXPayMessage) {
 exports.default = VXPayLogoutMessage;
 
 /***/ }),
-/* 397 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16174,7 +16201,7 @@ var VXPayState = function () {
 exports.default = VXPayState;
 
 /***/ }),
-/* 398 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16209,7 +16236,7 @@ var VXPayWhenTokenTransferred = function VXPayWhenTokenTransferred(vxpay) {
 exports.default = VXPayWhenTokenTransferred;
 
 /***/ }),
-/* 399 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16243,7 +16270,7 @@ var VXPayOpenLoginCommand = function VXPayOpenLoginCommand(vxpay) {
 exports.default = VXPayOpenLoginCommand;
 
 /***/ }),
-/* 400 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16277,7 +16304,7 @@ var VXPayOpenSignUpCommand = function VXPayOpenSignUpCommand(vxpay) {
 exports.default = VXPayOpenSignUpCommand;
 
 /***/ }),
-/* 401 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16289,7 +16316,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _VXPayPaymentType = __webpack_require__(402);
+var _VXPayPaymentType = __webpack_require__(403);
 
 var _VXPayPaymentType2 = _interopRequireDefault(_VXPayPaymentType);
 
@@ -16335,7 +16362,7 @@ VXPayOpenVoiceCallCommand.PARAMS = {
 exports.default = VXPayOpenVoiceCallCommand;
 
 /***/ }),
-/* 402 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16358,7 +16385,7 @@ VXPayPaymentType.LASTSCHRIFT = 'LS';
 exports.default = VXPayPaymentType;
 
 /***/ }),
-/* 403 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16412,7 +16439,7 @@ VXPayOpenPaymentCommand.PARAMS = {
 exports.default = VXPayOpenPaymentCommand;
 
 /***/ }),
-/* 404 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16466,7 +16493,7 @@ VXPayOpenSettingsCommand.PARAMS = {
 exports.default = VXPayOpenSettingsCommand;
 
 /***/ }),
-/* 405 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16500,7 +16527,7 @@ var VXPayOpenAboCommand = function VXPayOpenAboCommand(vxpay) {
 exports.default = VXPayOpenAboCommand;
 
 /***/ }),
-/* 406 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16571,7 +16598,7 @@ var VXPayResetPasswordCommand = function () {
 exports.default = VXPayResetPasswordCommand;
 
 /***/ }),
-/* 407 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16642,7 +16669,7 @@ var VXPayLostPasswordCommand = function () {
 exports.default = VXPayLostPasswordCommand;
 
 /***/ }),
-/* 408 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16696,7 +16723,7 @@ VXPayOpenLimitedPaymentCommand.PARAMS = {
 exports.default = VXPayOpenLimitedPaymentCommand;
 
 /***/ }),
-/* 409 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16730,7 +16757,7 @@ var VXPayOpenVipAboTrialCommand = function VXPayOpenVipAboTrialCommand(vxpay) {
 exports.default = VXPayOpenVipAboTrialCommand;
 
 /***/ }),
-/* 410 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16759,7 +16786,7 @@ var VXPayOpenPremiumAboCommand = function VXPayOpenPremiumAboCommand(vxpay) {
 exports.default = VXPayOpenPremiumAboCommand;
 
 /***/ }),
-/* 411 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16793,7 +16820,7 @@ var VXPayOpenAVSCommand = function VXPayOpenAVSCommand(vxpay) {
 exports.default = VXPayOpenAVSCommand;
 
 /***/ }),
-/* 412 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16827,7 +16854,7 @@ var VXPayOpenPromoCodeCommand = function VXPayOpenPromoCodeCommand(vxpay) {
 exports.default = VXPayOpenPromoCodeCommand;
 
 /***/ }),
-/* 413 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16884,7 +16911,7 @@ VXPayOpenOneClickCommand.PARAMS = {
 exports.default = VXPayOpenOneClickCommand;
 
 /***/ }),
-/* 414 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16940,7 +16967,7 @@ VXPayOpenAutoRechargeCommand.PARAMS = {
 exports.default = VXPayOpenAutoRechargeCommand;
 
 /***/ }),
-/* 415 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16969,7 +16996,7 @@ var VXPayOpenOpenBalanceCommand = function VXPayOpenOpenBalanceCommand(vxpay) {
 exports.default = VXPayOpenOpenBalanceCommand;
 
 /***/ }),
-/* 416 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16995,7 +17022,7 @@ var VXPayTriggerShowForTab = function VXPayTriggerShowForTab(vxpay) {
 exports.default = VXPayTriggerShowForTab;
 
 /***/ }),
-/* 417 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

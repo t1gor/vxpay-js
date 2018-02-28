@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "is-mobile": "^0.2.2",
     "url-polyfill": "^1.0.11"
   },
   "engines": {

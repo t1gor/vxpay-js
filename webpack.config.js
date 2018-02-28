@@ -37,11 +37,11 @@ module.exports = {
 		new UglifyJsPlugin({
 			include: /\.min\.js$/
 		}),
-		/*new HtmlWebpackPlugin({
+		new HtmlWebpackPlugin({
 			filename: './docs/demo.html',
 			template: './docs/demo.html'
 		}),
 		new webpack.NamedModulesPlugin(),
-		new webpack.HotModuleReplacementPlugin()*/
+		new webpack.HotModuleReplacementPlugin()
 	]
 };

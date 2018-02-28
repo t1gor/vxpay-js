@@ -1,3 +1,5 @@
+import mobile from 'is-mobile'
+
 export default class VXPayUserAgentHelper {
 	/**
 	 * @param {String} uaString
@@ -10,7 +12,7 @@ export default class VXPayUserAgentHelper {
 	 * @return {boolean}
 	 */
 	isMobile() {
-		return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(this._userAgent));
+		return mobile(this._userAgent);
 	}
 
 	/**

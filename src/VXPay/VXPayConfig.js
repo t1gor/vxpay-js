@@ -6,6 +6,7 @@ import VXPayIframe                 from './Dom/VXPayIframe'
 import VXPayModalConfig            from './Config/VXPayModalConfig'
 import VXPayUrlHelper              from './VXPayUrlHelper'
 import VXPayFlowChangedHookMessage from './Message/Hooks/VXPayFlowChangedMessage'
+import VXPayUserAgentHelper        from './VXPayUserAgentHelper'
 
 class VXPayConfig {
 	/**
@@ -25,8 +26,10 @@ class VXPayConfig {
 			purl:    ''
 		};
 
+		console.log(111, (new VXPayUserAgentHelper(window.navigator.userAgent || '')).isMobile());
+
 		this._pfm        = '';
-		this._enableTab  = false;
+		this._enableTab  = (new VXPayUserAgentHelper(window.navigator.userAgent || '')).isMobile();
 		this._host       = '';
 		this._token      = '';
 		this._promoCode  = '';

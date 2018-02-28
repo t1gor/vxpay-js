@@ -118,6 +118,8 @@
 		config.logging  = true;
 		config.language = VX.VXPayLanguage.EN;
 		vxpay           = new VX.VXPay(config);
+
+		console.log(vxpay.config.enableTab);
 	};
 
 	document.addEventListener('DOMContentLoaded', function() {

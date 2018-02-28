@@ -2,7 +2,7 @@
 
 VXPay-js is an SDK for integrating the Visit-X payment/funnel for 3rd party code.
 
-[DEMO](https://visit-x.github.io/vxpay-js/demo.html)
+[Demo](https://visit-x.github.io/vxpay-js/demo.html) [Coverage](https://visit-x.github.io/vxpay-js/coverage/)
 
 ## Installation
 
