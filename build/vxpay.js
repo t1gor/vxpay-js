@@ -15490,7 +15490,7 @@ var VXPayInitHelperMiddleware = function VXPayInitHelperMiddleware(vxpay, resolv
 		return resolve(vxpay);
 	}
 
-	vxpay.helperFrame = new _VXPayHelperFrame2.default(vxpay.window.document, _VXPayIframe2.default.ORIGIN + '/VXPAY-V' + vxpay._apiVersion + '/helper');
+	vxpay.helperFrame = new _VXPayHelperFrame2.default(vxpay.window.document, _VXPayIframe2.default.ORIGIN + '/VXPAY-V' + vxpay.apiVersion + '/helper');
 
 	if (vxpay.config.logging) {
 		vxpay.helperFrame.hooks.onAny(function (msg) {

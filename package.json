@@ -24,11 +24,12 @@
   },
   "scripts": {
     "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
-    "build": "webpack",
+    "build": "yarn copy && webpack",
     "watch": "webpack --watch",
     "serve": "webpack-dev-server --open",
     "test": "mocha test/**/**/*Test.js --require babel-core/register --reporter dot",
-    "cover": "nyc --reporter=html yarn test"
+    "cover": "nyc --reporter=html yarn test",
+    "copy": "node copy-dist.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",

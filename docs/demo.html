@@ -3,7 +3,7 @@
 <head>
 	<meta name="viewport" content="width=device-width">
 	<title>VXPay - sample integration</title>
-	<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css">
+	<link rel="stylesheet" href="mdc/mdc.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="mdc-typography">
@@ -12,7 +12,7 @@
 		<div class="mdc-layout-grid__cell--span-12">
 			<h4 class="mdc-typography--title">Open</h4>
 			<div class="mdc-layout-grid__inner">
-				<div class="mdc-form-field">
+				<div class="mdc-form-field mdc-layout-grid__cell--span-12">
 					<div class="mdc-checkbox">
 						<input type="checkbox" name="use-tab" id="use-tab" class="mdc-checkbox__native-control" onchange="onToggleTab(document.getElementById('use-tab').checked)" />
 						<div class="mdc-checkbox__background">
@@ -312,9 +312,9 @@
 		vxpay.logout().then(function(msg) {
 			alert('User logged out');
 		});
-	}
+	};
 </script>
-<script type="text/javascript" src="https://gitcdn.link/repo/VISIT-X/vxpay-js/master/build/vxpay.min.js" onload="__init()" async></script>
-<script type="text/javascript" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js" async></script>
+<script type="text/javascript" src="vxpay.min.js" onload="__init()" async></script>
+<script type="text/javascript" src="mdc/mdc.min.js" async></script>
 </body>
 </html>
