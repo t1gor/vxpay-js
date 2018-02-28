@@ -1,13 +1,17 @@
 const path = require('path'),
       webpack = require('webpack'),
       HtmlWebpackPlugin = require('html-webpack-plugin'),
-      UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+      UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
+      sources = ['babel-polyfill', 'url-polyfill', './src/main.js'];
 
 module.exports = {
-	entry: ['babel-polyfill', 'url-polyfill', './src/main.js'],
+	entry: {
+		'vxpay': sources,
+		'vxpay.min': sources
+	},
 	output: {
-		path: path.resolve(__dirname, 'example'),
-		filename: 'vxpay.min.js',
+		path: path.resolve(__dirname, 'build'),
+		filename: '[name].js',
 		library: 'VX'
 	},
 	module: {
@@ -22,7 +26,7 @@ module.exports = {
 		]
 	},
 	devServer: {
-		contentBase: path.resolve(__dirname, './example'),
+		contentBase: path.resolve(__dirname, './docs'),
 		hot: true
 	},
 	stats: {
@@ -30,12 +34,14 @@ module.exports = {
 	},
 	devtool: 'source-map',
 	plugins: [
-		// new UglifyJsPlugin(),
-		new HtmlWebpackPlugin({
-			filename: './example/index.html',
-			template: './example/index.html'
+		new UglifyJsPlugin({
+			include: /\.min\.js$/
+		}),
+		/*new HtmlWebpackPlugin({
+			filename: './docs/demo.html',
+			template: './docs/demo.html'
 		}),
 		new webpack.NamedModulesPlugin(),
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin()*/
 	]
 };
