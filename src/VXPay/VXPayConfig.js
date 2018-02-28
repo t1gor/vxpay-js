@@ -26,8 +26,6 @@ class VXPayConfig {
 			purl:    ''
 		};
 
-		console.log(111, (new VXPayUserAgentHelper(window.navigator.userAgent || '')).isMobile());
-
 		this._pfm        = '';
 		this._enableTab  = (new VXPayUserAgentHelper(window.navigator.userAgent || '')).isMobile();
 		this._host       = '';

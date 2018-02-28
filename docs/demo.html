@@ -115,11 +115,15 @@
 
 	__init = function() {
 		config          = new VX.VXPayConfig(window);
-		config.logging  = true;
+		config.logging  = false;
 		config.language = VX.VXPayLanguage.EN;
 		vxpay           = new VX.VXPay(config);
 
-		console.log(vxpay.config.enableTab);
+		if (vxpay.config.enableTab) {
+			document.getElementById('use-tab').setAttribute('checked', 'checked');
+			document.getElementById('use-tab').setAttribute('disabled', 'disabled');
+			document.querySelector('label[for="use-tab"]').textContent = 'Always open in new tab on mobile'
+		}
 	};
 
 	document.addEventListener('DOMContentLoaded', function() {
