@@ -1,3 +1,8 @@
+---
+layout: page
+title: VXPay JS Hooks configuration
+---
+
 All hooks are basically injectable functions. You can have several handlers on the same event by just assigning more then one handler for event. See examples below.
 
 ### `onAny`
