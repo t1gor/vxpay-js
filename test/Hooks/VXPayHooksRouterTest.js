@@ -15,11 +15,11 @@ import VXPayHookMessage               from './../../src/VXPay/Message/Hooks/VXPa
 import VXPayTransferTokenMessage      from './../../src/VXPay/Message/VXPayTransferTokenMessage'
 import VXPayAVSStatusMessage          from './../../src/VXPay/Message/Actions/VXPayAVSStatusMessage'
 import VXPayAVSStatus                 from './../../src/VXPay/Model/VXPayAVSStatus'
-import VXPayIsLoggedInResponseMessage from "../../src/VXPay/Message/Actions/VXPayIsLoggedInResponseMessage";
-import VXPayLoggedOutMessage          from "../../src/VXPay/Message/Actions/VXPayLoggedOutMessage";
-import VXPayActiveAbosMessage         from "../../src/VXPay/Message/Actions/VXPayActiveAbosMessage";
-import VXPayBalanceMessage            from "../../src/VXPay/Message/Actions/VXPayBalanceMessage";
-import VXPayFlowChangedHookMessage    from "../../src/VXPay/Message/Hooks/VXPayFlowChangedMessage";
+import VXPayIsLoggedInResponseMessage from './../../src/VXPay/Message/Actions/VXPayIsLoggedInResponseMessage'
+import VXPayLoggedOutMessage          from './../../src/VXPay/Message/Actions/VXPayLoggedOutMessage'
+import VXPayActiveAbosMessage         from './../../src/VXPay/Message/Actions/VXPayActiveAbosMessage'
+import VXPayBalanceMessage            from './../../src/VXPay/Message/Actions/VXPayBalanceMessage'
+import VXPayFlowChangedHookMessage    from './../../src/VXPay/Message/Hooks/VXPayFlowChangedMessage'
 
 describe('VXPayHookRouter', () => {
 	it('Will parse event data', () => {

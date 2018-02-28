@@ -1,15 +1,8 @@
-import VXPayPaymentHooksConfig       from './../../Config/VXPayPaymentHooksConfig'
-import VXPayEventListener            from './../../Event/VXPayEventListener'
-import VXPayIframe                   from './../VXPayIframe'
-import VXPayHookRouter               from './../../Message/Hooks/VXPayHookRouter'
-import VXPayIsVisibleMessage         from "../../Message/VXPayIsVisibleMessage";
-import VXPayAdditionalOptionsMessage from "../../Message/VXPayAdditionalOptionsMessage";
-import VXPayUpdateParamsMessage      from "../../Message/VXPayUpdateParamsMessage";
-import VXPayChangeRouteMessage       from "../../Message/VXPayChangeRouteMessage";
-import VXPayInitSessionMessage       from "../../Message/VXPayInitSessionMessage";
-import VXPayIframeReadyMessage       from "../../Message/VXPayIframeReadyMessage";
-import VXPayViewReadyMessage         from "../../Message/VXPayViewReadyMessage";
-import VXPayContentLoadedMessage     from "../../Message/VXPayContentLoadedMessage";
+import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
+import VXPayEventListener      from './../../Event/VXPayEventListener'
+import VXPayIframe             from './../VXPayIframe'
+import VXPayHookRouter         from './../../Message/Hooks/VXPayHookRouter'
+import VXPayViewReadyMessage   from './../../Message/VXPayViewReadyMessage'
 
 /**
  * @link https://www.npmjs.com/package/es6-interface
@@ -22,11 +15,11 @@ class VXPayPaymentTab {
 	 */
 	constructor(document, name, config) {
 		this._document = document;
-		this._hooks = new VXPayPaymentHooksConfig();
-		this._loaded = false;
-		this._name = name;
-		this._config = config;
-		this._route = '/';
+		this._hooks    = new VXPayPaymentHooksConfig();
+		this._loaded   = false;
+		this._name     = name;
+		this._config   = config;
+		this._route    = '/';
 	}
 
 	/**

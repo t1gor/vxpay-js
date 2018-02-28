@@ -7,7 +7,7 @@ import VXPayTestFx                     from './../../Fixtures/VXPayTestFx'
 import VXPayAVSStatusTriggerMiddleware from './../../../src/VXPay/Middleware/Actions/VXPayAVSStatusTriggerMiddleware'
 import VXPayGetAVSStatusMessage        from './../../../src/VXPay/Message/Actions/VXPayGetAVSStatusMessage'
 import VXPayTransferTokenMessage       from './../../../src/VXPay/Message/VXPayTransferTokenMessage'
-import VXPayPaymentHooksConfig         from "../../../src/VXPay/Config/VXPayPaymentHooksConfig";
+import VXPayPaymentHooksConfig         from './../../../src/VXPay/Config/VXPayPaymentHooksConfig'
 
 describe('VXPayAVSStatusTriggerMiddleware', () => {
 

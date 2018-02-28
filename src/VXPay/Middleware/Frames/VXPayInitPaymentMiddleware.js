@@ -1,11 +1,6 @@
 import VXPayPaymentFrame         from './../../Dom/Frame/VXPayPaymentFrame'
 import VXPayPaymentTab           from './../../Dom/Frame/VXPayPaymentTab'
 import VXPayLogger               from './../../VXPayLogger'
-import VXPayHooksConfig          from "../../Config/VXPayHooksConfig";
-import VXPayPaymentHooksConfig   from "../../Config/VXPayPaymentHooksConfig";
-import VXPayViewReadyMessage     from "../../Message/VXPayViewReadyMessage";
-import VXPayContentLoadedMessage from "../../Message/VXPayContentLoadedMessage";
-import VXPayIframeReadyMessage   from "../../Message/VXPayIframeReadyMessage";
 
 /**
  * @todo function seems a bit too long, maybe refactor in future?

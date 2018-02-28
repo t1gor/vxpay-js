@@ -4,8 +4,8 @@ import VXPayValidator              from './VXPayValidator'
 import VXPayFlow                   from './Config/VXPayFlow'
 import VXPayIframe                 from './Dom/VXPayIframe'
 import VXPayModalConfig            from './Config/VXPayModalConfig'
-import VXPayUrlHelper              from './VXPayUrlHelper';
-import VXPayFlowChangedHookMessage from "./Message/Hooks/VXPayFlowChangedMessage";
+import VXPayUrlHelper              from './VXPayUrlHelper'
+import VXPayFlowChangedHookMessage from './Message/Hooks/VXPayFlowChangedMessage'
 
 class VXPayConfig {
 	/**
