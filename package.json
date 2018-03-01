@@ -5,6 +5,8 @@
   "main": "index.js",
   "author": "Igor Timoshenkov",
   "license": "LicenseRef-LICENSE",
+  "repository": "https://github.com/VISIT-X/vxpay-js",
+  "homepage": "https://visit-x.github.io/vxpay-js/",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
