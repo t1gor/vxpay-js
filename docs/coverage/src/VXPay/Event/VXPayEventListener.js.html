@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/10</span>
+        <span class='fraction'>11/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">12.5% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/8</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/10</span>
+        <span class='fraction'>11/11</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -77,23 +77,25 @@
 32
 33
 34
-35</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+35
+36
+37
+38
+39</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -101,31 +103,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export default class VXPayEventListener {
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class VXPayEventListener {
 	/**
 	 * @param {String} event
 	 * @param {HTMLElement|Window} elem
 	 * @param {Function} func
 	 */
 	static addEvent(event, elem, func) {
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (elem.addEventListener) {  // W3C DOM
+		if (elem.addEventListener) {  // W3C DOM
 			elem.addEventListener(event, func, false);
 		}
-		else <span class="cstat-no" title="statement not covered" >if (elem.attachEvent) { // IE DOM</span>
-<span class="cstat-no" title="statement not covered" >			elem.attachEvent('on' + event, func);</span>
+		else if (elem.attachEvent) { // IE DOM
+			elem.attachEvent(VXPayEventListener.IE_PREFIX + event, func);
 		}
 		else { // No much to do
-<span class="cstat-no" title="statement not covered" >			elem[event] = func;</span>
+			elem[event] = func;
 		}
 	}
 &nbsp;
@@ -135,23 +143,27 @@
 	 * @param {Function} func
 	 */
 	static removeEvent(event, elem, func) {
-<span class="cstat-no" title="statement not covered" >		if (elem.removeEventListener) {  // W3C DOM</span>
-<span class="cstat-no" title="statement not covered" >			elem.removeEventListener(event, func, false);</span>
+		if (elem.removeEventListener) {  // W3C DOM
+			elem.removeEventListener(event, func, false);
 		}
-		else <span class="cstat-no" title="statement not covered" >if (elem.attachEvent) { // IE DOM</span>
-<span class="cstat-no" title="statement not covered" >			elem.detachEvent('on' + event, func);</span>
+		else if (elem.detachEvent) { // IE DOM
+			elem.detachEvent(VXPayEventListener.IE_PREFIX + event, func);
 		}
 		else { // No much to do
-<span class="cstat-no" title="statement not covered" >			elem[event] = null;</span>
+			elem[event] = null;
 		}
 	}
-}</pre></td></tr>
+}
+&nbsp;
+VXPayEventListener.IE_PREFIX = 'on';
+&nbsp;
+export default VXPayEventListener;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 10:35:25 GMT+0100 (W. Europe Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 12:44:58 GMT+0100 (W. Europe Standard Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>

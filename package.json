@@ -40,5 +40,10 @@
   "engines": {
     "node": ">=8.0",
     "yarn": ">=1.3"
-  }
+  },
+  "keywords": [
+    "vxpay",
+    "visit-x",
+    "vxpay-js"
+  ]
 }

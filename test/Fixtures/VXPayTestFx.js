@@ -3,7 +3,7 @@ import path    from 'path'
 import {JSDOM} from 'jsdom'
 import {URL}   from 'url'
 
-export default class VXPayTestFx {
+class VXPayTestFx {
 	/**
 	 * @param {String} name
 	 * @return {String}
@@ -26,12 +26,22 @@ export default class VXPayTestFx {
 	 * @return {Window}
 	 */
 	static getWindow() {
-		const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>",
-		      window       = new JSDOM(testDocument).window;
+		const window = new JSDOM(VXPayTestFx.DOC).window;
 
 		// inject URL (from Node)
 		window.URL = URL;
 
 		return window;
 	}
+
+	/**
+	 * @return {Document}
+	 */
+	static getDocument() {
+		return (new JSDOM(VXPayTestFx.DOC)).window.document;
+	}
 }
+
+VXPayTestFx.DOC = "<!DOCTYPE html><html><body id='body'>test</body></html>";
+
+export default VXPayTestFx;

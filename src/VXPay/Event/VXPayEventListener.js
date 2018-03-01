@@ -1,4 +1,4 @@
-export default class VXPayEventListener {
+class VXPayEventListener {
 	/**
 	 * @param {String} event
 	 * @param {HTMLElement|Window} elem
@@ -9,7 +9,7 @@ export default class VXPayEventListener {
 			elem.addEventListener(event, func, false);
 		}
 		else if (elem.attachEvent) { // IE DOM
-			elem.attachEvent('on' + event, func);
+			elem.attachEvent(VXPayEventListener.IE_PREFIX + event, func);
 		}
 		else { // No much to do
 			elem[event] = func;
@@ -25,11 +25,15 @@ export default class VXPayEventListener {
 		if (elem.removeEventListener) {  // W3C DOM
 			elem.removeEventListener(event, func, false);
 		}
-		else if (elem.attachEvent) { // IE DOM
-			elem.detachEvent('on' + event, func);
+		else if (elem.detachEvent) { // IE DOM
+			elem.detachEvent(VXPayEventListener.IE_PREFIX + event, func);
 		}
 		else { // No much to do
 			elem[event] = null;
 		}
 	}
 }
+
+VXPayEventListener.IE_PREFIX = 'on';
+
+export default VXPayEventListener;
