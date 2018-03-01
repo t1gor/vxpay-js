@@ -1,5 +1,25 @@
 class VXPayPaymentRoutes {
-
+	/**
+	 * @return {String[]}
+	 */
+	static getAllowed() {
+		return [
+			VXPayPaymentRoutes.LOGIN,
+			VXPayPaymentRoutes.SIGN_UP,
+			VXPayPaymentRoutes.PAYMENT,
+			VXPayPaymentRoutes.ABO,
+			VXPayPaymentRoutes.AVS,
+			VXPayPaymentRoutes.PROMOCODE,
+			VXPayPaymentRoutes.OP_COMPENSATION,
+			VXPayPaymentRoutes.PASSWORD,
+			VXPayPaymentRoutes.PASSWORD_RESET,
+			VXPayPaymentRoutes.AUTO_RECHARGE,
+			VXPayPaymentRoutes.ONE_CLICK,
+			VXPayPaymentRoutes.SETTINGS,
+			VXPayPaymentRoutes.VOICE_CALL,
+			VXPayPaymentRoutes.LIMIT,
+		];
+	}
 }
 
 VXPayPaymentRoutes.LOGIN           = '/login';

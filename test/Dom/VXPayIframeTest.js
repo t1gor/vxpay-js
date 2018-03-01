@@ -1,7 +1,8 @@
-import {assert}    from 'chai'
-import {URL}       from 'url'
-import VXPayIframe from './../../src/VXPay/Dom/VXPayIframe'
-import VXPayTestFx from './../Fixtures/VXPayTestFx'
+import {assert}       from 'chai'
+import {URL}          from 'url'
+import {describe, it} from 'mocha'
+import VXPayIframe    from './../../src/VXPay/Dom/VXPayIframe'
+import VXPayTestFx    from './../Fixtures/VXPayTestFx'
 
 describe('VXPayIframeTest', () => {
 	describe('#constructor()', () => {

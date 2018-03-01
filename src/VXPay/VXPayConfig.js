@@ -14,13 +14,13 @@ class VXPayConfig {
 	 * @param {VXPayModalConfig} modalConfig
 	 */
 	constructor(window, modalConfig = undefined) {
-		this._env     = VXPayEnvironment.getDefault();
-		this._logging = false;
-		this._flow    = VXPayFlow.getDefault();
-		this._lang    = VXPayLanguage.getDefault();
-		this._urls    = {
-			abg:     VXPayConfig.ABG_DEFAULT.replace('{language}', this._lang),
-			privacy: VXPayConfig.PRIVACY_DEFAULT.replace('{language}', this._lang),
+		this._env      = VXPayEnvironment.getDefault();
+		this._logging  = false;
+		this._flow     = VXPayFlow.getDefault();
+		this._language = VXPayLanguage.getDefault();
+		this._urls     = {
+			abg:     VXPayConfig.ABG_DEFAULT.replace('{language}', this._language),
+			privacy: VXPayConfig.PRIVACY_DEFAULT.replace('{language}', this._language),
 			ruri:    '',
 			suri:    '',
 			purl:    ''
@@ -74,7 +74,7 @@ class VXPayConfig {
 			privacyUrl:  this.privacyUrl,
 			environment: this._env,
 			flow:        this._flow,
-			lang:        this._lang,
+			lang:        this._language,
 			pfm:         this._pfm,
 			w:           this._wmId,
 			ws:          this._wmSubRef,
@@ -176,7 +176,7 @@ class VXPayConfig {
 	 * @return {String}
 	 */
 	get language() {
-		return this._lang.toUpperCase();
+		return this._language.toUpperCase();
 	}
 
 	/**
@@ -188,7 +188,7 @@ class VXPayConfig {
 			throw new TypeError(msg);
 		}
 
-		this._lang = value;
+		this._language = value;
 	}
 
 	/**
@@ -399,7 +399,14 @@ class VXPayConfig {
 		Object
 			.keys(that.getOptions())
 			.forEach(key => {
-				if (options.hasOwnProperty(key)) {
+				const valid = options.hasOwnProperty(key) && typeof options[key] !== 'undefined';
+
+				// map
+				if (key === 'lang' && options.hasOwnProperty('language')) {
+					 that[key] = options['language'];
+				}
+				// normal flow
+				else if (valid) {
 					that[key] = options[key];
 				}
 			});

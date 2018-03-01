@@ -19,7 +19,42 @@ class VXPayPaymentTab {
 		this._loaded   = false;
 		this._name     = name;
 		this._config   = config;
-		this._route    = '/';
+		this._route    = VXPayPaymentTab.DEFAULT_ROUTE;
+	}
+
+	/**
+	 * @return {Document}
+	 */
+	get document() {
+		return this._document;
+	}
+
+	/**
+	 * @return {String}
+	 */
+	get name() {
+		return this._name;
+	}
+
+	/**
+	 * @return {VXPayConfig}
+	 */
+	get config() {
+		return this._config;
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	get loaded() {
+		return this._loaded;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	get route() {
+		return this._route;
 	}
 
 	/**
@@ -28,7 +63,6 @@ class VXPayPaymentTab {
 	triggerLoad() {
 		this.getNewTab()
 			.then(this.startListening.bind(this))
-			.catch(console.error)
 	}
 
 	/**
@@ -47,6 +81,9 @@ class VXPayPaymentTab {
 		});
 	}
 
+	/**
+	 * @return {VXPayPaymentHooksConfig}
+	 */
 	get hooks() {
 		return this._hooks;
 	}
@@ -71,7 +108,6 @@ class VXPayPaymentTab {
 	 * @return {VXPayPaymentTab}
 	 */
 	sendOptions(options = {}) {
-		console.log('VXPayPaymentTab::sendOptions', options);
 		this._config.merge(options);
 		return this;
 	}
@@ -81,7 +117,6 @@ class VXPayPaymentTab {
 	 * @return {VXPayPaymentTab}
 	 */
 	sendAdditionalOptions(options = {}) {
-		console.log('VXPayPaymentTab::sendAdditionalOptions', options);
 		this._config.merge(options);
 		return this;
 	}
@@ -91,7 +126,6 @@ class VXPayPaymentTab {
 	 * @return {VXPayPaymentTab}
 	 */
 	initSession(token = undefined) {
-		console.log('VXPayPaymentTab::initSession');
 		return this;
 	}
 
@@ -99,8 +133,7 @@ class VXPayPaymentTab {
 	 * @param {String} route
 	 * @return {VXPayPaymentTab}
 	 */
-	changeRoute(route = '') {
-		console.log('VXPayPaymentTab::changeRoute', route);
+	changeRoute(route = VXPayPaymentTab.DEFAULT_ROUTE) {
 		this._route = route;
 		return this;
 	}
@@ -112,16 +145,19 @@ class VXPayPaymentTab {
 		this.triggerLoad();
 	}
 
+	/**
+	 * @return {VXPayPaymentTab}
+	 */
 	show() {
-		console.log('VXPayPaymentTab::show');
 		this.triggerLoad();
 		return this;
 	}
 
+	/**
+	 * @return {VXPayPaymentTab}
+	 */
 	hide() {
-		console.log('VXPayPaymentTab::hide');
-
-		if (!this._window.closed) {
+		if (this._window && !this._window.closed) {
 			this._window.close();
 		}
 
@@ -130,5 +166,7 @@ class VXPayPaymentTab {
 }
 
 VXPayPaymentTab.NAME = 'vx-payment-tab-payment';
+
+VXPayPaymentTab.DEFAULT_ROUTE = '/';
 
 export default VXPayPaymentTab;
