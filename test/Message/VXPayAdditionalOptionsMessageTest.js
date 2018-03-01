@@ -1,4 +1,5 @@
 import {assert}                      from 'chai'
+import {describe, it}                from 'mocha'
 import VXPayMessage                  from './../../src/VXPay/VXPayMessage'
 import VXPayAdditionalOptionsMessage from './../../src/VXPay/Message/VXPayAdditionalOptionsMessage'
 

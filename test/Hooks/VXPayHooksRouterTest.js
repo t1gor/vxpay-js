@@ -102,7 +102,7 @@ describe('VXPayHookRouter', () => {
 	it('Will trigger `onAny` & `onClose` on frame close event', () => {
 		const config      = new VXPayPaymentHooksConfig(),
 		      eventString = VXPayTestFx.getMessage('iframe-close'),
-		      msgInstance = new VXPayIframeCloseMessage(),
+		      msgInstance = new VXPayIframeCloseMessage(JSON.parse(eventString).data),
 		      trigger     = sinon.spy(config, 'trigger');
 
 		// call router function

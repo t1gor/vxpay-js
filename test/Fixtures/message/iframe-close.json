@@ -1,3 +1,16 @@
 {
-	"type": "modalbox-iframe-close"
+	"type": "modalbox-iframe-close",
+	"data": {
+		"success": false,
+		"userFromLogin": false,
+		"userFromSignup": false,
+		"flow": "login",
+		"hostId": null,
+		"userId": null,
+		"isLoggedIn": false,
+		"transferToken": "TT_71b3ce19-b37a-4933-ae75-2235bac18d66",
+		"availableMoney": 0,
+		"fsk18": false,
+		"uhash": ""
+	}
 }
