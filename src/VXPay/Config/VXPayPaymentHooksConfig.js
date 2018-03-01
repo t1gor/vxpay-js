@@ -112,6 +112,14 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 
 	/**
 	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnTransferToken(handler) {
+		return this._onTransferToken.indexOf(handler) !== -1;
+	}
+
+	/**
+	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onFlowChange(handler) {

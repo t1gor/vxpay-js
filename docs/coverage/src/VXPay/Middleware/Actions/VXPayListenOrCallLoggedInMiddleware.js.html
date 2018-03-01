@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">80% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/7</span>
+        <span class='fraction'>12/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">80% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/6</span>
+        <span class='fraction'>12/15</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -64,7 +64,33 @@
 19
 20
 21
-22</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -72,38 +98,90 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import VXPayIsLoggedInTriggerMiddleware from './VXPayIsLoggedInTriggerMiddleware'
 &nbsp;
-/**
- * @param {VXPay} vxpay
- * @param {Function} resolve
- * @param {Function} reject
- * @return {VXPay}
- * @constructor
- */
-const <span class="fstat-no" title="function not covered" >VXPayListenOrCallLoggedInMiddleware = (</span>vxpay, resolve, reject) =&gt; {
-	// is token already received?
-<span class="cstat-no" title="statement not covered" >	if (!vxpay.state.hasToken) {</span>
-<span class="cstat-no" title="statement not covered" >		vxpay.hooks.onTransferToken(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >msg =&gt; VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject));</span></span></span>
-	} else {
-<span class="cstat-no" title="statement not covered" >		VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject);</span>
+class VXPayListenOrCallLoggedInMiddleware {
+	/**
+	 * @param {VXPay} vxpay
+	 * @param {Function} resolve
+	 * @param {Function} reject
+	 * @constructor
+	 */
+	constructor(vxpay, resolve, reject) {
+		this._vxpay   = vxpay;
+		this._resolve = resolve;
+		this._reject  = reject;
+		this._handler = this.trigger.bind(this);
 	}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	return vxpay;</span>
-};
+	/**
+	 * @return {VXPay}
+	 */
+	run() {
+		try {
+			// is token already received?
+			<span class="missing-if-branch" title="if path not taken" >I</span>if (this._vxpay.state.hasToken) {
+<span class="cstat-no" title="statement not covered" >				this._handler();</span>
+<span class="cstat-no" title="statement not covered" >				return this._vxpay;</span>
+			}
+&nbsp;
+			// did we set handler already?
+			if (!this._vxpay.hooks.hasOnTransferToken(this._handler)) {
+				this._vxpay.hooks.onTransferToken(this._handler);
+			}
+&nbsp;
+			return this._vxpay;
+		} catch (err) {
+			this._reject(err);
+		}
+	}
+&nbsp;
+	/**
+	 * @return {void}
+	 */
+	trigger() {
+<span class="cstat-no" title="statement not covered" >		VXPayIsLoggedInTriggerMiddleware(this._vxpay, this._resolve, this._reject);</span>
+	}
+}
 &nbsp;
 export default VXPayListenOrCallLoggedInMiddleware;
 &nbsp;</pre></td></tr>
@@ -112,7 +190,7 @@ export default VXPayListenOrCallLoggedInMiddleware;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 08:26:27 GMT+0100 (W. Europe Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 10:15:19 GMT+0100 (W. Europe Standard Time)
 </div>
 </div>
 <script src="..\..\..\..\prettify.js"></script>

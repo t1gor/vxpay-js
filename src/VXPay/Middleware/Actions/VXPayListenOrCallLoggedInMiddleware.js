@@ -1,21 +1,47 @@
 import VXPayIsLoggedInTriggerMiddleware from './VXPayIsLoggedInTriggerMiddleware'
 
-/**
- * @param {VXPay} vxpay
- * @param {Function} resolve
- * @param {Function} reject
- * @return {VXPay}
- * @constructor
- */
-const VXPayListenOrCallLoggedInMiddleware = (vxpay, resolve, reject) => {
-	// is token already received?
-	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(msg => VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject));
-	} else {
-		VXPayIsLoggedInTriggerMiddleware(vxpay, resolve, reject);
+class VXPayListenOrCallLoggedInMiddleware {
+	/**
+	 * @param {VXPay} vxpay
+	 * @param {Function} resolve
+	 * @param {Function} reject
+	 * @constructor
+	 */
+	constructor(vxpay, resolve, reject) {
+		this._vxpay   = vxpay;
+		this._resolve = resolve;
+		this._reject  = reject;
+		this._handler = this.trigger.bind(this);
 	}
 
-	return vxpay;
-};
+	/**
+	 * @return {VXPay}
+	 */
+	run() {
+		try {
+			// is token already received?
+			if (this._vxpay.state.hasToken) {
+				this._handler();
+				return this._vxpay;
+			}
+
+			// did we set handler already?
+			if (!this._vxpay.hooks.hasOnTransferToken(this._handler)) {
+				this._vxpay.hooks.onTransferToken(this._handler);
+			}
+
+			return this._vxpay;
+		} catch (err) {
+			this._reject(err);
+		}
+	}
+
+	/**
+	 * @return {void}
+	 */
+	trigger() {
+		VXPayIsLoggedInTriggerMiddleware(this._vxpay, this._resolve, this._reject);
+	}
+}
 
 export default VXPayListenOrCallLoggedInMiddleware;

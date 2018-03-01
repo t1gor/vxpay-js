@@ -324,7 +324,7 @@ export default class VXPay {
 	isLoggedIn() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => VXPayListenOrCallLoggedInMiddleware(vxpay, resolve, reject))
+				.then(vxpay => (new VXPayListenOrCallLoggedInMiddleware(vxpay, resolve, reject)).run())
 				.catch(reject)
 		});
 	}
