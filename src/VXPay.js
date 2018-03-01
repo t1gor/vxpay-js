@@ -335,7 +335,7 @@ export default class VXPay {
 	getAVSStatus() {
 		return new Promise((resolve, reject) => {
 			return this._initPaymentFrame()
-				.then(vxpay => VXPayOnAVSStatusListenMiddleware(vxpay, resolve))
+				.then(vxpay => VXPayOnAVSStatusListenMiddleware(vxpay, resolve, reject))
 				.then(VXPayAVSStatusTriggerMiddleware)
 				.catch(reject)
 		})
@@ -347,7 +347,7 @@ export default class VXPay {
 	getBalance() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => VXPayListenForBalanceMiddleware(vxpay, resolve))
+				.then(vxpay => VXPayListenForBalanceMiddleware(vxpay, resolve, reject))
 				.then(VXPayBalanceTriggerMiddleware)
 				.catch(reject)
 		});
@@ -371,7 +371,7 @@ export default class VXPay {
 	logout() {
 		return new Promise((resolve, reject) => {
 			this._initPaymentFrame()
-				.then(vxpay => VXPayListenForLogoutMiddleware(vxpay, resolve))
+				.then(vxpay => VXPayListenForLogoutMiddleware(vxpay, resolve, reject))
 				.then(VXPayLogoutTriggerMiddleware)
 				.catch(reject)
 		})

@@ -5,6 +5,7 @@ import VXPayConfig               from './../../../src/VXPay/VXPayConfig'
 import VXPayTestFx               from './../../Fixtures/VXPayTestFx'
 import VXPayWhenTokenTransferred from './../../../src/VXPay/Middleware/Condition/VXPayWhenTokenTransferred'
 import VXPayTransferTokenMessage from './../../../src/VXPay/Message/VXPayTransferTokenMessage'
+import VXPayPaymentHooksConfig   from "../../../src/VXPay/Config/VXPayPaymentHooksConfig";
 
 describe('VXPayWhenTokenTransferred', () => {
 	/** @var {VXPay} */
@@ -21,36 +22,52 @@ describe('VXPayWhenTokenTransferred', () => {
 		it('Should return a Promise', () => {
 			assert.instanceOf(VXPayWhenTokenTransferred(vxpay), Promise)
 		});
-		it('Should set a hook if token not yet present', () => {
+		it('Resolves when token already present', done => {
+			vxpay.state.markHasToken(new VXPayTransferTokenMessage('token'));
+
+			VXPayWhenTokenTransferred(vxpay)
+				.then(returned => {
+					assert.instanceOf(returned, VXPay);
+
+					// ensure no hook
+					assert.equal(2, returned.hooks._onTransferToken.length);
+				})
+				// instead of .finally(done)
+				.then(done, done)
+		});
+		it('Will resolve when token transferred', done => {
 			assert.equal(2, vxpay.hooks._onTransferToken.length);
 
-			VXPayWhenTokenTransferred(vxpay);
-
-			assert.equal(3, vxpay.hooks._onTransferToken.length);
-		});
-		it('Resolves when token already present', () => {
-			vxpay.state.markHasToken(new VXPayTransferTokenMessage('token'));
-
 			VXPayWhenTokenTransferred(vxpay)
-				.then(returned => assert.instanceOf(returned, VXPay))
-		});
-		it('Will resolve when token transferred', () => {
-			VXPayWhenTokenTransferred(vxpay)
-				.then(returned => assert.instanceOf(returned, VXPay));
+				.then(returned => {
+					assert.instanceOf(returned, VXPay);
 
-			vxpay.state.markHasToken(new VXPayTransferTokenMessage('token'));
+					// ensure has hook
+					assert.equal(3, returned.hooks._onTransferToken.length);
+				})
+				.then(done, done);
+
+			// trigger token event
+			vxpay.hooks.trigger(
+				VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN,
+				[new VXPayTransferTokenMessage('token')]
+			);
 		});
-		it('Resolves when enableTab = true', () => {
+		it('Resolves when enableTab = true', done => {
 			vxpay.config.enableTab = true;
 
 			VXPayWhenTokenTransferred(vxpay)
 				.then(returned => assert.instanceOf(returned, VXPay))
+				.then(done, done);
 		});
-		it('Rejects on error', () => {
+		it('Rejects on error', done => {
 			vxpay._config = undefined;
 
 			VXPayWhenTokenTransferred(vxpay)
-				.catch(err => assert.instanceOf(err, Error))
+				.catch(err => {
+					assert.instanceOf(err, Error);
+					done();
+				})
 		});
 	});
 });

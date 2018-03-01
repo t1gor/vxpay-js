@@ -32,6 +32,16 @@ describe('VXPayIsLoggedInTriggerMiddleware', () => {
 			assert.isTrue(vxpay.hooks.hasOnIsLoggedIn(handler));
 			assert.instanceOf(after, VXPay);
 		});
+		it('Should not set the hooks on consecutive call', () => {
+			const handler = () => {};
+
+			VXPayIsLoggedInTriggerMiddleware(vxpay, handler, handler);
+			assert.equal(1, vxpay.hooks._onIsLoggedIn.length);
+
+			// call again - not another hook set
+			VXPayIsLoggedInTriggerMiddleware(vxpay, handler, handler);
+			assert.equal(1, vxpay.hooks._onIsLoggedIn.length);
+		});
 		it('Should send a postMessage when hook setup', () => {
 			// mock postMessage
 			sinon.spy(vxpay._paymentFrame, 'postMessage');
@@ -58,7 +68,8 @@ describe('VXPayIsLoggedInTriggerMiddleware', () => {
 			// unset payment frame
 			vxpay._paymentFrame = undefined;
 
-			VXPayIsLoggedInTriggerMiddleware(vxpay, () => {}, reject);
+			VXPayIsLoggedInTriggerMiddleware(vxpay, () => {
+			}, reject);
 		})
 	});
 });
