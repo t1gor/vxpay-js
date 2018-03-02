@@ -62,7 +62,7 @@ var VX =
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "52801c626664d7643f7f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1def55b50f088b3f7c8c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -11380,7 +11380,7 @@ var VXPay = function () {
 
 			return new Promise(function (resolve, reject) {
 				_this21._initPaymentFrame().then(function (vxpay) {
-					return (0, _VXPayListenOrCallLoggedInMiddleware2.default)(vxpay, resolve, reject);
+					return new _VXPayListenOrCallLoggedInMiddleware2.default(vxpay, resolve, reject).run();
 				}).catch(reject);
 			});
 		}
@@ -11396,7 +11396,7 @@ var VXPay = function () {
 
 			return new Promise(function (resolve, reject) {
 				return _this22._initPaymentFrame().then(function (vxpay) {
-					return (0, _VXPayOnAVSStatusListenMiddleware2.default)(vxpay, resolve);
+					return (0, _VXPayOnAVSStatusListenMiddleware2.default)(vxpay, resolve, reject);
 				}).then(_VXPayAVSStatusTriggerMiddleware2.default).catch(reject);
 			});
 		}
@@ -11412,7 +11412,7 @@ var VXPay = function () {
 
 			return new Promise(function (resolve, reject) {
 				_this23._initPaymentFrame().then(function (vxpay) {
-					return (0, _VXPayListenForBalanceMiddleware2.default)(vxpay, resolve);
+					return (0, _VXPayListenForBalanceMiddleware2.default)(vxpay, resolve, reject);
 				}).then(_VXPayBalanceTriggerMiddleware2.default).catch(reject);
 			});
 		}
@@ -11444,7 +11444,7 @@ var VXPay = function () {
 
 			return new Promise(function (resolve, reject) {
 				_this25._initPaymentFrame().then(function (vxpay) {
-					return (0, _VXPayListenForLogoutMiddleware2.default)(vxpay, resolve);
+					return (0, _VXPayListenForLogoutMiddleware2.default)(vxpay, resolve, reject);
 				}).then(_VXPayLogoutTriggerMiddleware2.default).catch(reject);
 			});
 		}
@@ -12117,12 +12117,22 @@ var VXPayModalConfig = function () {
 			VXPayModalConfig._throwOnInvalid(value);
 			this._showTeaserBar = value;
 		}
+
+		/**
+   * @return {Number[]}
+   */
+
 	}], [{
 		key: '_throwOnInvalid',
 		value: function _throwOnInvalid(value) {
 			if (!_VXPayValidator2.default.isModalConfigValueAllowed(value)) {
 				throw new TypeError('Value not allowed. Try one of: VXPayModalConfig.YES, VXPayModalConfig.NO');
 			}
+		}
+	}, {
+		key: 'getAllowed',
+		value: function getAllowed() {
+			return [VXPayModalConfig.YES, VXPayModalConfig.NO];
 		}
 	}]);
 
@@ -12312,6 +12322,17 @@ var VXPayPaymentHooksConfig = function (_VXPayHooksConfig) {
 
 		/**
    * @param {Function} handler
+   * @return {boolean}
+   */
+
+	}, {
+		key: 'hasOnTransferToken',
+		value: function hasOnTransferToken(handler) {
+			return this._onTransferToken.indexOf(handler) !== -1;
+		}
+
+		/**
+   * @param {Function} handler
    * @return {VXPayPaymentHooksConfig}
    */
 
@@ -12423,14 +12444,31 @@ exports.default = VXPayPaymentHooksConfig;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var VXPayPaymentRoutes = function VXPayPaymentRoutes() {
-  _classCallCheck(this, VXPayPaymentRoutes);
-};
+var VXPayPaymentRoutes = function () {
+	function VXPayPaymentRoutes() {
+		_classCallCheck(this, VXPayPaymentRoutes);
+	}
+
+	_createClass(VXPayPaymentRoutes, null, [{
+		key: 'getAllowed',
+
+		/**
+   * @return {String[]}
+   */
+		value: function getAllowed() {
+			return [VXPayPaymentRoutes.LOGIN, VXPayPaymentRoutes.SIGN_UP, VXPayPaymentRoutes.PAYMENT, VXPayPaymentRoutes.ABO, VXPayPaymentRoutes.AVS, VXPayPaymentRoutes.PROMOCODE, VXPayPaymentRoutes.OP_COMPENSATION, VXPayPaymentRoutes.PASSWORD, VXPayPaymentRoutes.PASSWORD_RESET, VXPayPaymentRoutes.AUTO_RECHARGE, VXPayPaymentRoutes.ONE_CLICK, VXPayPaymentRoutes.SETTINGS, VXPayPaymentRoutes.VOICE_CALL, VXPayPaymentRoutes.LIMIT];
+		}
+	}]);
+
+	return VXPayPaymentRoutes;
+}();
 
 VXPayPaymentRoutes.LOGIN = '/login';
 VXPayPaymentRoutes.SIGN_UP = '/signup';
@@ -12664,7 +12702,7 @@ var VXPayHelperFrame = function (_VXPayIframe) {
 		key: '_cookieMessageHandler',
 		value: function _cookieMessageHandler(resolve, reject, event) {
 			// origin check
-			if (event.origin && _VXPayIframe3.default.ORIGIN.indexOf(event.origin) === -1) {
+			if (event.origin && _VXPayIframe3.default.ORIGIN_VX.indexOf(event.origin) === -1) {
 				reject('Event origin does not match: ' + event.origin);
 			}
 
@@ -12798,10 +12836,6 @@ var _VXPayEventListener2 = _interopRequireDefault(_VXPayEventListener);
 var _VXPayPaymentHooksConfig = __webpack_require__("./src/VXPay/Config/VXPayPaymentHooksConfig.js");
 
 var _VXPayPaymentHooksConfig2 = _interopRequireDefault(_VXPayPaymentHooksConfig);
-
-var _VXPayMessage = __webpack_require__("./src/VXPay/VXPayMessage.js");
-
-var _VXPayMessage2 = _interopRequireDefault(_VXPayMessage);
 
 var _VXPayHookRouter = __webpack_require__("./src/VXPay/Message/Hooks/VXPayHookRouter.js");
 
@@ -12985,12 +13019,12 @@ var VXPayPaymentFrame = function (_VXPayIframe) {
 		}
 
 		/**
-   * @param {VXPayViewReadyMessage} message
+   * [@param {VXPayViewReadyMessage} message]
    */
 
 	}, {
 		key: 'setVisible',
-		value: function setVisible(message) {
+		value: function setVisible() {
 			this.postMessage(new _VXPayIsVisibleMessage2.default());
 		}
 
@@ -13074,10 +13108,6 @@ var _VXPayHookRouter = __webpack_require__("./src/VXPay/Message/Hooks/VXPayHookR
 
 var _VXPayHookRouter2 = _interopRequireDefault(_VXPayHookRouter);
 
-var _VXPayViewReadyMessage = __webpack_require__("./src/VXPay/Message/VXPayViewReadyMessage.js");
-
-var _VXPayViewReadyMessage2 = _interopRequireDefault(_VXPayViewReadyMessage);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13099,18 +13129,23 @@ var VXPayPaymentTab = function () {
 		this._loaded = false;
 		this._name = name;
 		this._config = config;
-		this._route = '/';
+		this._route = VXPayPaymentTab.DEFAULT_ROUTE;
 	}
 
 	/**
-  * Open the window
+  * @return {Document}
   */
 
 
 	_createClass(VXPayPaymentTab, [{
 		key: 'triggerLoad',
+
+
+		/**
+   * Open the window
+   */
 		value: function triggerLoad() {
-			this.getNewTab().then(this.startListening.bind(this)).catch(console.error);
+			this.getNewTab().then(this.startListening.bind(this));
 		}
 
 		/**
@@ -13133,6 +13168,11 @@ var VXPayPaymentTab = function () {
 				resolve(_this._window);
 			});
 		}
+
+		/**
+   * @return {VXPayPaymentHooksConfig}
+   */
+
 	}, {
 		key: 'startListening',
 
@@ -13162,7 +13202,6 @@ var VXPayPaymentTab = function () {
 		value: function sendOptions() {
 			var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-			console.log('VXPayPaymentTab::sendOptions', options);
 			this._config.merge(options);
 			return this;
 		}
@@ -13177,22 +13216,20 @@ var VXPayPaymentTab = function () {
 		value: function sendAdditionalOptions() {
 			var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-			console.log('VXPayPaymentTab::sendAdditionalOptions', options);
 			this._config.merge(options);
 			return this;
 		}
 
 		/**
-   * @param {String|undefined} token
+   * Not really much to do here, but should match the interface of {VXPayPaymentFrame}
+   *
+   * [@param {String|undefined} token]
    * @return {VXPayPaymentTab}
    */
 
 	}, {
 		key: 'initSession',
 		value: function initSession() {
-			var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-
-			console.log('VXPayPaymentTab::initSession');
 			return this;
 		}
 
@@ -13204,39 +13241,90 @@ var VXPayPaymentTab = function () {
 	}, {
 		key: 'changeRoute',
 		value: function changeRoute() {
-			var route = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+			var route = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : VXPayPaymentTab.DEFAULT_ROUTE;
 
-			console.log('VXPayPaymentTab::changeRoute', route);
 			this._route = route;
 			return this;
 		}
 
 		/**
-   * @param {VXPayViewReadyMessage} message
+   * [@param {VXPayViewReadyMessage} message]
    */
 
 	}, {
 		key: 'setVisible',
-		value: function setVisible(message) {
+		value: function setVisible() {
 			this.triggerLoad();
 		}
+
+		/**
+   * @return {VXPayPaymentTab}
+   */
+
 	}, {
 		key: 'show',
 		value: function show() {
-			console.log('VXPayPaymentTab::show');
 			this.triggerLoad();
 			return this;
 		}
+
+		/**
+   * @return {VXPayPaymentTab}
+   */
+
 	}, {
 		key: 'hide',
 		value: function hide() {
-			console.log('VXPayPaymentTab::hide');
-
-			if (!this._window.closed) {
+			if (this._window && !this._window.closed) {
 				this._window.close();
 			}
 
 			return this;
+		}
+	}, {
+		key: 'document',
+		get: function get() {
+			return this._document;
+		}
+
+		/**
+   * @return {String}
+   */
+
+	}, {
+		key: 'name',
+		get: function get() {
+			return this._name;
+		}
+
+		/**
+   * @return {VXPayConfig}
+   */
+
+	}, {
+		key: 'config',
+		get: function get() {
+			return this._config;
+		}
+
+		/**
+   * @return {boolean}
+   */
+
+	}, {
+		key: 'loaded',
+		get: function get() {
+			return this._loaded;
+		}
+
+		/**
+   * @return {string}
+   */
+
+	}, {
+		key: 'route',
+		get: function get() {
+			return this._route;
 		}
 	}, {
 		key: 'hooks',
@@ -13249,6 +13337,8 @@ var VXPayPaymentTab = function () {
 }();
 
 VXPayPaymentTab.NAME = 'vx-payment-tab-payment';
+
+VXPayPaymentTab.DEFAULT_ROUTE = '/';
 
 exports.default = VXPayPaymentTab;
 
@@ -13332,7 +13422,7 @@ var VXPayDomHelper = function () {
 
 				// default no animation
 				return this._window.scrollTo(0, top);
-			} catch (e) {}
+			} catch (e) {/* suppress */}
 		}
 	}], [{
 		key: 'getClientHeight',
@@ -13355,7 +13445,7 @@ var VXPayDomHelper = function () {
 			try {
 				element.style[attribute] = value;
 				supported = element.style[attribute] === value;
-			} catch (e) {}
+			} catch (e) {/* suppress */}
 
 			return supported;
 		}
@@ -13495,7 +13585,7 @@ var VXPayIframe = function (_VXPayEventListener) {
 		key: 'postMessage',
 		value: function postMessage() {
 			var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-			var origin = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '*';
+			var origin = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : VXPayIframe.ORIGIN_ALL;
 
 			this._frame.contentWindow.postMessage(message.toString(), origin);
 		}
@@ -13566,8 +13656,8 @@ VXPayIframe.MAX_TOP = '0';
 VXPayIframe.MAX_LEFT = '0';
 VXPayIframe.MAX_LEFT_MARGIN = '0';
 
-// VXPayIframe.ORIGIN = 'https://it.vxone.y';
-VXPayIframe.ORIGIN = 'https://www.visit-x.net';
+VXPayIframe.ORIGIN_VX = 'https://www.visit-x.net';
+VXPayIframe.ORIGIN_ALL = '*';
 
 exports.default = VXPayIframe;
 
@@ -13606,7 +13696,7 @@ var VXPayEventListener = function () {
 				elem.addEventListener(event, func, false);
 			} else if (elem.attachEvent) {
 				// IE DOM
-				elem.attachEvent('on' + event, func);
+				elem.attachEvent(VXPayEventListener.IE_PREFIX + event, func);
 			} else {
 				// No much to do
 				elem[event] = func;
@@ -13615,7 +13705,7 @@ var VXPayEventListener = function () {
 
 		/**
    * @param {String} event
-   * @param {HTMLElement} elem
+   * @param {HTMLElement|Window} elem
    * @param {Function} func
    */
 
@@ -13625,9 +13715,9 @@ var VXPayEventListener = function () {
 			if (elem.removeEventListener) {
 				// W3C DOM
 				elem.removeEventListener(event, func, false);
-			} else if (elem.attachEvent) {
+			} else if (elem.detachEvent) {
 				// IE DOM
-				elem.detachEvent('on' + event, func);
+				elem.detachEvent(VXPayEventListener.IE_PREFIX + event, func);
 			} else {
 				// No much to do
 				elem[event] = null;
@@ -13637,6 +13727,8 @@ var VXPayEventListener = function () {
 
 	return VXPayEventListener;
 }();
+
+VXPayEventListener.IE_PREFIX = 'on';
 
 exports.default = VXPayEventListener;
 
@@ -14349,7 +14441,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var VXPayHookRouter = function VXPayHookRouter(hooks, event) {
 	// origin check
-	if (event.origin && _VXPayIframe2.default.ORIGIN.indexOf(event.origin) === -1) {
+	if (event.origin && _VXPayIframe2.default.ORIGIN_VX.indexOf(event.origin) === -1) {
 		throw new TypeError('Event origin does not match: ' + event.origin);
 	}
 
@@ -14434,8 +14526,6 @@ var VXPayLoggedInMessage = function (_VXPayHookMessage) {
 	_inherits(VXPayLoggedInMessage, _VXPayHookMessage);
 
 	function VXPayLoggedInMessage() {
-		var hook = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
 		_classCallCheck(this, VXPayLoggedInMessage);
 
 		return _possibleConstructorReturn(this, (VXPayLoggedInMessage.__proto__ || Object.getPrototypeOf(VXPayLoggedInMessage)).call(this, _VXPayHookMessage3.default.HOOK_LOGIN));
@@ -14569,8 +14659,6 @@ var VXPayContentLoadedMessage = function (_VXPayMessage) {
 	_inherits(VXPayContentLoadedMessage, _VXPayMessage);
 
 	function VXPayContentLoadedMessage() {
-		var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
 		_classCallCheck(this, VXPayContentLoadedMessage);
 
 		return _possibleConstructorReturn(this, (VXPayContentLoadedMessage.__proto__ || Object.getPrototypeOf(VXPayContentLoadedMessage)).call(this, _VXPayMessage3.default.TYPE_CONTENT_LOADED));
@@ -14701,8 +14789,6 @@ var VXPayIframeReadyMessage = function (_VXPayMessage) {
 	_inherits(VXPayIframeReadyMessage, _VXPayMessage);
 
 	function VXPayIframeReadyMessage() {
-		var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
 		_classCallCheck(this, VXPayIframeReadyMessage);
 
 		return _possibleConstructorReturn(this, (VXPayIframeReadyMessage.__proto__ || Object.getPrototypeOf(VXPayIframeReadyMessage)).call(this, _VXPayMessage3.default.TYPE_IFRAME_READY));
@@ -14788,8 +14874,6 @@ var VXPayIsVisibleMessage = function (_VXPayMessage) {
 
 	/** {@inheritDoc} */
 	function VXPayIsVisibleMessage() {
-		var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
 		_classCallCheck(this, VXPayIsVisibleMessage);
 
 		return _possibleConstructorReturn(this, (VXPayIsVisibleMessage.__proto__ || Object.getPrototypeOf(VXPayIsVisibleMessage)).call(this, _VXPayMessage3.default.TYPE_IS_VISIBLE));
@@ -14944,20 +15028,20 @@ var VXPayMessageFactory = function () {
 
 				case _VXPayMessage2.default.TYPE_IS_LOGGED_IN:
 					return new _VXPayIsLoggedInResponseMessage2.default(message.data);
-
-				default:
-					// transfer token?
-					if (message.type.indexOf(_VXPayMessage2.default.TRANSFER_TOKEN_PREFIX) === 0) {
-						var token = message.type.substr(_VXPayMessage2.default.TRANSFER_TOKEN_PREFIX.length);
-						return new _VXPayTransferTokenMessage2.default(token);
-					}
-
-					// return an unknown message, but still a message
-					var unknown = new _VXPayMessage2.default(message.type);
-					unknown.raw = json;
-
-					return unknown;
 			}
+
+			// default
+			// transfer token?
+			if (message.type.indexOf(_VXPayMessage2.default.TRANSFER_TOKEN_PREFIX) === 0) {
+				var token = message.type.substr(_VXPayMessage2.default.TRANSFER_TOKEN_PREFIX.length);
+				return new _VXPayTransferTokenMessage2.default(token);
+			}
+
+			// return an unknown message, but still a message
+			var unknown = new _VXPayMessage2.default(message.type);
+			unknown.raw = json;
+
+			return unknown;
 		}
 	}]);
 
@@ -15161,8 +15245,6 @@ var VXPayViewReadyMessage = function (_VXPayMessage) {
 	_inherits(VXPayViewReadyMessage, _VXPayMessage);
 
 	function VXPayViewReadyMessage() {
-		var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
 		_classCallCheck(this, VXPayViewReadyMessage);
 
 		return _possibleConstructorReturn(this, (VXPayViewReadyMessage.__proto__ || Object.getPrototypeOf(VXPayViewReadyMessage)).call(this, _VXPayMessage3.default.TYPE_VIEW_READY));
@@ -15201,7 +15283,7 @@ var VXPayAVSStatusTriggerMiddleware = function VXPayAVSStatusTriggerMiddleware(v
 
 	// is token already received?
 	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(function (msg) {
+		vxpay.hooks.onTransferToken(function () {
 			return vxpay.paymentFrame.postMessage(message);
 		});
 	} else {
@@ -15241,7 +15323,7 @@ var VXPayActiveAbosTriggerMiddleware = function VXPayActiveAbosTriggerMiddleware
 	var message = new _VXPayGetActiveAbosMessage2.default();
 
 	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(function (msg) {
+		vxpay.hooks.onTransferToken(function () {
 			return vxpay.paymentFrame.postMessage(message);
 		});
 	} else {
@@ -15280,7 +15362,7 @@ var VXPayBalanceTriggerMiddleware = function VXPayBalanceTriggerMiddleware(vxpay
 	var message = new _VXPayGetBalanceMessage2.default();
 
 	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(function (msg) {
+		vxpay.hooks.onTransferToken(function () {
 			return vxpay.paymentFrame.postMessage(message);
 		});
 	} else {
@@ -15375,20 +15457,25 @@ exports.default = VXPayListenForActiveAbosMiddleware;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 /**
  * @param {VXPay} vxpay
  * @param {Function} resolve
+ * @param {Function} reject
  * @return {VXPay}
  * @constructor
  */
-var VXPayListenForBalanceMiddleware = function VXPayListenForBalanceMiddleware(vxpay, resolve) {
-  if (!vxpay.hooks.hasOnBalance(resolve)) {
-    vxpay.hooks.onBalance(resolve);
-  }
+var VXPayListenForBalanceMiddleware = function VXPayListenForBalanceMiddleware(vxpay, resolve, reject) {
+	try {
+		if (!vxpay.hooks.hasOnBalance(resolve)) {
+			vxpay.hooks.onBalance(resolve);
+		}
 
-  return vxpay;
+		return vxpay;
+	} catch (err) {
+		reject(err);
+	}
 };
 
 exports.default = VXPayListenForBalanceMiddleware;
@@ -15402,20 +15489,25 @@ exports.default = VXPayListenForBalanceMiddleware;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 /**
  * @param {VXPay} vxpay
  * @param {Function} resolve
+ * @param {Function} reject
  * @return {VXPay}
  * @constructor
  */
-var VXPayListenForLogoutMiddleware = function VXPayListenForLogoutMiddleware(vxpay, resolve) {
-  if (!vxpay.hooks.hasOnLogout(resolve)) {
-    vxpay.hooks.onLogout(resolve);
-  }
+var VXPayListenForLogoutMiddleware = function VXPayListenForLogoutMiddleware(vxpay, resolve, reject) {
+	try {
+		if (!vxpay.hooks.hasOnLogout(resolve)) {
+			vxpay.hooks.onLogout(resolve);
+		}
 
-  return vxpay;
+		return vxpay;
+	} catch (err) {
+		reject(err);
+	}
 };
 
 exports.default = VXPayListenForLogoutMiddleware;
@@ -15432,31 +15524,71 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _VXPayIsLoggedInTriggerMiddleware = __webpack_require__("./src/VXPay/Middleware/Actions/VXPayIsLoggedInTriggerMiddleware.js");
 
 var _VXPayIsLoggedInTriggerMiddleware2 = _interopRequireDefault(_VXPayIsLoggedInTriggerMiddleware);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * @param {VXPay} vxpay
- * @param {Function} resolve
- * @param {Function} reject
- * @return {VXPay}
- * @constructor
- */
-var VXPayListenOrCallLoggedInMiddleware = function VXPayListenOrCallLoggedInMiddleware(vxpay, resolve, reject) {
-	// is token already received?
-	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(function (msg) {
-			return (0, _VXPayIsLoggedInTriggerMiddleware2.default)(vxpay, resolve, reject);
-		});
-	} else {
-		(0, _VXPayIsLoggedInTriggerMiddleware2.default)(vxpay, resolve, reject);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var VXPayListenOrCallLoggedInMiddleware = function () {
+	/**
+  * @param {VXPay} vxpay
+  * @param {Function} resolve
+  * @param {Function} reject
+  * @constructor
+  */
+	function VXPayListenOrCallLoggedInMiddleware(vxpay, resolve, reject) {
+		_classCallCheck(this, VXPayListenOrCallLoggedInMiddleware);
+
+		this._vxpay = vxpay;
+		this._resolve = resolve;
+		this._reject = reject;
+		this._handler = this.trigger.bind(this);
 	}
 
-	return vxpay;
-};
+	/**
+  * @return {VXPay}
+  */
+
+
+	_createClass(VXPayListenOrCallLoggedInMiddleware, [{
+		key: 'run',
+		value: function run() {
+			try {
+				// is token already received?
+				if (this._vxpay.state.hasToken) {
+					this._handler();
+					return this._vxpay;
+				}
+
+				// did we set handler already?
+				if (!this._vxpay.hooks.hasOnTransferToken(this._handler)) {
+					this._vxpay.hooks.onTransferToken(this._handler);
+				}
+
+				return this._vxpay;
+			} catch (err) {
+				this._reject(err);
+			}
+		}
+
+		/**
+   * @return {void}
+   */
+
+	}, {
+		key: 'trigger',
+		value: function trigger() {
+			(0, _VXPayIsLoggedInTriggerMiddleware2.default)(this._vxpay, this._resolve, this._reject);
+		}
+	}]);
+
+	return VXPayListenOrCallLoggedInMiddleware;
+}();
 
 exports.default = VXPayListenOrCallLoggedInMiddleware;
 
@@ -15484,8 +15616,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @constructor
  */
 var VXPayLogoutTriggerMiddleware = function VXPayLogoutTriggerMiddleware(vxpay) {
-	if (vxpay.config.token === '') {
-		vxpay.hooks.onTransferToken(function (msg) {
+	if (!vxpay.state.hasToken) {
+		vxpay.hooks.onTransferToken(function () {
 			return vxpay.paymentFrame.postMessage(new _VXPayLogoutMessage2.default());
 		});
 	} else {
@@ -15506,20 +15638,25 @@ exports.default = VXPayLogoutTriggerMiddleware;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 /**
  * @param {VXPay} vxpay
  * @param {Function} resolve
+ * @param {Function} reject
  * @return {VXPay}
  * @constructor
  */
-var VXPayOnAVSStatusListenMiddleware = function VXPayOnAVSStatusListenMiddleware(vxpay, resolve) {
-  if (!vxpay.hooks.hasOnAVSStatus(resolve)) {
-    vxpay.hooks.onAVSStatus(resolve);
-  }
+var VXPayOnAVSStatusListenMiddleware = function VXPayOnAVSStatusListenMiddleware(vxpay, resolve, reject) {
+	try {
+		if (!vxpay.hooks.hasOnAVSStatus(resolve)) {
+			vxpay.hooks.onAVSStatus(resolve);
+		}
 
-  return vxpay;
+		return vxpay;
+	} catch (err) {
+		reject(err);
+	}
 };
 
 exports.default = VXPayOnAVSStatusListenMiddleware;
@@ -16301,7 +16438,7 @@ var VXPayWhenTokenTransferred = function VXPayWhenTokenTransferred(vxpay) {
 				resolve(vxpay);
 			} else {
 				// otherwise - wait for it
-				vxpay.hooks.onTransferToken(function (msg) {
+				vxpay.hooks.onTransferToken(function () {
 					return resolve(vxpay);
 				});
 			}
@@ -16351,7 +16488,7 @@ var VXPayInitHelperMiddleware = function VXPayInitHelperMiddleware(vxpay, resolv
 		return resolve(vxpay);
 	}
 
-	vxpay.helperFrame = new _VXPayHelperFrame2.default(vxpay.window.document, _VXPayIframe2.default.ORIGIN + '/VXPAY-V' + vxpay.apiVersion + '/helper');
+	vxpay.helperFrame = new _VXPayHelperFrame2.default(vxpay.window.document, _VXPayIframe2.default.ORIGIN_VX + '/VXPAY-V' + vxpay.apiVersion + '/helper');
 
 	if (vxpay.config.logging) {
 		vxpay.helperFrame.hooks.onAny(function (msg) {
@@ -16426,7 +16563,7 @@ var VXPayInitPaymentMiddleware = function VXPayInitPaymentMiddleware(vxpay, reso
 		// functional hooks
 		.onTransferToken(vxpay.config.setTokenFromMessage.bind(vxpay.config)).onFlowChange(vxpay.config.updateFlow.bind(vxpay.config))
 		// show frame and send isVisible
-		.onViewReady(vxpay.paymentFrame.setVisible.bind(vxpay.paymentFrame)).onViewReady(vxpay.paymentFrame.show.bind(vxpay.paymentFrame)).onSuccess(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame)).onClose(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame)).onContentLoaded(function (msg) {
+		.onViewReady(vxpay.paymentFrame.setVisible.bind(vxpay.paymentFrame)).onViewReady(vxpay.paymentFrame.show.bind(vxpay.paymentFrame)).onSuccess(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame)).onClose(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame)).onContentLoaded(function () {
 			return resolve(vxpay);
 		});
 
@@ -16954,10 +17091,6 @@ var _VXPayUrlHelper = __webpack_require__("./src/VXPay/VXPayUrlHelper.js");
 
 var _VXPayUrlHelper2 = _interopRequireDefault(_VXPayUrlHelper);
 
-var _VXPayFlowChangedMessage = __webpack_require__("./src/VXPay/Message/Hooks/VXPayFlowChangedMessage.js");
-
-var _VXPayFlowChangedMessage2 = _interopRequireDefault(_VXPayFlowChangedMessage);
-
 var _VXPayUserAgentHelper = __webpack_require__("./src/VXPay/VXPayUserAgentHelper.js");
 
 var _VXPayUserAgentHelper2 = _interopRequireDefault(_VXPayUserAgentHelper);
@@ -16979,10 +17112,10 @@ var VXPayConfig = function () {
 		this._env = _VXPayEnvironment2.default.getDefault();
 		this._logging = false;
 		this._flow = _VXPayFlow2.default.getDefault();
-		this._lang = _VXPayLanguage2.default.getDefault();
+		this._language = _VXPayLanguage2.default.getDefault();
 		this._urls = {
-			abg: VXPayConfig.ABG_DEFAULT.replace('{language}', this._lang),
-			privacy: VXPayConfig.PRIVACY_DEFAULT.replace('{language}', this._lang),
+			abg: VXPayConfig.ABG_DEFAULT.replace('{language}', this._language),
+			privacy: VXPayConfig.PRIVACY_DEFAULT.replace('{language}', this._language),
 			ruri: '',
 			suri: '',
 			purl: ''
@@ -17020,7 +17153,7 @@ var VXPayConfig = function () {
    * @return {string}
    */
 		value: function getPaymentFrameUrl() {
-			return this._helper.generate(_VXPayIframe2.default.ORIGIN + '/VXPAY-V' + this._apiVersion + '/', this.getOptions(), this._modalConfig);
+			return this._helper.generate(_VXPayIframe2.default.ORIGIN_VX + '/VXPAY-V' + this._apiVersion + '/', this.getOptions(), this._modalConfig);
 		}
 
 		/**
@@ -17035,7 +17168,7 @@ var VXPayConfig = function () {
 				privacyUrl: this.privacyUrl,
 				environment: this._env,
 				flow: this._flow,
-				lang: this._lang,
+				lang: this._language,
 				pfm: this._pfm,
 				w: this._wmId,
 				ws: this._wmSubRef,
@@ -17100,9 +17233,16 @@ var VXPayConfig = function () {
 			var that = this;
 
 			Object.keys(that.getOptions()).forEach(function (key) {
-				if (options.hasOwnProperty(key)) {
-					that[key] = options[key];
+				var valid = options.hasOwnProperty(key) && typeof options[key] !== 'undefined';
+
+				// map
+				if (key === 'lang' && options.hasOwnProperty('language')) {
+					that[key] = options['language'];
 				}
+				// normal flow
+				else if (valid) {
+						that[key] = options[key];
+					}
 			});
 		}
 
@@ -17207,7 +17347,7 @@ var VXPayConfig = function () {
 	}, {
 		key: 'language',
 		get: function get() {
-			return this._lang.toUpperCase();
+			return this._language.toUpperCase();
 		}
 
 		/**
@@ -17220,7 +17360,7 @@ var VXPayConfig = function () {
 				throw new TypeError(msg);
 			}
 
-			this._lang = value;
+			this._language = value;
 		}
 
 		/**
@@ -18080,7 +18220,7 @@ var VXPayValidator = function () {
 	}, {
 		key: 'isModalConfigValueAllowed',
 		value: function isModalConfigValueAllowed(value) {
-			return isNumber(value) && [_VXPayModalConfig2.default.YES, _VXPayModalConfig2.default.NO].indexOf(value) !== -1;
+			return _VXPayModalConfig2.default.getAllowed().indexOf(value) !== -1;
 		}
 	}]);
 
