@@ -70,5 +70,66 @@ describe('VXPayPaymentTab', () => {
 				tab.changeRoute(route);
 				assert.equal(tab.route, route);
 			});
+	});
+	describe('#triggerLoad()', () => {
+		it('Should create a new tab', done => {
+			// re-define function to mock
+			tab.getNewTab = () => {
+				assert.isTrue(true);
+				done();
+			};
+
+			try {
+				tab.triggerLoad();
+			} catch (err) { /* ignore */ }
+		});
+		it('Should start listening for postMessage-s', done => {
+			const window = VXPayTestFx.getWindow();
+
+			// re-define functions to mock
+			tab.getNewTab = () => new Promise(resolve => resolve(window));
+			tab.startListening = (wnd) => {
+				assert.equal(wnd, window);
+				done();
+			};
+
+			try {
+				tab.triggerLoad();
+			} catch (err) { /* ignore */ }
+		});
+	});
+	describe('#getNewTab()', () => {
+		it('Should open a new window', done => {
+			const targetUrl = tab.config.getPaymentFrameUrl() + '#' + tab.route;
+
+			// define window open function
+			tab.document.defaultView.open = (url, name) => {
+				assert.equal(url, targetUrl);
+				assert.equal(name, 'test');
+				done();
+			};
+
+			tab.getNewTab();
+		});
+		it('Should resolve when window already open', done => {
+			const dummyWindow = {
+				closed: false
+			};
+
+			// set to be opened
+			tab.document.defaultView.open = () => dummyWindow;
+
+			// call first time to open
+			tab.getNewTab().then(wnd => {
+				assert.equal(wnd, dummyWindow);
+				dummyWindow.pass = true;
+			});
+
+			// and call again
+			tab.getNewTab().then(wnd => {
+				assert.isTrue(wnd.pass);
+				done();
+			});
+		});
 	})
 });

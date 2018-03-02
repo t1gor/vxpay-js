@@ -68,15 +68,16 @@ class VXPayPaymentTab {
 	 * @return {Promise<Window>}
 	 */
 	getNewTab() {
-		const url = this._config.getPaymentFrameUrl() + '#' + this._route;
+		const that = this,
+		      url = this._config.getPaymentFrameUrl() + '#' + this._route;
 
 		return new Promise(resolve => {
-			if (this.hasOwnProperty('_window') && !this._window.closed) {
-				resolve(this._window);
+			if (that.hasOwnProperty('_window') && !that._window.closed) {
+				resolve(that._window);
 			}
 
-			this._window = this._document.defaultView.open(url, this._name);
-			resolve(this._window);
+			that._window = that._document.defaultView.open(url, that._name);
+			resolve(that._window);
 		});
 	}
 
@@ -95,7 +96,7 @@ class VXPayPaymentTab {
 	startListening(window) {
 		VXPayEventListener.addEvent(
 			VXPayIframe.EVENT_MESSAGE,
-			document.defaultView,
+			this._document.defaultView,
 			(event) => VXPayHookRouter(this._hooks, event)
 		);
 
