@@ -9,10 +9,13 @@
   "homepage": "https://visit-x.github.io/vxpay-js",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.2",
+    "eslint": "^4.18.1",
+    "eslint-config-google": "^0.9.1",
     "html-webpack-plugin": "^2.30.1",
     "jsdom": "^11.6.2",
     "mocha": "^5.0.0",
@@ -26,13 +29,15 @@
   },
   "scripts": {
     "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
-    "build": "yarn copy && webpack",
+    "build": "yarn lint && yarn copy && webpack",
     "watch": "webpack --watch",
     "serve": "webpack-dev-server --open",
     "test": "mocha test --recursive --require babel-core/register --reporter dot",
     "cover": "nyc --reporter=html --report-dir=docs/coverage yarn test",
     "copy": "node copy-dist.js",
-    "push": "yarn build && git push"
+    "push": "yarn build && git push",
+    "lint": "eslint --ext .js src",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",

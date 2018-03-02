@@ -1,12 +1,11 @@
-import VXPayEnvironment            from './VXPayEnvironment'
-import VXPayLanguage               from './VXPayLanguage'
-import VXPayValidator              from './VXPayValidator'
-import VXPayFlow                   from './Config/VXPayFlow'
-import VXPayIframe                 from './Dom/VXPayIframe'
-import VXPayModalConfig            from './Config/VXPayModalConfig'
-import VXPayUrlHelper              from './VXPayUrlHelper'
-import VXPayFlowChangedHookMessage from './Message/Hooks/VXPayFlowChangedMessage'
-import VXPayUserAgentHelper        from './VXPayUserAgentHelper'
+import VXPayEnvironment     from './VXPayEnvironment'
+import VXPayLanguage        from './VXPayLanguage'
+import VXPayValidator       from './VXPayValidator'
+import VXPayFlow            from './Config/VXPayFlow'
+import VXPayIframe          from './Dom/VXPayIframe'
+import VXPayModalConfig     from './Config/VXPayModalConfig'
+import VXPayUrlHelper       from './VXPayUrlHelper'
+import VXPayUserAgentHelper from './VXPayUserAgentHelper'
 
 class VXPayConfig {
 	/**
@@ -59,7 +58,7 @@ class VXPayConfig {
 	 */
 	getPaymentFrameUrl() {
 		return this._helper.generate(
-			VXPayIframe.ORIGIN + '/VXPAY-V' + this._apiVersion + '/',
+			VXPayIframe.ORIGIN_VX + '/VXPAY-V' + this._apiVersion + '/',
 			this.getOptions(),
 			this._modalConfig
 		);
@@ -204,7 +203,8 @@ class VXPayConfig {
 	 */
 	set flow(value) {
 		if (!VXPayValidator.isFlowAllowed(value)) {
-			const msg = 'Flow not allowed: ' + value.toString() + '. Select one of: ' + VXPayFlow.getAllowed().join(', ');
+			const msg = 'Flow not allowed: ' + value.toString()
+				+ '. Select one of: ' + VXPayFlow.getAllowed().join(', ');
 			throw new TypeError(msg);
 		}
 
@@ -403,7 +403,7 @@ class VXPayConfig {
 
 				// map
 				if (key === 'lang' && options.hasOwnProperty('language')) {
-					 that[key] = options['language'];
+					that[key] = options['language'];
 				}
 				// normal flow
 				else if (valid) {

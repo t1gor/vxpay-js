@@ -13,7 +13,7 @@ import VXPayIframe             from './../../Dom/VXPayIframe'
  */
 const VXPayHookRouter = (hooks, event) => {
 	// origin check
-	if (event.origin && VXPayIframe.ORIGIN.indexOf(event.origin) === -1) {
+	if (event.origin && VXPayIframe.ORIGIN_VX.indexOf(event.origin) === -1) {
 		throw new TypeError('Event origin does not match: ' + event.origin);
 	}
 

@@ -44,7 +44,6 @@ export default class VXPayValidator {
 	 * @return {boolean}
 	 */
 	static isModalConfigValueAllowed(value) {
-		return isNumber(value)
-			&& [VXPayModalConfig.YES, VXPayModalConfig.NO].indexOf(value) !== -1;
+		return VXPayModalConfig.getAllowed().indexOf(value) !== -1;
 	}
 }

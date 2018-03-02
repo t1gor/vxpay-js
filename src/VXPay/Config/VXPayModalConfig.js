@@ -206,6 +206,16 @@ class VXPayModalConfig {
 		VXPayModalConfig._throwOnInvalid(value);
 		this._showTeaserBar = value;
 	}
+
+	/**
+	 * @return {Number[]}
+	 */
+	static getAllowed() {
+		return [
+			VXPayModalConfig.YES,
+			VXPayModalConfig.NO
+		];
+	}
 }
 
 VXPayModalConfig.YES = 1;

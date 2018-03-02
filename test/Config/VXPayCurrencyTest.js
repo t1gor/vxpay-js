@@ -14,7 +14,7 @@ describe('VXPayCurrency', () => {
 			)
 		});
 	});
-	describe('#getAllowed', () => {
+	describe('#allowed', () => {
 		assert.isArray(VXPayCurrency.getAllowed());
 		assert.notEmpty(VXPayCurrency.getAllowed());
 	});

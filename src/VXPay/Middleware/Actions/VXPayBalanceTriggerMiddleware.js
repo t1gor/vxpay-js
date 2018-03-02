@@ -9,7 +9,7 @@ const VXPayBalanceTriggerMiddleware = (vxpay) => {
 	const message = new VXPayGetBalanceMessage;
 
 	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(msg => vxpay.paymentFrame.postMessage(message));
+		vxpay.hooks.onTransferToken(() => vxpay.paymentFrame.postMessage(message));
 	} else {
 		vxpay.paymentFrame.postMessage(message);
 	}

@@ -16,7 +16,7 @@ const VXPayInitHelperMiddleware = (vxpay, resolve) => {
 
 	vxpay.helperFrame = new VXPayHelperFrame(
 		vxpay.window.document,
-		VXPayIframe.ORIGIN + '/VXPAY-V' + vxpay.apiVersion + '/helper'
+		VXPayIframe.ORIGIN_VX + '/VXPAY-V' + vxpay.apiVersion + '/helper'
 	);
 
 	if (vxpay.config.logging) {

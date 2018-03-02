@@ -1,6 +1,6 @@
-import VXPayPaymentFrame         from './../../Dom/Frame/VXPayPaymentFrame'
-import VXPayPaymentTab           from './../../Dom/Frame/VXPayPaymentTab'
-import VXPayLogger               from './../../VXPayLogger'
+import VXPayPaymentFrame from './../../Dom/Frame/VXPayPaymentFrame'
+import VXPayPaymentTab   from './../../Dom/Frame/VXPayPaymentTab'
+import VXPayLogger       from './../../VXPayLogger'
 
 /**
  * @todo function seems a bit too long, maybe refactor in future?
@@ -44,7 +44,7 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 			.onViewReady(vxpay.paymentFrame.show.bind(vxpay.paymentFrame))
 			.onSuccess(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
 			.onClose(vxpay.paymentFrame.hide.bind(vxpay.paymentFrame))
-			.onContentLoaded(msg => resolve(vxpay));
+			.onContentLoaded(() => resolve(vxpay));
 
 		// trigger load if not tab
 		if (!vxpay.config.enableTab) {

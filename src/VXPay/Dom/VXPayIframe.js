@@ -82,7 +82,7 @@ class VXPayIframe extends VXPayEventListener {
 	 * @param {String|VXPayMessage} message
 	 * @param {String} origin
 	 */
-	postMessage(message = '', origin = '*') {
+	postMessage(message = '', origin = VXPayIframe.ORIGIN_ALL) {
 		this._frame.contentWindow.postMessage(message.toString(), origin);
 	}
 
@@ -124,7 +124,7 @@ VXPayIframe.MAX_TOP         = '0';
 VXPayIframe.MAX_LEFT        = '0';
 VXPayIframe.MAX_LEFT_MARGIN = '0';
 
-// VXPayIframe.ORIGIN = 'https://it.vxone.y';
-VXPayIframe.ORIGIN = 'https://www.visit-x.net';
+VXPayIframe.ORIGIN_VX  = 'https://www.visit-x.net';
+VXPayIframe.ORIGIN_ALL = '*';
 
 export default VXPayIframe;

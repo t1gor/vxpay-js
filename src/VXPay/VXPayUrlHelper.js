@@ -12,7 +12,7 @@ export default class VXPayUrlHelper {
 	 * @param {Object} config
 	 * @return {string}
 	 */
-	 generate(baseUrl, params = undefined, config = undefined) {
+	generate(baseUrl, params = undefined, config = undefined) {
 		let url = new this._urlImpl(baseUrl);
 
 		// fix url, remove existing hashes
@@ -51,7 +51,7 @@ export default class VXPayUrlHelper {
 	 * @param {String} name
 	 * @return {String}
 	 */
-	 getQueryParam(location, name) {
+	getQueryParam(location, name) {
 		try {
 			const url = new this._urlImpl(location);
 			return url.searchParams[name];
