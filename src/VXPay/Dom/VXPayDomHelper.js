@@ -80,16 +80,22 @@ class VXPayDomHelper {
 
 	/**
 	 * @param {Number} top
+	 * @link https://www.similartech.com/compare/jquery-vs-mootools
 	 * @return {*}
 	 */
 	scrollTo(top) {
 		try {
-			if (this._hasMooTools()) {
-				return new this._fx.Scroll(this._window, {duration: 500}).start(0, top);
+			if (this._hasJQuery()) {
+				const opts = VXPayDomHelper.OPTIONS_JQUERY;
+				opts.scrollTop = top;
+
+				return this._jQuery('html, body')
+					.animate(opts, VXPayDomHelper.ANIMATION_DURATION);
 			}
 
-			if (this._hasJQuery()) {
-				return this._jQuery('html, body').animate({scrollTop: top}, 500);
+			if (this._hasMooTools()) {
+				return new this._fx
+					.Scroll(this._window, VXPayDomHelper.OPTIONS_MTOOLS).start(0, top);
 			}
 
 			// default no animation
@@ -100,5 +106,10 @@ class VXPayDomHelper {
 }
 
 VXPayDomHelper.TAG_IFRAME = 'iframe';
+
+VXPayDomHelper.OPTIONS_JQUERY = {scrollTop: 0};
+VXPayDomHelper.OPTIONS_MTOOLS = {duration: VXPayDomHelper.ANIMATION_DURATION};
+
+VXPayDomHelper.ANIMATION_DURATION = 500;
 
 export default VXPayDomHelper;
