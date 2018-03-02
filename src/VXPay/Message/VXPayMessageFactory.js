@@ -68,19 +68,19 @@ export default class VXPayMessageFactory {
 
 			case VXPayMessage.TYPE_IS_LOGGED_IN:
 				return new VXPayIsLoggedInResponseMessage(message.data);
-
-			default:
-				// transfer token?
-				if (message.type.indexOf(VXPayMessage.TRANSFER_TOKEN_PREFIX) === 0) {
-					const token = message.type.substr(VXPayMessage.TRANSFER_TOKEN_PREFIX.length);
-					return new VXPayTransferTokenMessage(token);
-				}
-
-				// return an unknown message, but still a message
-				const unknown = new VXPayMessage(message.type);
-				unknown.raw   = json;
-
-				return unknown;
 		}
+
+		// default
+		// transfer token?
+		if (message.type.indexOf(VXPayMessage.TRANSFER_TOKEN_PREFIX) === 0) {
+			const token = message.type.substr(VXPayMessage.TRANSFER_TOKEN_PREFIX.length);
+			return new VXPayTransferTokenMessage(token);
+		}
+
+		// return an unknown message, but still a message
+		const unknown = new VXPayMessage(message.type);
+		unknown.raw   = json;
+
+		return unknown;
 	}
 }

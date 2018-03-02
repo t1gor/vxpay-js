@@ -2,7 +2,6 @@ import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
 import VXPayEventListener      from './../../Event/VXPayEventListener'
 import VXPayIframe             from './../VXPayIframe'
 import VXPayHookRouter         from './../../Message/Hooks/VXPayHookRouter'
-import VXPayViewReadyMessage   from './../../Message/VXPayViewReadyMessage'
 
 /**
  * @link https://www.npmjs.com/package/es6-interface
@@ -122,10 +121,12 @@ class VXPayPaymentTab {
 	}
 
 	/**
-	 * @param {String|undefined} token
+	 * Not really much to do here, but should match the interface of {VXPayPaymentFrame}
+	 *
+	 * [@param {String|undefined} token]
 	 * @return {VXPayPaymentTab}
 	 */
-	initSession(token = undefined) {
+	initSession() {
 		return this;
 	}
 
@@ -139,9 +140,9 @@ class VXPayPaymentTab {
 	}
 
 	/**
-	 * @param {VXPayViewReadyMessage} message
+	 * [@param {VXPayViewReadyMessage} message]
 	 */
-	setVisible(message) {
+	setVisible() {
 		this.triggerLoad();
 	}
 

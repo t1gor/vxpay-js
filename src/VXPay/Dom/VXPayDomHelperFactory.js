@@ -1,6 +1,6 @@
 import VXPayDomHelper from './VXPayDomHelper'
 
-class VXPayDomHelperFactory {
+export default class VXPayDomHelperFactory {
 
 	/**
 	 * Try to figure out the jQuery/MooTools from window object

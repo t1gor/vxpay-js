@@ -34,8 +34,7 @@ class VXPayDomHelper {
 		try {
 			element.style[attribute] = value;
 			supported                = element.style[attribute] === value;
-		} catch (e) {
-		}
+		} catch (e) { /* suppress */ }
 
 		return supported;
 	}
@@ -75,8 +74,7 @@ class VXPayDomHelper {
 			// default no animation
 			return this._window.scrollTo(0, top);
 
-		} catch (e) {
-		}
+		} catch (e) { /* suppress */ }
 	}
 }
 

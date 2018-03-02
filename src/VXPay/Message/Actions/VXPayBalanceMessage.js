@@ -13,14 +13,14 @@ class VXPayBalanceMessage extends VXPayMessage {
 	 * @return {VXPayBalanceMessage}
 	 */
 	static fromData(data = VXPayBalanceMessage.SAMPLE_DATA) {
-		const instance = new VXPayBalanceMessage;
-			  instance.balance = new VXPayBalance(data.balance, data.currency);
+		const instance   = new VXPayBalanceMessage;
+		instance.balance = new VXPayBalance(data.balance, data.currency);
 		return instance;
 	}
 }
 
 VXPayBalanceMessage.SAMPLE_DATA = {
-	balance: 0,
+	balance:  0,
 	currency: VXPayCurrency.EUR
 };
 
