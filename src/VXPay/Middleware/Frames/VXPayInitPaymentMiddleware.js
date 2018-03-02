@@ -18,7 +18,11 @@ const VXPayInitPaymentMiddleware = (vxpay, resolve) => {
 	// tab or frame?
 	vxpay.paymentFrame = vxpay.config.enableTab
 		? new VXPayPaymentTab(vxpay.window.document, VXPayPaymentTab.NAME, vxpay.config)
-		: new VXPayPaymentFrame(vxpay.window.document, vxpay.config.getPaymentFrameUrl(), VXPayPaymentFrame.NAME);
+		: new VXPayPaymentFrame(
+			vxpay.window.document,
+			vxpay.config.getPaymentFrameUrl(),
+			VXPayPaymentFrame.NAME
+		);
 
 	// do we need logging?
 	if (vxpay.config.logging) {
