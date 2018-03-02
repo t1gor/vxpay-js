@@ -1,12 +1,28 @@
 import {JSDOM}        from 'jsdom';
 import {assert}       from 'chai'
 import sinon          from 'sinon'
+import {describe, it} from 'mocha'
 import {URL}          from 'url'
 import VXPayDomHelper from './../../src/VXPay/Dom/VXPayDomHelper'
+import VXPayTestFx    from './../Fixtures/VXPayTestFx'
 
 const testDocument = "<!DOCTYPE html><html><body id='body'>test</body></html>";
 
 describe('VXPayDomHelper', () => {
+	describe('#constructor()', () => {
+		it('Should construct a valid object', () => {
+			// build with dummy objects to compare
+			const jquery = {j: 'query'},
+			      fx = {f: 'x'},
+			      window = VXPayTestFx.getWindow(),
+			      helper = new VXPayDomHelper(window, jquery, fx);
+
+			assert.instanceOf(helper, VXPayDomHelper);
+			assert.equal(jquery, helper.jQuery);
+			assert.equal(fx, helper.fx);
+			assert.equal(window, helper.window);
+		});
+	});
 	describe('#getClientHeight()', () => {
 		it('Should be able to retrieve client height by window inner height', () => {
 			const dom = new JSDOM(testDocument);

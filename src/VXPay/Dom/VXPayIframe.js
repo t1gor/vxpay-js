@@ -90,33 +90,33 @@ class VXPayIframe extends VXPayEventListener {
 	 * @param {Function} handler
 	 */
 	setMessageHandler(handler) {
-		VXPayIframe.addEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
+		VXPayEventListener.addEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
 	}
 
 	/**
 	 * @param {Function} handler
 	 */
 	removeMessageHandler(handler) {
-		VXPayIframe.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
+		VXPayEventListener.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
 	}
 
 	show() {
-		this._frame.style.display = 'block';
+		this._frame.style.display = VXPayIframe.DISPLAY_BLOCK;
 	}
 
-	/**
-	 * @todo
-	 */
 	hide() {
-		this._frame.style.display = 'none';
+		this._frame.style.display = VXPayIframe.DISPLAY_NONE;
 	}
 }
 
 VXPayIframe.EVENT_MESSAGE = 'message';
-VXPayIframe.EVENT_LOAD = 'load';
+VXPayIframe.EVENT_LOAD    = 'load';
 
 VXPayIframe.POSITION_ABSOLUTE = 'absolute';
 VXPayIframe.POSITION_FIXED    = 'fixed';
+
+VXPayIframe.DISPLAY_BLOCK = 'block';
+VXPayIframe.DISPLAY_NONE  = 'none';
 
 VXPayIframe.MAX_HEIGHT      = '100vh';
 VXPayIframe.MAX_WIDTH       = '100%';

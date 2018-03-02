@@ -13,6 +13,27 @@ class VXPayDomHelper {
 	}
 
 	/**
+	 * @return {Window}
+	 */
+	get window() {
+		return this._window;
+	}
+
+	/**
+	 * @return {jQuery}
+	 */
+	get jQuery() {
+		return this._jQuery;
+	}
+
+	/**
+	 * @return {Fx}
+	 */
+	get fx() {
+		return this._fx;
+	}
+
+	/**
 	 * @param {Window} window
 	 * @return {number}
 	 */
