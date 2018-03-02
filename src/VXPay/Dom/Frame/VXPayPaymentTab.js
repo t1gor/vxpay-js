@@ -69,7 +69,7 @@ class VXPayPaymentTab {
 	 */
 	getNewTab() {
 		const that = this,
-		      url = this._config.getPaymentFrameUrl() + '#' + this._route;
+			url  = this._config.getPaymentFrameUrl() + '#' + this._route;
 
 		return new Promise(resolve => {
 			if (that.hasOwnProperty('_window') && !that._window.closed) {

@@ -62,7 +62,7 @@ var VX =
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1def55b50f088b3f7c8c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "480a061cd3d5c01f5cb6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -13155,17 +13155,16 @@ var VXPayPaymentTab = function () {
 	}, {
 		key: 'getNewTab',
 		value: function getNewTab() {
-			var _this = this;
-
-			var url = this._config.getPaymentFrameUrl() + '#' + this._route;
+			var that = this,
+			    url = this._config.getPaymentFrameUrl() + '#' + this._route;
 
 			return new Promise(function (resolve) {
-				if (_this.hasOwnProperty('_window') && !_this._window.closed) {
-					resolve(_this._window);
+				if (that.hasOwnProperty('_window') && !that._window.closed) {
+					resolve(that._window);
 				}
 
-				_this._window = _this._document.defaultView.open(url, _this._name);
-				resolve(_this._window);
+				that._window = that._document.defaultView.open(url, that._name);
+				resolve(that._window);
 			});
 		}
 
@@ -13183,10 +13182,10 @@ var VXPayPaymentTab = function () {
    * @return {Window}
    */
 		value: function startListening(window) {
-			var _this2 = this;
+			var _this = this;
 
-			_VXPayEventListener2.default.addEvent(_VXPayIframe2.default.EVENT_MESSAGE, document.defaultView, function (event) {
-				return (0, _VXPayHookRouter2.default)(_this2._hooks, event);
+			_VXPayEventListener2.default.addEvent(_VXPayIframe2.default.EVENT_MESSAGE, this._document.defaultView, function (event) {
+				return (0, _VXPayHookRouter2.default)(_this._hooks, event);
 			});
 
 			return window;
@@ -13375,8 +13374,7 @@ var VXPayDomHelper = function () {
 	}
 
 	/**
-  * @param {Window} window
-  * @return {number}
+  * @return {Window}
   */
 
 
@@ -13405,6 +13403,7 @@ var VXPayDomHelper = function () {
 
 		/**
    * @param {Number} top
+   * @link https://www.similartech.com/compare/jquery-vs-mootools
    * @return {*}
    */
 
@@ -13412,18 +13411,52 @@ var VXPayDomHelper = function () {
 		key: 'scrollTo',
 		value: function scrollTo(top) {
 			try {
-				if (this._hasMooTools()) {
-					return new this._fx.Scroll(this._window, { duration: 500 }).start(0, top);
+				if (this._hasJQuery()) {
+					var opts = VXPayDomHelper.OPTIONS_JQUERY;
+					opts.scrollTop = top;
+
+					return this._jQuery('html, body').animate(opts, VXPayDomHelper.ANIMATION_DURATION);
 				}
 
-				if (this._hasJQuery()) {
-					return this._jQuery('html, body').animate({ scrollTop: top }, 500);
+				if (this._hasMooTools()) {
+					return new this._fx.Scroll(this._window, VXPayDomHelper.OPTIONS_MTOOLS).start(0, top);
 				}
 
 				// default no animation
 				return this._window.scrollTo(0, top);
 			} catch (e) {/* suppress */}
 		}
+	}, {
+		key: 'window',
+		get: function get() {
+			return this._window;
+		}
+
+		/**
+   * @return {jQuery}
+   */
+
+	}, {
+		key: 'jQuery',
+		get: function get() {
+			return this._jQuery;
+		}
+
+		/**
+   * @return {Fx}
+   */
+
+	}, {
+		key: 'fx',
+		get: function get() {
+			return this._fx;
+		}
+
+		/**
+   * @param {Window} window
+   * @return {number}
+   */
+
 	}], [{
 		key: 'getClientHeight',
 		value: function getClientHeight(window) {
@@ -13455,6 +13488,11 @@ var VXPayDomHelper = function () {
 }();
 
 VXPayDomHelper.TAG_IFRAME = 'iframe';
+
+VXPayDomHelper.OPTIONS_JQUERY = { scrollTop: 0 };
+VXPayDomHelper.OPTIONS_MTOOLS = { duration: VXPayDomHelper.ANIMATION_DURATION };
+
+VXPayDomHelper.ANIMATION_DURATION = 500;
 
 exports.default = VXPayDomHelper;
 
@@ -13597,7 +13635,7 @@ var VXPayIframe = function (_VXPayEventListener) {
 	}, {
 		key: 'setMessageHandler',
 		value: function setMessageHandler(handler) {
-			VXPayIframe.addEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
+			_VXPayEventListener3.default.addEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
 		}
 
 		/**
@@ -13607,22 +13645,17 @@ var VXPayIframe = function (_VXPayEventListener) {
 	}, {
 		key: 'removeMessageHandler',
 		value: function removeMessageHandler(handler) {
-			VXPayIframe.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
+			_VXPayEventListener3.default.removeEvent(VXPayIframe.EVENT_MESSAGE, this._frame.contentWindow, handler);
 		}
 	}, {
 		key: 'show',
 		value: function show() {
-			this._frame.style.display = 'block';
+			this._frame.style.display = VXPayIframe.DISPLAY_BLOCK;
 		}
-
-		/**
-   * @todo
-   */
-
 	}, {
 		key: 'hide',
 		value: function hide() {
-			this._frame.style.display = 'none';
+			this._frame.style.display = VXPayIframe.DISPLAY_NONE;
 		}
 	}, {
 		key: 'loaded',
@@ -13649,6 +13682,9 @@ VXPayIframe.EVENT_LOAD = 'load';
 
 VXPayIframe.POSITION_ABSOLUTE = 'absolute';
 VXPayIframe.POSITION_FIXED = 'fixed';
+
+VXPayIframe.DISPLAY_BLOCK = 'block';
+VXPayIframe.DISPLAY_NONE = 'none';
 
 VXPayIframe.MAX_HEIGHT = '100vh';
 VXPayIframe.MAX_WIDTH = '100%';
