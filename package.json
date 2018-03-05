@@ -2,7 +2,7 @@
   "name": "vxpay-js",
   "version": "2.0.1",
   "description": "Javascript library to initialize and handle VXPay iframe",
-  "main": "index.js",
+  "main": "build/vxpay.js",
   "author": "Igor Timoshenkov",
   "license": "LicenseRef-LICENSE",
   "repository": "https://github.com/VISIT-X/vxpay-js",
@@ -37,7 +37,8 @@
     "copy": "node copy-dist.js",
     "push": "yarn build && git push",
     "lint": "eslint --ext .js src",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "postinstall": "yarn build"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
