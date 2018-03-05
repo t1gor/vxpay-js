@@ -6,12 +6,16 @@ import VXPayGetActiveAbosMessage from './../../Message/Actions/VXPayGetActiveAbo
  * @constructor
  */
 const VXPayActiveAbosTriggerMiddleware = (vxpay) => {
-	const message = new VXPayGetActiveAbosMessage;
+	const send = (frame) => {
+		frame.postMessage(new VXPayGetActiveAbosMessage);
+	};
 
 	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(() => vxpay.paymentFrame.postMessage(message));
+		vxpay.hooks.then(hooks => {
+			hooks.onTransferToken(() => vxpay.paymentFrame.then(send));
+		})
 	} else {
-		vxpay.paymentFrame.postMessage(message);
+		vxpay.paymentFrame.then(send);
 	}
 
 	return vxpay;

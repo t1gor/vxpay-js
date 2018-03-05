@@ -109,10 +109,25 @@ class VXPayIframe extends VXPayEventListener {
 	hide() {
 		this._frame.style.display = VXPayIframe.DISPLAY_NONE;
 	}
+
+	/**
+	 * @param {string} value
+	 */
+	set url(value) {
+		this._frame.src = value;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	get url() {
+		this._frame.src;
+	}
 }
 
 VXPayIframe.EVENT_MESSAGE = 'message';
 VXPayIframe.EVENT_LOAD    = 'load';
+VXPayIframe.EVENT_UNLOAD  = 'beforeunload';
 
 VXPayIframe.POSITION_ABSOLUTE = 'absolute';
 VXPayIframe.POSITION_FIXED    = 'fixed';

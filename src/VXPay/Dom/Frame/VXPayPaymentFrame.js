@@ -99,6 +99,29 @@ class VXPayPaymentFrame extends VXPayIframe {
 			this._frame.ownerDocument.defaultView,
 			(event) => VXPayHookRouter(this._hooks, event)
 		);
+
+		VXPayEventListener.addEvent(
+			VXPayIframe.EVENT_UNLOAD,
+			this._frame.ownerDocument.defaultView,
+			this.stopListening.bind(this)
+		);
+	}
+
+	/**
+	 * Remove listeners
+	 */
+	stopListening() {
+		VXPayEventListener.removeEvent(
+			VXPayIframe.EVENT_MESSAGE,
+			this._frame.ownerDocument.defaultView,
+			(event) => VXPayHookRouter(this._hooks, event)
+		);
+
+		VXPayEventListener.removeEvent(
+			VXPayIframe.EVENT_UNLOAD,
+			this._frame.ownerDocument.defaultView,
+			this.stopListening.bind(this)
+		);
 	}
 
 	/**
@@ -118,7 +141,11 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 */
 	postMessage(message, origin = '*') {
 		this._hooks.trigger(VXPayPaymentHooksConfig.ON_BEFORE_SEND, [message]);
-		super.postMessage(message, origin);
+
+		if (this._frame.contentWindow !== null) {
+			this._frame.contentWindow.postMessage(message.toString(), origin);
+		}
+
 		return this;
 	}
 

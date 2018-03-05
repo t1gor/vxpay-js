@@ -100,7 +100,30 @@ class VXPayPaymentTab {
 			(event) => VXPayHookRouter(this._hooks, event)
 		);
 
+		VXPayEventListener.addEvent(
+			VXPayIframe.EVENT_UNLOAD,
+			this._document.defaultView,
+			this.stopListening.bind(this)
+		);
+
 		return window;
+	}
+
+	/**
+	 * Remove listeners
+	 */
+	stopListening() {
+		VXPayEventListener.removeEvent(
+			VXPayIframe.EVENT_MESSAGE,
+			this._document.defaultView,
+			(event) => VXPayHookRouter(this._hooks, event)
+		);
+
+		VXPayEventListener.removeEvent(
+			VXPayIframe.EVENT_UNLOAD,
+			this._document.defaultView,
+			this.stopListening.bind(this)
+		);
 	}
 
 	/**

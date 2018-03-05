@@ -61,17 +61,21 @@ export default class VXPay {
 	}
 
 	/**
+	 * @param {Boolean} triggerLoad
 	 * @return {Promise<VXPay>}
 	 * @private
 	 */
-	_initPaymentFrame() {
-		return new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve))
+	_initPaymentFrame(triggerLoad = true) {
+		this.logger.log('VXPay::_initPaymentFrame');
+		return new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve, triggerLoad))
 	}
 
 	/**
 	 * @return {Promise<VXPay>}
 	 */
 	openLogin() {
+		this.logger.log('VXPay::openLogin');
+
 		return new Promise((resolve, reject) => {
 			return this._initPaymentFrame()
 				.then(VXPayWhenTokenTransferred)
@@ -392,6 +396,10 @@ export default class VXPay {
 			throw new TypeError('Please provide an instance of VXPayConfig!');
 		}
 
+		if (typeof this._logger !== 'undefined') {
+			this._logger.log('VXPay::config -> ', value);
+		}
+
 		this._config = value;
 	}
 
@@ -428,18 +436,33 @@ export default class VXPay {
 	}
 
 	/**
-	 * Expose hooks on VXPay object
-	 * @return {VXPayPaymentHooksConfig}
+	 * @return {Promise<VXPayPaymentHooksConfig>}
 	 */
 	get hooks() {
-		return this._paymentFrame.hooks;
+		this.logger.log('VXPay::hooks');
+
+		return new Promise((resolve, reject) => {
+			if (this.state.isContentLoaded) {
+				this.logger.log('VXPay::hooks -> already loaded, resolve ...');
+				return resolve(this._paymentFrame.hooks);
+			}
+
+			// init and don't trigger load
+			this._initPaymentFrame(false)
+				.then(vxpay => resolve(vxpay._paymentFrame.hooks))
+				.catch(reject);
+		});
 	}
 
 	/**
-	 * @return {VXPayPaymentFrame|VXPayPaymentTab}
+	 * @return {Promise<VXPayPaymentFrame|VXPayPaymentTab>}
 	 */
 	get paymentFrame() {
-		return this._paymentFrame;
+		return new Promise((resolve, reject) => {
+			this._initPaymentFrame()
+				.then(vxpay => resolve(vxpay._paymentFrame))
+				.catch(reject)
+		});
 	}
 
 	/**

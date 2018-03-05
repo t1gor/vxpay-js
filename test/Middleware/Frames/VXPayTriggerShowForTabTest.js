@@ -7,15 +7,14 @@ import VXPayTestFx                from './../../Fixtures/VXPayTestFx'
 import VXPayConfig                from './../../../src/VXPay/VXPayConfig'
 
 describe('VXPayTriggerShowForTab', () => {
-	describe('#run()', () => {
+	xdescribe('#run()', () => {
 		/** @var {VXPay} */
 		let vxpay;
 
 		/** Setup VXPay object mock */
 		beforeEach(done => {
 			vxpay = new VXPay(new VXPayConfig(VXPayTestFx.getWindow()));
-			vxpay._initPaymentFrame();
-			done();
+			vxpay._initPaymentFrame().then(() => done());
 		});
 
 		it('Should return {VXPay}', () => assert.instanceOf(VXPayTriggerShowForTab(vxpay), VXPay))

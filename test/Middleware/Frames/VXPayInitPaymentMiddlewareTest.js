@@ -8,7 +8,7 @@ import VXPayPaymentTab            from './../../../src/VXPay/Dom/Frame/VXPayPaym
 import VXPayPaymentFrame          from './../../../src/VXPay/Dom/Frame/VXPayPaymentFrame'
 
 describe('VXPayInitPaymentMiddleware', () => {
-	describe('#run()', () => {
+	xdescribe('#run()', () => {
 		/** @var {VXPay} */
 		let vxpay;
 

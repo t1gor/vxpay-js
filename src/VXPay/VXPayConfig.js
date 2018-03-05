@@ -46,6 +46,27 @@ class VXPayConfig {
 	}
 
 	/**
+	 * @return {string}
+	 */
+	get ruri() {
+		return this._urls.ruri;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	get suri() {
+		return this._urls.suri;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	get purl() {
+		return this._urls.purl;
+	}
+
+	/**
 	 * @return {Window|*}
 	 */
 	get window() {
@@ -60,7 +81,7 @@ class VXPayConfig {
 		return this._helper.generate(
 			VXPayIframe.ORIGIN_VX + '/VXPAY-V' + this._apiVersion + '/',
 			this.getOptions(),
-			this._modalConfig
+			this._modalConfig.getOptions()
 		);
 	}
 
@@ -93,7 +114,7 @@ class VXPayConfig {
 	 * @return {Object}
 	 */
 	getAdditionalOptions() {
-		return {
+		const urls = {
 			ref:   this._wmId,
 			ruri:  this._urls.ruri,
 			surl:  this._urls.suri,
@@ -101,6 +122,12 @@ class VXPayConfig {
 			prurl: this.privacyUrl,
 			purl:  this._urls.purl
 		};
+
+		return Object.assign(
+			{},
+			urls,
+			this.modalConfig.getOptions()
+		);
 	}
 
 	/**

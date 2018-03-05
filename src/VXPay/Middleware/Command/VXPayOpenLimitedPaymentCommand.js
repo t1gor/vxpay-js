@@ -7,11 +7,14 @@ class VXPayOpenLimitedPaymentCommand {
 	 * @return {VXPay}
 	 */
 	static run(vxpay) {
+		vxpay.logger.log('VXPayOpenLimitedPaymentCommand()');
+
 		vxpay.paymentFrame
-			.sendOptions(VXPayOpenLimitedPaymentCommand.PARAMS)
-			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.LIMIT)
-			.initSession();
+			.then(frame => frame
+				.sendOptions(VXPayOpenLimitedPaymentCommand.PARAMS)
+				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+				.changeRoute(VXPayPaymentRoutes.LIMIT)
+				.initSession());
 
 		return vxpay;
 	}

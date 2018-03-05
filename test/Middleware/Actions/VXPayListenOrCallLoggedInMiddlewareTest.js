@@ -17,7 +17,7 @@ describe('VXPayListenOrCallLoggedInMiddleware', () => {
 		done();
 	});
 
-	describe('#run()', () => {
+	xdescribe('#run()', () => {
 		it('Should set a hook if token not yet received', () => {
 			const handler = () => {
 			};

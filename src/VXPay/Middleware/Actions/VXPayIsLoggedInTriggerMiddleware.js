@@ -8,13 +8,15 @@ import VXPayIsLoggedInActionMessage from './../../Message/Actions/VXPayIsLoggedI
  */
 const VXPayIsLoggedInTriggerMiddleware = (vxpay, resolve, reject) => {
 	try {
-		// is hook setup?
-		if (!vxpay.hooks.hasOnIsLoggedIn(resolve)) {
-			vxpay.hooks.onIsLoggedIn(resolve);
-		}
+		vxpay.hooks.then(hooks => {
+			// is hook setup?
+			if (!hooks.hasOnIsLoggedIn(resolve)) {
+				hooks.onIsLoggedIn(resolve);
+			}
+		});
 
 		// trigger post message
-		vxpay.paymentFrame.postMessage(new VXPayIsLoggedInActionMessage);
+		vxpay.paymentFrame.then(frame => frame.postMessage(new VXPayIsLoggedInActionMessage));
 	} catch (err) {
 		reject(err);
 	}

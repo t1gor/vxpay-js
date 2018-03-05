@@ -4,6 +4,8 @@
  * @constructor
  */
 const VXPayWhenTokenTransferred = (vxpay) => {
+	vxpay.logger.log('VXPayWhenTokenTransferred()');
+
 	return new Promise((resolve, reject) => {
 		try {
 			// do we have the token already?
@@ -11,7 +13,7 @@ const VXPayWhenTokenTransferred = (vxpay) => {
 				resolve(vxpay);
 			} else {
 				// otherwise - wait for it
-				vxpay.hooks.onTransferToken(() => resolve(vxpay));
+				vxpay.hooks.then(hooks => hooks.onTransferToken(() => resolve(vxpay)));
 			}
 		} catch (err) {
 			reject(err);

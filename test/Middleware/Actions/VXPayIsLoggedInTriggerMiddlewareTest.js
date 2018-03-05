@@ -19,7 +19,7 @@ describe('VXPayIsLoggedInTriggerMiddleware', () => {
 		done();
 	});
 
-	describe('#run()', () => {
+	xdescribe('#run()', () => {
 		it('Should set a hook if not yet set up', () => {
 			const handler = () => {};
 

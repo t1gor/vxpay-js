@@ -6,12 +6,14 @@ import VXPayGetBalanceMessage from './../../Message/Actions/VXPayGetBalanceMessa
  * @constructor
  */
 const VXPayBalanceTriggerMiddleware = (vxpay) => {
-	const message = new VXPayGetBalanceMessage;
+	const message = frame => frame.postMessage(new VXPayGetBalanceMessage);
 
 	if (!vxpay.state.hasToken) {
-		vxpay.hooks.onTransferToken(() => vxpay.paymentFrame.postMessage(message));
+		vxpay.hooks.then(hooks => {
+			hooks.onTransferToken(() => vxpay.paymentFrame.then(message))
+		})
 	} else {
-		vxpay.paymentFrame.postMessage(message);
+		vxpay.paymentFrame.then(message);
 	}
 
 	return vxpay;

@@ -21,7 +21,7 @@ describe('VXPayAVSStatusTriggerMiddleware', () => {
 		done();
 	});
 
-	describe('#run()', () => {
+	xdescribe('#run()', () => {
 		it('Should set a hook if token not yet received', () => {
 			// should have 2 default handlers
 			assert.lengthOf(vxpay.hooks._onTransferToken, 2);

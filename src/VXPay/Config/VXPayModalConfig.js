@@ -15,6 +15,7 @@ class VXPayModalConfig {
 		this._showThank     = VXPayModalConfig.NO;
 		this._showLogo      = VXPayModalConfig.NO;
 		this._showTeaserBar = VXPayModalConfig.NO;
+		this._parentInFrame = VXPayModalConfig.NO;
 	}
 
 	/**
@@ -25,6 +26,21 @@ class VXPayModalConfig {
 		if (!VXPayValidator.isModalConfigValueAllowed(value)) {
 			throw new TypeError('Value not allowed. Try one of: VXPayModalConfig.YES, VXPayModalConfig.NO');
 		}
+	}
+
+	/**
+	 * @return {0|1}
+	 */
+	get parentInFrame() {
+		return this._parentInFrame;
+	}
+
+	/**
+	 * @param {0|1} value
+	 */
+	set parentInFrame(value) {
+		VXPayModalConfig._throwOnInvalid(value);
+		this._parentInFrame = value;
 	}
 
 	/**
@@ -215,6 +231,27 @@ class VXPayModalConfig {
 			VXPayModalConfig.YES,
 			VXPayModalConfig.NO
 		];
+	}
+
+	/**
+	 * @return {Object}
+	 */
+	getOptions() {
+		return {
+			login: this.login,
+			showHeader: this.showHeader,
+			showTeaser: this.showTeaser,
+			showFooter: this.showFooter,
+			neutralHeader: this.neutralHeader,
+			teaserBonus: this.teaserBonus,
+			support: this.support,
+			showOAuth: this.showOAuth,
+			showNL: this.showNL,
+			showThank: this.showThank,
+			showLogo: this.showLogo,
+			showTeaserBar: this.showTeaserBar,
+			parentInFrame: this.parentInFrame,
+		};
 	}
 }
 

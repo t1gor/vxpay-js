@@ -8,11 +8,14 @@ export default class VXPayResetPasswordCommand {
 	 * @return {VXPay}
 	 */
 	static run(vxpay) {
+		vxpay.logger.log('VXPayResetPasswordCommand()');
+
 		vxpay.paymentFrame
-			.initSession()
-			.sendOptions(VXPayResetPasswordCommand.getParams(vxpay.config))
-			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.PASSWORD_RESET);
+			.then(frame => frame
+				.initSession()
+				.sendOptions(VXPayResetPasswordCommand.getParams(vxpay.config))
+				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+				.changeRoute(VXPayPaymentRoutes.PASSWORD_RESET));
 
 		return vxpay;
 	}

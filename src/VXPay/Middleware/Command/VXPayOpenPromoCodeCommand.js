@@ -7,11 +7,14 @@ import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
  * @constructor
  */
 const VXPayOpenPromoCodeCommand = (vxpay) => {
+	vxpay.logger.log('VXPayOpenPromoCodeCommand()');
+
 	vxpay.paymentFrame
-		.initSession()
-		.sendOptions({'flow': VXPayFlow.PROMOCODE})
-		.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-		.changeRoute(VXPayPaymentRoutes.PROMOCODE);
+		.then(frame => frame
+			.initSession()
+			.sendOptions({'flow': VXPayFlow.PROMOCODE})
+			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+			.changeRoute(VXPayPaymentRoutes.PROMOCODE));
 
 	return vxpay;
 };

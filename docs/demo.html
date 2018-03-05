@@ -11,10 +11,10 @@
 	<div class="mdc-layout-grid__inner">
 		<div class="mdc-layout-grid__cell--span-12">
 			<h4 class="mdc-typography--title">Configuration</h4>
-			<div class="mdc-layout-grid__inner">
+			<div class="mdc-layout-grid__inner" id="primary-config" >
 				<div class="mdc-form-field mdc-layout-grid__cell--span-3">
 					<div class="mdc-checkbox">
-						<input type="checkbox" name="use-tab" id="use-tab" class="mdc-checkbox__native-control" onchange="onToggleTab(document.getElementById('use-tab').checked)" />
+						<input type="checkbox" name="use-tab" id="use-tab" disabled class="mdc-checkbox__native-control" />
 						<div class="mdc-checkbox__background">
 							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
 								<path class="mdc-checkbox__checkmark-path"
@@ -30,7 +30,7 @@
 				</div>
 				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
 					<label for="language">Language:</label>
-					<select name="language" id="language">
+					<select name="language" id="language" disabled>
 						<option value="EN">EN</option>
 						<option value="DE">DE</option>
 						<option value="NL">NL</option>
@@ -38,7 +38,7 @@
 				</div>
 				<div class="mdc-form-field mdc-layout-grid__cell--span-3">
 					<label for="env">VXPayEnvironment.</label>
-					<select name="env" id="env">
+					<select name="env" id="env" disabled>
 						<option value="vxone">VXONE</option>
 						<option value="vxonelp">VXONE_LP</option>
 						<option value="slp">SLP</option>
@@ -49,53 +49,61 @@
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
 					<label class="mdc-floating-label" for="pfm">PFM:</label>
-					<input type="number" id="pfm" value="" />
+					<input type="number" id="pfm" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="abg-url">ABG URL:</label>
-					<input type="url" id="abg-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=AGB&track=Account" />
+					<input type="url" id="abg-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=AGB&track=Account" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="privacy-url">Privacy URL:</label>
-					<input type="url" id="privacy-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=Datenschutz&track=Index" />
+					<input type="url" id="privacy-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=Datenschutz&track=Index" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
 					<label class="mdc-floating-label" for="host">Host:</label>
-					<input type="number" id="host" value="" />
+					<input type="number" id="host" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
 					<label class="mdc-floating-label" for="wmid" title="Webmaster ID">WMID:</label>
-					<input type="number" id="wmid" value="" />
+					<input type="number" id="wmid" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
 					<label class="mdc-floating-label" for="token">Token:</label>
-					<input type="text" id="token" value="" />
+					<input type="text" id="token" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="promoCode">Promo code:</label>
-					<input type="text" id="promoCode" value="" />
+					<input type="text" id="promoCode" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="wmSubRef">WM sub ref:</label>
-					<input type="text" id="wmSubRef" value="" />
+					<input type="text" id="wmSubRef" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="wmToken">WM token:</label>
-					<input type="text" id="wmToken" value="" />
+					<input type="text" id="wmToken" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="adtv">ADTV:</label>
-					<input type="text" id="adtv" value="" />
+					<input type="text" id="adtv" value="" disabled />
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
 					<label class="mdc-floating-label" for="ruri">ruri:</label>
-					<input type="url" id="ruri" value="" />
+					<input type="url" id="ruri" value="" disabled />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="suri">suri:</label>
+					<input type="url" id="suri" value="" disabled />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="purl">purl:</label>
+					<input type="url" id="purl" value="" disabled />
 				</div>
 			</div>
 		</div>
 		<div class="mdc-layout-grid__cell--span-12">
 			<h4 class="mdc-typography--title">Modal Configuration</h4>
-			<div class="mdc-layout-grid__inner">
+			<div class="mdc-layout-grid__inner" id="modal-config">
 				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
 					<div class="mdc-checkbox">
 						<input type="checkbox" name="modal-login" id="modal-login" class="mdc-checkbox__native-control" />
@@ -366,226 +374,29 @@
 <script type="text/javascript">
 	var vxpay, config;
 
-	/**
-	 * Re-init as tab
-	 * @param {Boolean} enable
-	 */
-	onToggleTab = function(enable) {
-		config           = new VX.VXPayConfig(window);
-		config.enableTab = enable;
-		config.logging   = true;
-		config.language  = VX.VXPayLanguage.EN;
-		vxpay            = new VX.VXPay(config);
-	};
-
 	__init = function() {
 		config          = new VX.VXPayConfig(window);
-		config.logging  = false;
-		config.language = VX.VXPayLanguage.EN;
+		config.logging  = true;
 		vxpay           = new VX.VXPay(config);
 
-		if (vxpay.config.enableTab) {
-			document.getElementById('use-tab').setAttribute('checked', 'checked');
-			document.getElementById('use-tab').setAttribute('disabled', 'disabled');
-			document.querySelector('label[for="use-tab"]').textContent = 'Always open in new tab on mobile'
-		}
-	};
+		configPopulateAllFrom(config);
+		modalConfigPopulateAllFrom(config);
+		configEnableAll();
+		modalConfigEnableAll();
 
-	document.addEventListener('DOMContentLoaded', function() {
-		/** Open login click handler */
-		document.getElementById('open-login').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openLogin().then(function() {
-				console.log('Login opened')
-			});
-		};
-
-		/** Open registration */
-		document.getElementById('open-signup').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openSignUp().then(function() {
-				console.log('SignUp opened')
-			});
-		};
-
-		/** Open registration or login */
-		document.getElementById('open-login-or-signup').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openSignUpOrLogin().then(function() {
-				console.log('Opened')
-			});
-		};
-
-		/** Password reset */
-		document.getElementById('reset-password').onclick = function(e) {
-			e.preventDefault();
-			vxpay.resetPassword().then(function() {
-				console.log('Opened password reset')
-			});
-		};
-
-		/** Password lost */
-		document.getElementById('lost-password').onclick = function(e) {
-			e.preventDefault();
-			vxpay.lostPassword().then(function() {
-				console.log('Opened password lost')
-			});
-		};
-
-		document.getElementById('open-voice-call').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openVoiceCall().then(function() {
-				console.log('Open voice call')
-			});
-		};
-
-		document.getElementById('open-payment').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openPayment().then(function() {
-				console.log('Open payment')
-			});
-		};
-
-		document.getElementById('open-limited').onclick = function(e) {
-			e.preventDefault();
-			vxpay.limitPayment().then(function() {
-				console.log('Open payment (limited)')
-			});
-		};
-
-		document.getElementById('open-limited').onclick = function(e) {
-			e.preventDefault();
-			vxpay.limitPayment().then(function() {
-				console.log('Open payment (limited)');
-			});
-		};
-
-		document.getElementById('open-abo').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openAbo().then(function() {
-				console.log('Open abo');
-			});
-		};
-
-		document.getElementById('open-abo-trial').onclick = function(e) {
-			e.preventDefault();
-			vxpay.vipAboTrial().then(function() {
-				console.log('Open abo (trial)');
-			});
-		};
-
-		document.getElementById('open-abo-premium').onclick = function(e) {
-			e.preventDefault();
-			vxpay.premiumAbo().then(function() {
-				console.log('Open abo (premium)');
-			});
-		};
-
-		document.getElementById('open-settings').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openSettings().then(function() {
-				console.log('Open settings');
-			});
-		};
-
-		document.getElementById('open-settings').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openSettings().then(function() {
-				console.log('Open settings');
-			});
-		};
-
-		document.getElementById('open-avs').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openAVS().then(function() {
-				console.log('Open age verification');
-			});
-		};
-
-		document.getElementById('open-avs').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openAVS().then(function() {
-				console.log('Open age verification');
-			});
-		};
-
-		document.getElementById('open-promo-code').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openPromoCode().then(function() {
-				console.log('Open promo code');
-			});
-		};
-
-		document.getElementById('open-scratch-card').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openScratchCard().then(function() {
-				console.log('Open scratch card');
-			});
-		};
-
-		document.getElementById('open-one-click').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openOneClick().then(function() {
-				console.log('Open one click');
-			});
-		};
-
-		document.getElementById('open-auto-recharge').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openAutoReCharge().then(function() {
-				console.log('Open one auto re-charge');
-			});
-		};
-
-		document.getElementById('open-balance').onclick = function(e) {
-			e.preventDefault();
-			vxpay.openBalance().then(function() {
-				console.log('Open `open balance`');
-			});
-		}
-	});
-
-	isLoggedInAction = function() {
-		vxpay.isLoggedIn()
-			.then(function(msg) {
-				confirm('Logged in: ' + (msg.loggedIn === true ? 'YES' : 'NO'))
+		// update config UI on any changes from VXPAy UI
+		vxpay.hooks.then(function(hooks) {
+			hooks.onAny(function(msg) {
+				configPopulateAllFrom(config);
 			})
-	};
-
-	getAvsStatus = function() {
-		vxpay.getAVSStatus()
-			.then(function(msg) {
-				confirm('AVS status: ' + (msg.status.fsk18 === true ? 'FSK18' : '<unknown>'))
-			})
-	};
-
-	getBalance = function() {
-		vxpay.getBalance()
-			.then(function(msg) {
-				confirm('Current balance: ' + msg.balance.toString())
-			});
-	};
-
-	getAbos = function() {
-		vxpay.getActiveAbos()
-			.then(function(msg) {
-				var abos = '';
-
-				msg.abos.forEach(function(abo) {
-					abos += abo.name + ' (' + abo.amount + '), ';
-				});
-
-				confirm('Active abos: ' + abos)
-			});
-	};
-
-	logout = function() {
-		vxpay.logout().then(function(msg) {
-			alert('User logged out');
 		});
 	};
 </script>
-<script type="text/javascript" src="vxpay.min.js" onload="__init()" async></script>
+<script type="text/javascript" src="vxpay.js" onload="__init()" async></script>
 <script type="text/javascript" src="mdc/mdc.min.js"></script>
+<script type="text/javascript" src="scripts/open-handlers.js"></script>
+<script type="text/javascript" src="scripts/actions.js"></script>
+<script type="text/javascript" src="scripts/config.js"></script>
+<script type="text/javascript" src="scripts/modal-config.js"></script>
 </body>
 </html>

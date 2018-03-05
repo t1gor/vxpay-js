@@ -26,9 +26,11 @@ class VXPayListenOrCallLoggedInMiddleware {
 			}
 
 			// did we set handler already?
-			if (!this._vxpay.hooks.hasOnTransferToken(this._handler)) {
-				this._vxpay.hooks.onTransferToken(this._handler);
-			}
+			this._vxpay.hooks.then(hooks => {
+				if (!hooks.hasOnTransferToken(this._handler)) {
+					hooks.onTransferToken(this._handler);
+				}
+			});
 
 			return this._vxpay;
 		} catch (err) {

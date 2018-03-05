@@ -8,11 +8,14 @@ export default class VXPayLostPasswordCommand {
 	 * @return {VXPay}
 	 */
 	static run(vxpay) {
+		vxpay.logger.log('VXPayLostPasswordCommand()');
+
 		vxpay.paymentFrame
-			.initSession()
-			.sendOptions(VXPayLostPasswordCommand.getParams(vxpay.config))
-			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.PASSWORD);
+			.then(frame => frame
+				.initSession()
+				.sendOptions(VXPayLostPasswordCommand.getParams(vxpay.config))
+				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+				.changeRoute(VXPayPaymentRoutes.PASSWORD));
 
 		return vxpay;
 	}

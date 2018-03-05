@@ -7,11 +7,14 @@ import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
  * @constructor
  */
 const VXPayOpenSignUpCommand = (vxpay) => {
+	vxpay.logger.log('VXPayOpenSignUpCommand()');
+
 	vxpay.paymentFrame
-		.sendOptions({'flow': VXPayFlow.LOGIN})
-		.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-		.changeRoute(VXPayPaymentRoutes.SIGN_UP)
-		.initSession();
+		.then(frame => frame
+			.sendOptions({'flow': VXPayFlow.LOGIN})
+			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+			.changeRoute(VXPayPaymentRoutes.SIGN_UP)
+			.initSession());
 
 	return vxpay;
 };

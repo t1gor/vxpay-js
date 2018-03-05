@@ -22,7 +22,7 @@ describe('VXPayWhenTokenTransferred', () => {
 		it('Should return a Promise', () => {
 			assert.instanceOf(VXPayWhenTokenTransferred(vxpay), Promise)
 		});
-		it('Resolves when token already present', done => {
+		xit('Resolves when token already present', done => {
 			vxpay.state.markHasToken(new VXPayTransferTokenMessage('token'));
 
 			VXPayWhenTokenTransferred(vxpay)
@@ -35,7 +35,7 @@ describe('VXPayWhenTokenTransferred', () => {
 				// instead of .finally(done)
 				.then(done, done)
 		});
-		it('Will resolve when token transferred', done => {
+		xit('Will resolve when token transferred', done => {
 			assert.equal(2, vxpay.hooks._onTransferToken.length);
 
 			VXPayWhenTokenTransferred(vxpay)

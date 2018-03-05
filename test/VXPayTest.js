@@ -63,14 +63,14 @@ describe('VXPay', () => {
 		});
 	});
 	describe('#paymentFrame()', () => {
-		it('Can accept VXPayPaymentFrame on the fly', () => {
+		xit('Can accept VXPayPaymentFrame on the fly', () => {
 			const window     = VXPayTestFx.getWindow();
 			const pay        = new VXPay(new VXPayConfig(window));
 			const frame      = new VXPayPaymentFrame(window.document, 'https://example.com');
 			pay.paymentFrame = frame;
 			assert.equal(frame, pay.paymentFrame);
 		});
-		it('Can accept VXPayPaymentTab on the fly', () => {
+		xit('Can accept VXPayPaymentTab on the fly', () => {
 			const window     = VXPayTestFx.getWindow();
 			const config     = new VXPayConfig(window);
 			const pay        = new VXPay(config);

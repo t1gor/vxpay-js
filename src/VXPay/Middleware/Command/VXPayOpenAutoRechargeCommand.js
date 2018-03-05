@@ -7,11 +7,14 @@ class VXPayOpenAutoRechargeCommand {
 	 * @return {VXPay}
 	 */
 	static run(vxpay) {
+		vxpay.logger.log('VXPayOpenAutoRechargeCommand()');
+
 		vxpay.paymentFrame
-			.initSession()
-			.sendOptions(VXPayOpenAutoRechargeCommand.PARAMS)
-			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.AUTO_RECHARGE);
+			.then(frame => frame
+				.initSession()
+				.sendOptions(VXPayOpenAutoRechargeCommand.PARAMS)
+				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+				.changeRoute(VXPayPaymentRoutes.AUTO_RECHARGE));
 
 		return vxpay;
 	}

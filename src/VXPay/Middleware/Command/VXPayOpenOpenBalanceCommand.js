@@ -1,12 +1,20 @@
 import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
 import VXPayFlow          from './../../Config/VXPayFlow'
 
+/**
+ * @param {VXPay} vxpay
+ * @return {VXPay}
+ * @constructor
+ */
 const VXPayOpenOpenBalanceCommand = (vxpay) => {
+	vxpay.logger.log('VXPayOpenOneClickCommand()');
+
 	vxpay.paymentFrame
-		.initSession()
-		.sendOptions({'flow': VXPayFlow.OP_COMPENSATION})
-		.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-		.changeRoute(VXPayPaymentRoutes.OP_COMPENSATION);
+		.then(frame => frame
+			.initSession()
+			.sendOptions({'flow': VXPayFlow.OP_COMPENSATION})
+			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+			.changeRoute(VXPayPaymentRoutes.OP_COMPENSATION));
 
 	return vxpay;
 };

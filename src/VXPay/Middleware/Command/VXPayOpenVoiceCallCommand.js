@@ -8,11 +8,14 @@ class VXPayOpenVoiceCallCommand {
 	 * @return {VXPay}
 	 */
 	static run(vxpay) {
+		vxpay.logger.log('VXPayOpenVoiceCallCommand::run()');
+
 		vxpay.paymentFrame
-			.sendOptions(VXPayOpenVoiceCallCommand.PARAMS)
-			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
-			.changeRoute(VXPayPaymentRoutes.VOICE_CALL)
-			.initSession();
+			.then(frame => frame
+				.sendOptions(VXPayOpenVoiceCallCommand.PARAMS)
+				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
+				.changeRoute(VXPayPaymentRoutes.VOICE_CALL)
+				.initSession());
 
 		return vxpay;
 	}
