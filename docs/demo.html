@@ -12,7 +12,7 @@
 		<div class="mdc-layout-grid__cell--span-12">
 			<h4 class="mdc-typography--title">Configuration</h4>
 			<div class="mdc-layout-grid__inner">
-				<div class="mdc-form-field mdc-layout-grid__cell--span-4">
+				<div class="mdc-form-field mdc-layout-grid__cell--span-3">
 					<div class="mdc-checkbox">
 						<input type="checkbox" name="use-tab" id="use-tab" class="mdc-checkbox__native-control" onchange="onToggleTab(document.getElementById('use-tab').checked)" />
 						<div class="mdc-checkbox__background">
@@ -28,7 +28,266 @@
 					</div>
 					<label for="use-tab">Open in a new tab</label>
 				</div>
-
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<label for="language">Language:</label>
+					<select name="language" id="language">
+						<option value="EN">EN</option>
+						<option value="DE">DE</option>
+						<option value="NL">NL</option>
+					</select>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-3">
+					<label for="env">VXPayEnvironment.</label>
+					<select name="env" id="env">
+						<option value="vxone">VXONE</option>
+						<option value="vxonelp">VXONE_LP</option>
+						<option value="slp">SLP</option>
+						<option value="tvchat">TV_CHAT</option>
+						<option value="cultbabes">CULT_BABES</option>
+						<option value="lp">LANDING_PAGE</option>
+					</select>
+				</div>
+				<div class="mdc-layout-grid__cell--span-3">
+					<label class="mdc-floating-label" for="pfm">PFM:</label>
+					<input type="number" id="pfm" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="abg-url">ABG URL:</label>
+					<input type="url" id="abg-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=AGB&track=Account" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="privacy-url">Privacy URL:</label>
+					<input type="url" id="privacy-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=Datenschutz&track=Index" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-3">
+					<label class="mdc-floating-label" for="host">Host:</label>
+					<input type="number" id="host" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-3">
+					<label class="mdc-floating-label" for="wmid" title="Webmaster ID">WMID:</label>
+					<input type="number" id="wmid" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-3">
+					<label class="mdc-floating-label" for="token">Token:</label>
+					<input type="text" id="token" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="promoCode">Promo code:</label>
+					<input type="text" id="promoCode" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="wmSubRef">WM sub ref:</label>
+					<input type="text" id="wmSubRef" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="wmToken">WM token:</label>
+					<input type="text" id="wmToken" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="adtv">ADTV:</label>
+					<input type="text" id="adtv" value="" />
+				</div>
+				<div class="mdc-layout-grid__cell--span-4">
+					<label class="mdc-floating-label" for="ruri">ruri:</label>
+					<input type="url" id="ruri" value="" />
+				</div>
+			</div>
+		</div>
+		<div class="mdc-layout-grid__cell--span-12">
+			<h4 class="mdc-typography--title">Modal Configuration</h4>
+			<div class="mdc-layout-grid__inner">
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-login" id="modal-login" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-login">Show login</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showHeader" id="modal-showHeader" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showHeader">Show header</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showTeaser" id="modal-showTeaser" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showTeaser">Show teaser</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showFooter" id="modal-showFooter" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showFooter">Show footer</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-support" id="modal-support" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-support">Show support</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showOAuth" id="modal-showOAuth" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showOAuth">Show OAuth</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showNL" id="modal-showNL" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showNL">Show NL</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-neutralHeader" id="modal-neutralHeader" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-neutralHeader">Neutral header</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-teaserBonus" id="modal-teaserBonus" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-teaserBonus">Teaser bonus</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showThank" id="modal-showThank" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showThank">Show thank</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showLogo" id="modal-showLogo" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showLogo">Show logo</label>
+				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
+					<div class="mdc-checkbox">
+						<input type="checkbox" name="modal-showTeaserBar" id="modal-showTeaserBar" class="mdc-checkbox__native-control" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark-path"
+								      fill="none"
+								      stroke="white"
+								      d="M1.73,12.91 8.1,19.28 22.79,4.59">
+								</path>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
+						</div>
+					</div>
+					<label for="modal-showTeaserBar">Show teaser bar</label>
+				</div>
 			</div>
 		</div>
 		<div class="mdc-layout-grid__cell--span-12">
@@ -327,6 +586,6 @@
 	};
 </script>
 <script type="text/javascript" src="vxpay.min.js" onload="__init()" async></script>
-<script type="text/javascript" src="mdc/mdc.min.js" async></script>
+<script type="text/javascript" src="mdc/mdc.min.js"></script>
 </body>
 </html>
