@@ -81,9 +81,11 @@ class VXPayIframe extends VXPayEventListener {
 	/**
 	 * @param {String|VXPayMessage} message
 	 * @param {String} origin
+	 * @return {VXPayIframe}
 	 */
 	postMessage(message = '', origin = VXPayIframe.ORIGIN_ALL) {
 		this._frame.contentWindow.postMessage(message.toString(), origin);
+		return this;
 	}
 
 	/**

@@ -24,12 +24,15 @@ describe('VXPayPaymentTab', () => {
 		done();
 	});
 
-	describe('#triggerLoad()', () => {
+	describe('#triggerLoad()', done => {
 		it('Should inject a frame into Document', () => {
 			assert.isFalse(frame.loaded);
+			frame.hooks.onLoad(() => {
+				assert.isTrue(frame.loaded);
+				assert.equal(doc.getElementById(fid).length, 1);
+				done();
+			});
 			frame.triggerLoad();
-			assert.isTrue(frame.loaded);
-			assert.equal(doc.getElementById(fid).length, 1);
 		});
 	});
 });
