@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/VISIT-X/vxpay-js.svg?branch=master)](https://travis-ci.org/VISIT-X/vxpay-js)
 
+[![NPM](https://nodei.co/npm/vxpay-js.png)](https://nodei.co/npm/vxpay-js/)
+
 VXPay-js is an SDK for integrating the Visit-X payment/funnel for 3rd party code.
 
 [Demo](https://visit-x.github.io/vxpay-js/demo.html) [Coverage](https://visit-x.github.io/vxpay-js/coverage/)
