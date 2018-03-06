@@ -11,6 +11,7 @@ const VXPayOpenSignUpCommand = (vxpay) => {
 
 	vxpay.paymentFrame
 		.then(frame => frame
+			.updateUI(vxpay.config.modalConfig.getOptions())
 			.sendOptions({'flow': VXPayFlow.LOGIN})
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 			.changeRoute(VXPayPaymentRoutes.SIGN_UP)

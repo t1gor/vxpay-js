@@ -12,6 +12,7 @@ const VXPayOpenVipAboTrialCommand = (vxpay) => {
 	vxpay.paymentFrame
 		.then(frame => frame
 			.initSession()
+			.updateUI(vxpay.config.modalConfig.getOptions())
 			.sendOptions({'flow': VXPayFlow.TRIAL_VIP_ABO})
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 			.changeRoute(VXPayPaymentRoutes.ABO));

@@ -12,6 +12,7 @@ class VXPayOpenVoiceCallCommand {
 
 		vxpay.paymentFrame
 			.then(frame => frame
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayOpenVoiceCallCommand.PARAMS)
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.VOICE_CALL)

@@ -12,7 +12,7 @@
 		<div class="mdc-layout-grid__cell--span-12">
 			<h4 class="mdc-typography--title">Configuration</h4>
 			<div class="mdc-layout-grid__inner" id="primary-config" >
-				<div class="mdc-form-field mdc-layout-grid__cell--span-3">
+				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
 					<div class="mdc-checkbox">
 						<input type="checkbox" name="use-tab" id="use-tab" disabled class="mdc-checkbox__native-control" />
 						<div class="mdc-checkbox__background">
@@ -28,76 +28,120 @@
 					</div>
 					<label for="use-tab">Open in a new tab</label>
 				</div>
+				<div class="mdc-form-field mdc-layout-grid__cell--span-1">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="language" class="mdc-text-field__label mdc-text-field__label--float-above">Language:</label>
+						<select name="language" id="language" disabled style="width: 100%; padding: 5px;">
+							<option value="EN">EN</option>
+							<option value="DE">DE</option>
+							<option value="NL">NL</option>
+						</select>
+					</div>
+				</div>
 				<div class="mdc-form-field mdc-layout-grid__cell--span-2">
-					<label for="language">Language:</label>
-					<select name="language" id="language" disabled>
-						<option value="EN">EN</option>
-						<option value="DE">DE</option>
-						<option value="NL">NL</option>
-					</select>
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="env" class="mdc-text-field__label mdc-text-field__label--float-above">VXPay Environment</label>
+						<select name="env" id="env" disabled style="width: 100%; padding: 5px;">
+							<option value="vxone">VXONE</option>
+							<option value="vxonelp">VXONE_LP</option>
+							<option value="slp">SLP</option>
+							<option value="tvchat">TV_CHAT</option>
+							<option value="cultbabes">CULT_BABES</option>
+							<option value="lp">LANDING_PAGE</option>
+						</select>
+					</div>
 				</div>
-				<div class="mdc-form-field mdc-layout-grid__cell--span-3">
-					<label for="env">VXPayEnvironment.</label>
-					<select name="env" id="env" disabled>
-						<option value="vxone">VXONE</option>
-						<option value="vxonelp">VXONE_LP</option>
-						<option value="slp">SLP</option>
-						<option value="tvchat">TV_CHAT</option>
-						<option value="cultbabes">CULT_BABES</option>
-						<option value="lp">LANDING_PAGE</option>
-					</select>
+				<div class="mdc-layout-grid__cell--span-2">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="pfm" class="mdc-text-field__label mdc-text-field__label--float-above">PFM:</label>
+						<input type="text" id="pfm" class="mdc-text-field__input" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
+				</div>
+				<div class="mdc-layout-grid__cell--span-1">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="host" class="mdc-text-field__label mdc-text-field__label--float-above">Host:</label>
+						<input type="number" class="mdc-text-field__input" id="host" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
+				</div>
+				<div class="mdc-layout-grid__cell--span-2">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="wmid" class="mdc-text-field__label mdc-text-field__label--float-above" title="Webmaster ID">WMID:</label>
+						<input type="number" class="mdc-text-field__input" id="wmid" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
+				</div>
+				<div class="mdc-layout-grid__cell--span-2">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="adtv" class="mdc-text-field__label mdc-text-field__label--float-above">ADTV:</label>
+						<input type="text" class="mdc-text-field__input" id="adtv" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
+				</div>
+				<div class="mdc-layout-grid__cell--span-6">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="abg-url" class="mdc-text-field__label mdc-text-field__label--float-above">ABG URL:</label>
+						<input type="url" id="abg-url" class="mdc-text-field__input" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=AGB&track=Account" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
+				</div>
+				<div class="mdc-layout-grid__cell--span-6">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="privacy-url" class="mdc-text-field__label mdc-text-field__label--float-above">Privacy URL:</label>
+						<input type="url" id="privacy-url" class="mdc-text-field__input" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=Datenschutz&track=Index" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
-					<label class="mdc-floating-label" for="pfm">PFM:</label>
-					<input type="number" id="pfm" value="" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="abg-url">ABG URL:</label>
-					<input type="url" id="abg-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=AGB&track=Account" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="privacy-url">Privacy URL:</label>
-					<input type="url" id="privacy-url" value="https://www.visit-x.net/CAMS/EN/Info/Zentrum.html?submod=Datenschutz&track=Index" disabled />
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="token" class="mdc-text-field__label mdc-text-field__label--float-above">Token:</label>
+						<input type="text" class="mdc-text-field__input" id="token" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
-					<label class="mdc-floating-label" for="host">Host:</label>
-					<input type="number" id="host" value="" disabled />
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="promoCode" class="mdc-text-field__label mdc-text-field__label--float-above">Promo code:</label>
+						<input type="text" class="mdc-text-field__input" id="promoCode" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
-					<label class="mdc-floating-label" for="wmid" title="Webmaster ID">WMID:</label>
-					<input type="number" id="wmid" value="" disabled />
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="wmSubRef" class="mdc-text-field__label mdc-text-field__label--float-above">WM sub ref:</label>
+						<input type="text" class="mdc-text-field__input" id="wmSubRef" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 				<div class="mdc-layout-grid__cell--span-3">
-					<label class="mdc-floating-label" for="token">Token:</label>
-					<input type="text" id="token" value="" disabled />
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="wmToken" class="mdc-text-field__label mdc-text-field__label--float-above">WM token:</label>
+						<input type="text" class="mdc-text-field__input" id="wmToken" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
+				</div>
+
+				<div class="mdc-layout-grid__cell--span-4">
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="ruri" class="mdc-text-field__label mdc-text-field__label--float-above">RURI:</label>
+						<input type="text" class="mdc-text-field__input" id="ruri" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="promoCode">Promo code:</label>
-					<input type="text" id="promoCode" value="" disabled />
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="suri" class="mdc-text-field__label mdc-text-field__label--float-above">suri:</label>
+						<input type="text" class="mdc-text-field__input" id="suri" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="wmSubRef">WM sub ref:</label>
-					<input type="text" id="wmSubRef" value="" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="wmToken">WM token:</label>
-					<input type="text" id="wmToken" value="" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="adtv">ADTV:</label>
-					<input type="text" id="adtv" value="" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="ruri">ruri:</label>
-					<input type="url" id="ruri" value="" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="suri">suri:</label>
-					<input type="url" id="suri" value="" disabled />
-				</div>
-				<div class="mdc-layout-grid__cell--span-4">
-					<label class="mdc-floating-label" for="purl">purl:</label>
-					<input type="url" id="purl" value="" disabled />
+					<div class="mdc-text-field mdc-text-field--fullwidth" style="height: 30px;">
+						<label for="purl" class="mdc-text-field__label mdc-text-field__label--float-above">purl:</label>
+						<input type="text" class="mdc-text-field__input" id="purl" value="" disabled />
+						<div class="mdc-text-field__bottom-line"></div>
+					</div>
 				</div>
 			</div>
 		</div>

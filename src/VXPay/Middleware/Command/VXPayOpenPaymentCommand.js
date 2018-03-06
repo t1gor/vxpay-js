@@ -11,6 +11,7 @@ class VXPayOpenPaymentCommand {
 
 		vxpay.paymentFrame
 			.then(frame => frame
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayOpenPaymentCommand.PARAMS)
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.PAYMENT)

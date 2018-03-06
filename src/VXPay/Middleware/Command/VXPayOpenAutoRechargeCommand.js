@@ -12,6 +12,7 @@ class VXPayOpenAutoRechargeCommand {
 		vxpay.paymentFrame
 			.then(frame => frame
 				.initSession()
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayOpenAutoRechargeCommand.PARAMS)
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.AUTO_RECHARGE));

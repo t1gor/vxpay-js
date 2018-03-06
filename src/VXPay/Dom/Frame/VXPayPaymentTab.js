@@ -145,6 +145,15 @@ class VXPayPaymentTab {
 	}
 
 	/**
+	 * @param {Object} options
+	 * @return {VXPayPaymentTab}
+	 */
+	updateUI(options = {}) {
+		this.config.modalConfig.merge(options);
+		return this;
+	}
+
+	/**
 	 * Not really much to do here, but should match the interface of {VXPayPaymentFrame}
 	 *
 	 * [@param {String|undefined} token]

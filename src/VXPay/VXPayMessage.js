@@ -60,6 +60,7 @@ VXPayMessage.TYPE_UPDATE_PARAMS          = 'modalbox-update-params';
 VXPayMessage.TYPE_IS_VISIBLE             = 'modalbox-is-visible';
 VXPayMessage.TYPE_ADDITIONAL_INFO        = 'modalbox-additional-info';
 VXPayMessage.TYPE_CHANGE_ROUTE           = 'modalbox-change-route';
+VXPayMessage.TYPE_UI_OPTIONS             = 'modalbox-ui-options';
 
 VXPayMessage.TYPE_HAS_LOGIN_COOKIE       = 'modalbox-response-hasLoginCookie';
 VXPayMessage.TYPE_IS_LOGGED_IN           = 'modalbox-response-isLoggedIn';

@@ -12,6 +12,7 @@ const VXPayOpenOpenBalanceCommand = (vxpay) => {
 	vxpay.paymentFrame
 		.then(frame => frame
 			.initSession()
+			.updateUI(vxpay.config.modalConfig.getOptions())
 			.sendOptions({'flow': VXPayFlow.OP_COMPENSATION})
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 			.changeRoute(VXPayPaymentRoutes.OP_COMPENSATION));

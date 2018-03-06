@@ -11,6 +11,7 @@ class VXPayOpenLimitedPaymentCommand {
 
 		vxpay.paymentFrame
 			.then(frame => frame
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayOpenLimitedPaymentCommand.PARAMS)
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.LIMIT)

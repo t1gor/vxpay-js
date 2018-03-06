@@ -12,6 +12,7 @@ class VXPayOpenOneClickCommand {
 		vxpay.paymentFrame
 			.then(frame => frame
 				.initSession()
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayOpenOneClickCommand.PARAMS)
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.ONE_CLICK));

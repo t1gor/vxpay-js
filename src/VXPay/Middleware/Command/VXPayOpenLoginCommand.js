@@ -12,6 +12,7 @@ const VXPayOpenLoginCommand = (vxpay) => {
 	vxpay.paymentFrame
 		.then(frame => frame
 			.sendOptions({'flow': VXPayFlow.LOGIN})
+			.updateUI(vxpay.config.modalConfig.getOptions())
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 			.changeRoute(VXPayPaymentRoutes.LOGIN)
 			.initSession());

@@ -9,6 +9,7 @@ import VXPayPaymentHooksConfig       from './../../Config/VXPayPaymentHooksConfi
 import VXPayHookRouter               from './../../Message/Hooks/VXPayHookRouter'
 import VXPayIsVisibleMessage         from './../../Message/VXPayIsVisibleMessage'
 import VXPayAdditionalOptionsMessage from './../../Message/VXPayAdditionalOptionsMessage'
+import VXPayUiOptionsMessage         from './../../Message/VXPayUiOptionsMessage'
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
@@ -173,6 +174,15 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 */
 	sendOptions(options = {}) {
 		this.postMessage(new VXPayUpdateParamsMessage(options));
+		return this;
+	}
+
+	/**
+	 * @param {Object} options
+	 * @return {VXPayPaymentFrame}
+	 */
+	updateUI(options = {}) {
+		this.postMessage(new VXPayUiOptionsMessage(options));
 		return this;
 	}
 

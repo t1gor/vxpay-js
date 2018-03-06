@@ -11,6 +11,7 @@ const VXPayOpenAboCommand = (vxpay) => {
 
 	vxpay.paymentFrame
 		.then(frame => frame
+			.updateUI(vxpay.config.modalConfig.getOptions())
 			.sendOptions({'flow': VXPayFlow.VIP_ABO})
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 			.changeRoute(VXPayPaymentRoutes.ABO)

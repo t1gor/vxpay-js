@@ -13,6 +13,7 @@ export default class VXPayLostPasswordCommand {
 		vxpay.paymentFrame
 			.then(frame => frame
 				.initSession()
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayLostPasswordCommand.getParams(vxpay.config))
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.PASSWORD));

@@ -13,6 +13,7 @@ export default class VXPayResetPasswordCommand {
 		vxpay.paymentFrame
 			.then(frame => frame
 				.initSession()
+				.updateUI(vxpay.config.modalConfig.getOptions())
 				.sendOptions(VXPayResetPasswordCommand.getParams(vxpay.config))
 				.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 				.changeRoute(VXPayPaymentRoutes.PASSWORD_RESET));

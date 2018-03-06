@@ -253,6 +253,23 @@ class VXPayModalConfig {
 			parentInFrame: this.parentInFrame,
 		};
 	}
+
+	/**
+	 * @param {Object} options
+	 */
+	merge(options = {}) {
+		const that = this;
+
+		Object
+			.keys(that.getOptions())
+			.forEach(key => {
+				const valid = options.hasOwnProperty(key) && typeof options[key] !== 'undefined';
+
+				if (valid) {
+					that[key] = options[key];
+				}
+			});
+	}
 }
 
 VXPayModalConfig.YES = 1;
