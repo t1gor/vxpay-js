@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
 	// on enable tab
 	document.getElementById('use-tab').addEventListener('change', function() {
-		config.enableTab = this.checked;
-		vxpay.config = config;
+		vxpay.config.enableTab = this.checked;
 	});
 	// on language
-	document.getElementById('language').addEventListener('change', function() {
-		config.language = this.querySelector('[selected="selected"]').value;
-		vxpay.config = config;
+	document.getElementById('language').addEventListener('change', function(e) {
+		vxpay.config.language = e.target.value;
+	});
+	// on env
+	document.getElementById('env').addEventListener('change', function(e) {
+		vxpay.config.env = e.target.value;
+	});
+	// on pfm
+	document.getElementById('pfm').addEventListener('change', function(e) {
+		vxpay.config.pfm = e.target.value;
+	});
+	// on host
+	document.getElementById('host').addEventListener('change', function(e) {
+		vxpay.config.host = e.target.value;
 	});
 });
 

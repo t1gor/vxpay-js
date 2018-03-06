@@ -11,14 +11,16 @@ class VXPayPaymentTab {
 	 * @param {Document} document
 	 * @param {String} name
 	 * @param {VXPayConfig} config
+	 * @param {VXPayPaymentHooksConfig} hooks
 	 */
-	constructor(document, name, config) {
-		this._document = document;
-		this._hooks    = new VXPayPaymentHooksConfig();
-		this._loaded   = false;
-		this._name     = name;
-		this._config   = config;
-		this._route    = VXPayPaymentTab.DEFAULT_ROUTE;
+	constructor(document, name, config, hooks) {
+		this._document  = document;
+		this._loaded    = false;
+		this._name      = name;
+		this._config    = config;
+		this._hooks = hooks;
+		this._route     = VXPayPaymentTab.DEFAULT_ROUTE;
+		this._listening = false;
 	}
 
 	/**
@@ -69,7 +71,7 @@ class VXPayPaymentTab {
 	 */
 	getNewTab() {
 		const that = this,
-			url  = this._config.getPaymentFrameUrl() + '#' + this._route;
+		      url  = this._config.getPaymentFrameUrl() + '#' + this._route;
 
 		return new Promise(resolve => {
 			if (that.hasOwnProperty('_window') && !that._window.closed) {
@@ -89,15 +91,31 @@ class VXPayPaymentTab {
 	}
 
 	/**
+	 * @param {Event} event
+	 * @return {boolean}
+	 * @private
+	 */
+	_routeHooks(event) {
+		return VXPayHookRouter(this._hooks, event);
+	}
+
+	/**
 	 * listen for incoming messages
 	 * @param {Window} window
 	 * @return {Window}
 	 */
 	startListening(window) {
+		if (this._listening) {
+			console.log('Already listening ... skip');
+			return this._document.defaultView;
+		}
+
+		this._listening = true;
+
 		VXPayEventListener.addEvent(
 			VXPayIframe.EVENT_MESSAGE,
 			this._document.defaultView,
-			(event) => VXPayHookRouter(this._hooks, event)
+			this._routeHooks.bind(this)
 		);
 
 		VXPayEventListener.addEvent(
@@ -106,17 +124,18 @@ class VXPayPaymentTab {
 			this.stopListening.bind(this)
 		);
 
-		return window;
+		return this._document.defaultView;
 	}
 
 	/**
 	 * Remove listeners
+	 * @return {VXPayPaymentTab}
 	 */
 	stopListening() {
 		VXPayEventListener.removeEvent(
 			VXPayIframe.EVENT_MESSAGE,
 			this._document.defaultView,
-			(event) => VXPayHookRouter(this._hooks, event)
+			this._routeHooks.bind(this)
 		);
 
 		VXPayEventListener.removeEvent(
@@ -124,6 +143,16 @@ class VXPayPaymentTab {
 			this._document.defaultView,
 			this.stopListening.bind(this)
 		);
+
+		return this;
+	}
+
+	/**
+	 * @return {VXPayPaymentTab}
+	 */
+	unload() {
+		this.getNewTab().then(tab => tab.close());
+		return this;
 	}
 
 	/**

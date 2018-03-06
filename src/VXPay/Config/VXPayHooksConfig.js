@@ -10,8 +10,18 @@ class VXPayHooksConfig {
 	 * @return {VXPayHooksConfig}
 	 */
 	onLoad(handler) {
-		this._onLoad.push(handler);
+		if (!this.hasOnLoad(handler)) {
+			this._onLoad.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnLoad(handler) {
+		return this._onLoad.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -19,8 +29,18 @@ class VXPayHooksConfig {
 	 * @return {VXPayHooksConfig}
 	 */
 	onAny(handler) {
-		this._onAny.push(handler);
+		if (!this.hasOnAny(handler)) {
+			this._onAny.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnAny(handler) {
+		return this._onAny.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -28,8 +48,18 @@ class VXPayHooksConfig {
 	 * @return {VXPayHooksConfig}
 	 */
 	onBeforeSend(handler) {
-		this._onBeforeSend.push(handler);
+		if (!this.hasOnBeforeSend(handler)) {
+			this._onBeforeSend.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnBeforeSend(handler) {
+		return this._onBeforeSend.indexOf(handler) !== -1;
 	}
 
 	/**

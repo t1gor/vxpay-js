@@ -23,7 +23,9 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onLogout(handler) {
-		this._onLogout.push(handler);
+		if (!this.hasOnLogout(handler)) {
+			this._onLogout.push(handler);
+		}
 		return this;
 	}
 
@@ -40,7 +42,9 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onActiveAbos(handler) {
-		this._onActiveAbos.push(handler);
+		if (!this.hasOnActiveAbos(handler)) {
+			this._onActiveAbos.push(handler);
+		}
 		return this;
 	}
 
@@ -57,7 +61,9 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onBalance(handler) {
-		this._onBalance.push(handler);
+		if (!this.hasOnBalance(handler)) {
+			this._onBalance.push(handler);
+		}
 		return this;
 	}
 
@@ -73,7 +79,10 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @param {Function} handler
 	 */
 	onAVSStatus(handler) {
-		this._onAVSStatus.push(handler);
+		if (!this.hasOnAVSStatus(handler)) {
+			this._onAVSStatus.push(handler);
+		}
+		return this;
 	}
 
 	/**
@@ -89,7 +98,9 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onIsLoggedIn(handler) {
-		this._onIsLoggedIn.push(handler);
+		if (!this.hasOnIsLoggedIn(handler)) {
+			this._onIsLoggedIn.push(handler);
+		}
 		return this;
 	}
 
@@ -106,7 +117,9 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onTransferToken(handler) {
-		this._onTransferToken.push(handler);
+		if (!this.hasOnTransferToken(handler)) {
+			this._onTransferToken.push(handler);
+		}
 		return this;
 	}
 
@@ -123,8 +136,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onFlowChange(handler) {
-		this._onFlowChange.push(handler);
+		if (!this.hasOnFlowChange(handler)) {
+			this._onFlowChange.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnFlowChange(handler) {
+		return this._onFlowChange.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -132,8 +155,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onLogin(handler) {
-		this._onLogin.push(handler);
+		if (!this.hasOnLogin(handler)) {
+			this._onLogin.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnLogin(handler) {
+		return this._onLogin.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -141,8 +174,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onIframeReady(handler) {
-		this._onIframeReady.push(handler);
+		if (!this.hasOnIframeReady(handler)) {
+			this._onIframeReady.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnIframeReady(handler) {
+		return this._onIframeReady.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -150,8 +193,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onClose(handler) {
-		this._onClose.push(handler);
+		if (!this.hasOnClose(handler)) {
+			this._onClose.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnClose(handler) {
+		return this._onClose.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -159,8 +212,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onSuccess(handler) {
-		this._onSuccess.push(handler);
+		if (!this.hasOnSuccess(handler)) {
+			this._onSuccess.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnSuccess(handler) {
+		return this._onSuccess.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -168,8 +231,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onViewReady(handler) {
-		this._onViewReady.push(handler);
+		if (!this.hasOnViewReady(handler)) {
+			this._onViewReady.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnViewReady(handler) {
+		return this._onViewReady.indexOf(handler) !== -1;
 	}
 
 	/**
@@ -177,8 +250,18 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @return {VXPayPaymentHooksConfig}
 	 */
 	onContentLoaded(handler) {
-		this._onContentLoaded.push(handler);
+		if (!this.hasOnContentLoaded(handler)) {
+			this._onContentLoaded.push(handler);
+		}
 		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnContentLoaded(handler) {
+		return this._onContentLoaded.indexOf(handler) !== -1;
 	}
 }
 

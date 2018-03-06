@@ -1,52 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
 	// on login
 	document.getElementById('modal-login').addEventListener('change', function() {
-		config.modalConfig.login = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.login = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showHeader').addEventListener('change', function() {
-		config.modalConfig.showHeader = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showHeader = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showTeaser').addEventListener('change', function() {
-		config.modalConfig.showTeaser = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showTeaser = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showFooter').addEventListener('change', function() {
 		config.modalConfig.showFooter = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
 	});
 	document.getElementById('modal-showOAuth').addEventListener('change', function() {
-		config.modalConfig.showOAuth = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showOAuth = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showNL').addEventListener('change', function() {
-		config.modalConfig.showNL = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showNL = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-neutralHeader').addEventListener('change', function() {
-		config.modalConfig.neutralHeader = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.neutralHeader = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-teaserBonus').addEventListener('change', function() {
-		config.modalConfig.teaserBonus = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.teaserBonus = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showThank').addEventListener('change', function() {
-		config.modalConfig.showThank = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showThank = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showLogo').addEventListener('change', function() {
-		config.modalConfig.showLogo = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showLogo = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-showTeaserBar').addEventListener('change', function() {
-		config.modalConfig.showTeaserBar = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.showTeaserBar = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 	document.getElementById('modal-support').addEventListener('change', function() {
-		config.modalConfig.support = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
-		vxpay.config = config;
+		vxpay.config.modalConfig.support = this.checked ? VX.VXPayModalConfig.YES : VX.VXPayModalConfig.NO;
 	});
 });
 

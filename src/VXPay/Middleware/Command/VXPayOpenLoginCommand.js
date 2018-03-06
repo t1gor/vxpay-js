@@ -8,10 +8,11 @@ import VXPayPaymentRoutes from './../../Config/VXPayPaymentRoutes'
  */
 const VXPayOpenLoginCommand = (vxpay) => {
 	vxpay.logger.log('VXPayOpenLoginCommand()');
+	const newOpts = Object.assign({}, vxpay.config.getOptions(), {'flow': VXPayFlow.LOGIN});
 
 	vxpay.paymentFrame
 		.then(frame => frame
-			.sendOptions({'flow': VXPayFlow.LOGIN})
+			.sendOptions(newOpts)
 			.updateUI(vxpay.config.modalConfig.getOptions())
 			.sendAdditionalOptions(vxpay.config.getAdditionalOptions())
 			.changeRoute(VXPayPaymentRoutes.LOGIN)

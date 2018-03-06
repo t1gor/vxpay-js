@@ -15,7 +15,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 	/**
 	 * Override styles
 	 */
-	constructor(document, url, id = VXPayPaymentFrame.NAME, style = {}) {
+	constructor(document, url, id = VXPayPaymentFrame.NAME, style = {}, hooks) {
 		// merge default with incoming
 		style = Object.assign(
 			{},
@@ -30,12 +30,9 @@ class VXPayPaymentFrame extends VXPayIframe {
 		this._frame.allowTransparency = true;
 		this._frame.name              = 'vxpay';
 
-		// hooks config
-		this._hooks              = new VXPayPaymentHooksConfig();
+		this._hooks = hooks;
 		this._sessionInitialized = false;
-
-		// listen for incoming post messages
-		this.startListening();
+		this._listening = false;
 	}
 
 	/**
@@ -51,6 +48,14 @@ class VXPayPaymentFrame extends VXPayIframe {
 			.getElementsByTagName('body')
 			.item(0)
 			.appendChild(this._frame);
+	}
+
+	/**
+	 * @return {VXPayPaymentFrame}
+	 */
+	unload() {
+		this._frame.remove();
+		return this;
 	}
 
 	/**
@@ -89,40 +94,6 @@ class VXPayPaymentFrame extends VXPayIframe {
 		}
 
 		return defaultStyles;
-	}
-
-	/**
-	 * listen for incoming messages
-	 */
-	startListening() {
-		VXPayEventListener.addEvent(
-			VXPayIframe.EVENT_MESSAGE,
-			this._frame.ownerDocument.defaultView,
-			(event) => VXPayHookRouter(this._hooks, event)
-		);
-
-		VXPayEventListener.addEvent(
-			VXPayIframe.EVENT_UNLOAD,
-			this._frame.ownerDocument.defaultView,
-			this.stopListening.bind(this)
-		);
-	}
-
-	/**
-	 * Remove listeners
-	 */
-	stopListening() {
-		VXPayEventListener.removeEvent(
-			VXPayIframe.EVENT_MESSAGE,
-			this._frame.ownerDocument.defaultView,
-			(event) => VXPayHookRouter(this._hooks, event)
-		);
-
-		VXPayEventListener.removeEvent(
-			VXPayIframe.EVENT_UNLOAD,
-			this._frame.ownerDocument.defaultView,
-			this.stopListening.bind(this)
-		);
 	}
 
 	/**
@@ -208,13 +179,6 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 */
 	setVisible() {
 		this.postMessage(new VXPayIsVisibleMessage());
-	}
-
-	/**
-	 * @return {VXPayPaymentHooksConfig}
-	 */
-	get hooks() {
-		return this._hooks;
 	}
 }
 

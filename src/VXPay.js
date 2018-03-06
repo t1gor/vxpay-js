@@ -33,16 +33,18 @@ import VXPayOpenOneClickCommand            from './VXPay/Middleware/Command/VXPa
 import VXPayOpenAutoRechargeCommand        from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
 import VXPayOpenOpenBalanceCommand         from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
 import VXPayTriggerShowForTab              from './VXPay/Middleware/Frames/VXPayTriggerShowForTab'
+import VXPayPaymentHooksConfig             from './VXPay/Config/VXPayPaymentHooksConfig'
 
 export default class VXPay {
 	/**
 	 * @param {VXPayConfig} config
 	 */
 	constructor(config) {
-		this.config      = config;
-		this.logger      = new VXPayLogger(this.config.logging, this.config.window);
-		this._state      = new VXPayState();
-		this.logger.log('VXPay::constructor - ' + JSON.stringify(this.config.getOptions()));
+		this._state = new VXPayState();
+		this.logger = new VXPayLogger(config.logging, config.window);
+		this.config = config;
+		this._hooks = new VXPayPaymentHooksConfig();
+		this.logger.log('VXPay::constructor');
 	}
 
 	/**
@@ -67,7 +69,12 @@ export default class VXPay {
 	 */
 	_initPaymentFrame(triggerLoad = true) {
 		this.logger.log('VXPay::_initPaymentFrame');
-		return new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve, triggerLoad))
+
+		const promise = new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve, triggerLoad));
+
+		this.startLister
+
+		return promise;
 	}
 
 	/**
@@ -436,22 +443,10 @@ export default class VXPay {
 	}
 
 	/**
-	 * @return {Promise<VXPayPaymentHooksConfig>}
+	 * @return {VXPayPaymentHooksConfig}
 	 */
 	get hooks() {
-		this.logger.log('VXPay::hooks');
-
-		return new Promise((resolve, reject) => {
-			if (this.state.isContentLoaded) {
-				this.logger.log('VXPay::hooks -> already loaded, resolve ...');
-				return resolve(this._paymentFrame.hooks);
-			}
-
-			// init and don't trigger load
-			this._initPaymentFrame(false)
-				.then(vxpay => resolve(vxpay._paymentFrame.hooks))
-				.catch(reject);
-		});
+		return this._hooks;
 	}
 
 	/**

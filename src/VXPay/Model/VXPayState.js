@@ -4,21 +4,6 @@ export default class VXPayState {
 		this._token = undefined;
 		this._isContentLoaded = false;
 		this._isSessionInitialized = false;
-		this._isFrameInProgress = false;
-	}
-
-	/**
-	 * @return {boolean}
-	 */
-	get isFrameInProgress() {
-		return this._isFrameInProgress;
-	}
-
-	/**
-	 * @param {boolean} value
-	 */
-	set isFrameInProgress(value) {
-		this._isFrameInProgress = value;
 	}
 
 	/**

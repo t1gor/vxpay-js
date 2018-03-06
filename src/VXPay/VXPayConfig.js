@@ -53,6 +53,13 @@ class VXPayConfig {
 	}
 
 	/**
+	 * @param value
+	 */
+	set ruri(value) {
+		this._urls.ruri = value;
+	}
+
+	/**
 	 * @return {string}
 	 */
 	get suri() {
@@ -60,10 +67,24 @@ class VXPayConfig {
 	}
 
 	/**
+	 * @param value
+	 */
+	set suri(value) {
+		this._urls.suri = value;
+	}
+
+	/**
 	 * @return {string}
 	 */
 	get purl() {
 		return this._urls.purl;
+	}
+
+	/**
+	 * @param value
+	 */
+	set purl(value) {
+		this._urls.purl = value;
 	}
 
 	/**
@@ -101,7 +122,7 @@ class VXPayConfig {
 			wt:          this._wmToken,
 			adtv:        this._adtv,
 			sub:         this._subRef,
-			enableTab:   this._enableTab ? 1 : 0,
+			enableTab:   this._enableTab ? VXPayModalConfig.YES : VXPayModalConfig.NO,
 			option:      '',
 			pc:          this._promoCode,
 			tt:          this._token,

@@ -422,25 +422,23 @@
 <script type="text/javascript" src="scripts/modal-config.js"></script>
 <script type="text/javascript" src="vxpay.js" onload="__init()" async></script>
 <script type="text/javascript">
-	var vxpay, config;
+	var vxpay,
+		config,
+		__init = function() {
+			config          = new VX.VXPayConfig(window);
+			config.logging  = true;
+			vxpay           = new VX.VXPay(config);
 
-	__init = function() {
-	config          = new VX.VXPayConfig(window);
-	config.logging  = true;
-	vxpay           = new VX.VXPay(config);
-
-	configPopulateAllFrom(config);
-	modalConfigPopulateAllFrom(config);
-	configEnableAll();
-	modalConfigEnableAll();
-
-	// update config UI on any changes from VXPAy UI
-	vxpay.hooks.then(function(hooks) {
-		hooks.onAny(function(msg) {
 			configPopulateAllFrom(config);
-		})
-	});
-};
+			modalConfigPopulateAllFrom(config);
+			configEnableAll();
+			modalConfigEnableAll();
+
+			// update config UI on any changes from VXPAy UI
+			vxpay.hooks.onAny(function(msg) {
+				configPopulateAllFrom(config);
+			});
+		};
 </script>
 </body>
 </html>
