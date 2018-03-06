@@ -29,7 +29,7 @@
   },
   "scripts": {
     "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
-    "build": "yarn lint && yarn copy && webpack",
+    "build": "yarn lint && yarn cover && yarn copy && webpack",
     "watch": "webpack --watch",
     "serve": "webpack-dev-server --open",
     "test": "mocha test --recursive --require babel-core/register",
@@ -38,7 +38,7 @@
     "push": "yarn build && git push",
     "lint": "eslint --ext .js src",
     "prepublish": "yarn build",
-    "postinstall": "yarn build"
+    "postinstall": "webpack"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
