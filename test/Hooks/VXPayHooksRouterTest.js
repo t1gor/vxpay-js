@@ -38,11 +38,7 @@ describe('VXPayHookRouter', () => {
 	it('Should check event origin', () => {
 		const event = {origin: 'http://example.com'};
 
-		assert.throws(
-			() => VXPayHookRouter(new VXPayPaymentHooksConfig, event),
-			TypeError,
-			'Event origin does not match: ' + event.origin
-		);
+		assert.isFalse(VXPayHookRouter(new VXPayPaymentHooksConfig, event));
 	});
 	it('Will trigger `onAny` when received any message', () => {
 		const config      = new VXPayPaymentHooksConfig(),

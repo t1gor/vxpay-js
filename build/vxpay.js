@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2d0b22e9ba1ea7887612"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "44b6070ad386ec560198"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -14621,7 +14621,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var VXPayHookRouter = function VXPayHookRouter(hooks, event) {
 	// origin check
 	if (event.origin && _VXPayIframe2.default.ORIGIN_VX.indexOf(event.origin) === -1) {
-		throw new TypeError('Event origin does not match: ' + event.origin);
+		return false;
 	}
 
 	// parse message
