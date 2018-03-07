@@ -1,14 +1,1 @@
-docs/coverage/*.html linguist-generated
-docs/coverage/*.css linguist-generated
-docs/coverage/*.js linguist-generated
-docs/coverage/*.png linguist-generated
-
-docs/coverage/*/*/*.html linguist-generated
-docs/coverage/*/*/*.css linguist-generated
-docs/coverage/*/*/*.js linguist-generated
-docs/coverage/*/*/*.png linguist-generated
-
-docs/coverage/*/*.html linguist-generated
-docs/coverage/*/*.css linguist-generated
-docs/coverage/*/*.js linguist-generated
-docs/coverage/*/*.png linguist-generated
+docs/coverage/** linguist-generated
