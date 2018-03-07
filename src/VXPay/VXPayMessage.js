@@ -75,6 +75,8 @@ VXPayMessage.TYPE_ACTION_GET_AVS_STATUS  = 'modalbox-action-getavsstatus';
 VXPayMessage.TYPE_ACTION_IS_LOGGED_IN    = 'modalbox-action-isLoggedIn';
 VXPayMessage.TYPE_ACTION_GET_BALANCE     = 'modalbox-action-getbalance';
 
+VXPayMessage.TYPE_CONFIG_CHANGED = 'internal-config-changed';
+
 VXPayMessage.TRANSFER_TOKEN_PREFIX = 'transfer_token:';
 
 export default VXPayMessage;

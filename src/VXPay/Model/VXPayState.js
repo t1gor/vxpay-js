@@ -4,6 +4,23 @@ export default class VXPayState {
 		this._token = undefined;
 		this._isContentLoaded = false;
 		this._isSessionInitialized = false;
+		this._initializedWithConfig = undefined;
+	}
+
+	/**
+	 * @param {VXPayConfig} config
+	 * @return {boolean}
+	 */
+	isInitialiedWith(config) {
+		return typeof this._initializedWithConfig !== 'undefined'
+			&& config.toString() === this._initializedWithConfig;
+	}
+
+	/**
+	 * @param {VXPayConfig} value
+	 */
+	set initializedWithConfig(value) {
+		this._initializedWithConfig = value.toString();
 	}
 
 	/**
@@ -60,7 +77,6 @@ export default class VXPayState {
 	 */
 	markFrameReady() {
 		this._isFrameReady = true;
-		this._isFrameInProgress = false;
 	}
 
 	/**

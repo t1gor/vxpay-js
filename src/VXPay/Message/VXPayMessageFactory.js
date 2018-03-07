@@ -14,6 +14,7 @@ import VXPayAVSStatus                 from './../Model/VXPayAVSStatus'
 import VXPayBalanceMessage            from './Actions/VXPayBalanceMessage'
 import VXPayActiveAbosMessage         from './Actions/VXPayActiveAbosMessage'
 import VXPayLoggedOutMessage          from './Actions/VXPayLoggedOutMessage'
+import VXPayConfigChangedMessage      from './VXPayConfigChangedMessage'
 
 export default class VXPayMessageFactory {
 
@@ -30,6 +31,9 @@ export default class VXPayMessageFactory {
 		}
 
 		switch (message.type) {
+			case VXPayMessage.TYPE_CONFIG_CHANGED:
+				return new VXPayConfigChangedMessage(message.config);
+
 			case VXPayMessage.TYPE_HAS_LOGIN_COOKIE:
 				return new VXPayHasSessionCookieMessage(!!message.data);
 

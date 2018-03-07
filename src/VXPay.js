@@ -29,11 +29,14 @@ import VXPayOpenVipAboTrialCommand         from './VXPay/Middleware/Command/VXPa
 import VXPayOpenPremiumAboCommand          from './VXPay/Middleware/Command/VXPayOpenPremiumAboCommand'
 import VXPayOpenAVSCommand                 from './VXPay/Middleware/Command/VXPayOpenAVSCommand'
 import VXPayOpenPromoCodeCommand           from './VXPay/Middleware/Command/VXPayOpenPromoCodeCommand'
-import VXPayOpenOneClickCommand            from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
-import VXPayOpenAutoRechargeCommand        from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
-import VXPayOpenOpenBalanceCommand         from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
-import VXPayTriggerShowForTab              from './VXPay/Middleware/Frames/VXPayTriggerShowForTab'
-import VXPayPaymentHooksConfig             from './VXPay/Config/VXPayPaymentHooksConfig'
+import VXPayOpenOneClickCommand     from './VXPay/Middleware/Command/VXPayOpenOneClickCommand'
+import VXPayOpenAutoRechargeCommand from './VXPay/Middleware/Command/VXPayOpenAutoRechargeCommand'
+import VXPayOpenOpenBalanceCommand  from './VXPay/Middleware/Command/VXPayOpenOpenBalanceCommand'
+import VXPayTriggerShowForTab       from './VXPay/Middleware/Frames/VXPayTriggerShowForTab'
+import VXPayPaymentHooksConfig      from './VXPay/Config/VXPayPaymentHooksConfig'
+import VXPayEventListener           from './VXPay/Event/VXPayEventListener'
+import VXPayHookRouter              from './VXPay/Message/Hooks/VXPayHookRouter'
+import VXPayIframe from './VXPay/Dom/VXPayIframe'
 
 export default class VXPay {
 	/**
@@ -43,8 +46,10 @@ export default class VXPay {
 		this._state = new VXPayState();
 		this.logger = new VXPayLogger(config.logging, config.window);
 		this.config = config;
-		this._hooks = new VXPayPaymentHooksConfig();
+		this._hooks = new VXPayPaymentHooksConfig(config.getCurrentOrigin());
+		this._hooksRouter = new VXPayHookRouter(this._hooks);
 		this.logger.log('VXPay::constructor');
+		this.startListening();
 	}
 
 	/**
@@ -69,12 +74,7 @@ export default class VXPay {
 	 */
 	_initPaymentFrame(triggerLoad = true) {
 		this.logger.log('VXPay::_initPaymentFrame');
-
-		const promise = new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve, triggerLoad));
-
-		this.startLister
-
-		return promise;
+		return new Promise(resolve => VXPayInitPaymentMiddleware(this, resolve, triggerLoad));
 	}
 
 	/**
@@ -443,10 +443,10 @@ export default class VXPay {
 	}
 
 	/**
-	 * @return {VXPayPaymentHooksConfig}
+	 * @return {Promise<VXPayPaymentHooksConfig>}
 	 */
 	get hooks() {
-		return this._hooks;
+		return new Promise(resolve => resolve(this._hooks));
 	}
 
 	/**
@@ -454,7 +454,7 @@ export default class VXPay {
 	 */
 	get paymentFrame() {
 		return new Promise((resolve, reject) => {
-			this._initPaymentFrame()
+			this._initPaymentFrame(true)
 				.then(vxpay => resolve(vxpay._paymentFrame))
 				.catch(reject)
 		});
@@ -494,5 +494,59 @@ export default class VXPay {
 	 */
 	get window() {
 		return this.config.window;
+	}
+
+	routeHooks() {
+
+	}
+
+	/**
+	 * listen for incoming messages
+	 */
+	startListening() {
+		this.logger.log('VXPay::startListening()');
+		const that = this;
+
+		// listen for config changes
+		this._hooks.onConfigChanged(msg => {
+			that.config.merge(msg.hydrateConfig());
+			that._initPaymentFrame(that.state.isFrameReady);
+		});
+
+		// do we need logging?
+		this._hooks
+			.onAny(msg => that.logger.log(VXPayLogger.LOG_INCOMING, msg))
+			.onBeforeSend(msg => that.logger.log(VXPayLogger.LOG_OUTGOING, msg));
+
+		VXPayEventListener.addEvent(
+			VXPayIframe.EVENT_MESSAGE,
+			this.config.window,
+			this._hooksRouter.route.bind(this._hooksRouter)
+		);
+
+		VXPayEventListener.addEvent(
+			VXPayIframe.EVENT_UNLOAD,
+			this.config.window,
+			this.stopListening.bind(this)
+		);
+	}
+
+	/**
+	 * Remove listeners
+	 */
+	stopListening() {
+		this.logger.log('VXPay::stopListening()');
+
+		VXPayEventListener.removeEvent(
+			VXPayIframe.EVENT_MESSAGE,
+			this.config.window,
+			this._hooksRouter.route.bind(this._hooksRouter)
+		);
+
+		VXPayEventListener.removeEvent(
+			VXPayIframe.EVENT_UNLOAD,
+			this.config.window,
+			this.stopListening.bind(this)
+		);
 	}
 }

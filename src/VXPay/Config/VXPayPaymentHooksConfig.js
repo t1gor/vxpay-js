@@ -1,7 +1,11 @@
 import VXPayHooksConfig from './VXPayHooksConfig'
+import VXPayIframe      from './../Dom/VXPayIframe'
 
 class VXPayPaymentHooksConfig extends VXPayHooksConfig {
-	constructor() {
+	/**
+	 * @param {String} origin
+	 */
+	constructor(origin = '*') {
 		super();
 		this._onViewReady     = [];
 		this._onContentLoaded = [];
@@ -16,6 +20,46 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 		this._onAVSStatus     = [];
 		this._onBalance       = [];
 		this._onActiveAbos    = [];
+		this._onConfigChanged = [];
+		this._trusted         = [
+			VXPayIframe.ORIGIN_VX,
+			origin
+		];
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	onConfigChanged(handler) {
+		if (!this.hasOnConfigChanged(handler)) {
+			this._onConfigChanged.push(handler);
+		}
+
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {boolean}
+	 */
+	hasOnConfigChanged(handler) {
+		return this._onConfigChanged.indexOf(handler) !== -1;
+	}
+
+	/**
+	 * @return {String[]}
+	 */
+	get trusted() {
+		return this._trusted;
+	}
+
+	/**
+	 * @param {String} origin
+	 * @return {boolean}
+	 */
+	isTrusted(origin) {
+		return this._trusted.indexOf(origin) !== -1;
 	}
 
 	/**
@@ -211,6 +255,17 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
+	removeOnClose(handler) {
+		if (this.hasOnSuccess(handler)) {
+			this._onClose.splice(this._onClose.indexOf(handler), 1);
+		}
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
 	onSuccess(handler) {
 		if (!this.hasOnSuccess(handler)) {
 			this._onSuccess.push(handler);
@@ -230,9 +285,33 @@ class VXPayPaymentHooksConfig extends VXPayHooksConfig {
 	 * @param {Function} handler
 	 * @return {VXPayPaymentHooksConfig}
 	 */
+	removeOnSuccess(handler) {
+		if (this.hasOnSuccess(handler)) {
+			this._onSuccess.splice(this._onSuccess.indexOf(handler), 1);
+		}
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
 	onViewReady(handler) {
 		if (!this.hasOnViewReady(handler)) {
 			this._onViewReady.push(handler);
+		}
+		return this;
+	}
+
+	/**
+	 * @param {Function} handler
+	 * @return {VXPayPaymentHooksConfig}
+	 */
+	removeOnViewReady(handler) {
+		console.log(this.hasOnViewReady(handler));
+
+		if (this.hasOnViewReady(handler)) {
+			this._onViewReady.splice(this._onViewReady.indexOf(handler), 1);
 		}
 		return this;
 	}
@@ -278,5 +357,6 @@ VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN = 'onTransferToken';
 VXPayPaymentHooksConfig.ON_AVS_STATUS     = 'onAVSStatus';
 VXPayPaymentHooksConfig.ON_BALANCE        = 'onBalance';
 VXPayPaymentHooksConfig.ON_ACTIVE_ABOS    = 'onActiveAbos';
+VXPayPaymentHooksConfig.ON_CONFIG_CHANGED = 'onConfigChanged';
 
 export default VXPayPaymentHooksConfig;

@@ -1,11 +1,12 @@
-import VXPayEnvironment     from './VXPayEnvironment'
-import VXPayLanguage        from './VXPayLanguage'
-import VXPayValidator       from './VXPayValidator'
-import VXPayFlow            from './Config/VXPayFlow'
-import VXPayIframe          from './Dom/VXPayIframe'
-import VXPayModalConfig     from './Config/VXPayModalConfig'
-import VXPayUrlHelper       from './VXPayUrlHelper'
-import VXPayUserAgentHelper from './VXPayUserAgentHelper'
+import VXPayEnvironment          from './VXPayEnvironment'
+import VXPayLanguage             from './VXPayLanguage'
+import VXPayValidator            from './VXPayValidator'
+import VXPayFlow                 from './Config/VXPayFlow'
+import VXPayIframe               from './Dom/VXPayIframe'
+import VXPayModalConfig          from './Config/VXPayModalConfig'
+import VXPayUrlHelper            from './VXPayUrlHelper'
+import VXPayUserAgentHelper      from './VXPayUserAgentHelper'
+import VXPayConfigChangedMessage from './Message/VXPayConfigChangedMessage'
 
 class VXPayConfig {
 	/**
@@ -43,6 +44,13 @@ class VXPayConfig {
 
 		this._window = window;
 		this._helper = new VXPayUrlHelper(window.URL);
+	}
+
+	/**
+	 * @return {string}
+	 */
+	getCurrentOrigin() {
+		return this._window.location.protocol + '//' + this._window.location.host;
 	}
 
 	/**
@@ -236,6 +244,12 @@ class VXPayConfig {
 		}
 
 		this._language = value;
+
+		// send post message to current window indicating config has changed
+		this._window.postMessage(
+			new VXPayConfigChangedMessage(this.toString()).toString(),
+			this._window.location.origin
+		);
 	}
 
 	/**
@@ -465,6 +479,19 @@ class VXPayConfig {
 	 */
 	updateFlow(message) {
 		this._flow = message.newFlow;
+	}
+
+	/**
+	 * @return {string}
+	 */
+	toString() {
+		return JSON.stringify(
+			Object.assign(
+				{},
+				this.getOptions(),
+				{modalConfig: this.modalConfig.getOptions()}
+			)
+		);
 	}
 }
 

@@ -4,18 +4,20 @@ import VXPayUpdateParamsMessage      from './../../Message/VXPayUpdateParamsMess
 import VXPayChangeRouteMessage       from './../../Message/VXPayChangeRouteMessage'
 import VXPayUserAgentHelper          from './../../VXPayUserAgentHelper'
 import VXPayDomHelper                from './../VXPayDomHelper'
-import VXPayEventListener            from './../../Event/VXPayEventListener'
 import VXPayPaymentHooksConfig       from './../../Config/VXPayPaymentHooksConfig'
-import VXPayHookRouter               from './../../Message/Hooks/VXPayHookRouter'
 import VXPayIsVisibleMessage         from './../../Message/VXPayIsVisibleMessage'
 import VXPayAdditionalOptionsMessage from './../../Message/VXPayAdditionalOptionsMessage'
 import VXPayUiOptionsMessage         from './../../Message/VXPayUiOptionsMessage'
 
 class VXPayPaymentFrame extends VXPayIframe {
 	/**
-	 * Override styles
+	 * @param {Document} document
+	 * @param {String} url
+	 * @param {String} id
+	 * @param {VXPayPaymentHooksConfig} hooks
+	 * @param {Object} style
 	 */
-	constructor(document, url, id = VXPayPaymentFrame.NAME, style = {}, hooks) {
+	constructor(document, url, id = VXPayPaymentFrame.NAME, hooks, style = {}) {
 		// merge default with incoming
 		style = Object.assign(
 			{},
@@ -32,22 +34,25 @@ class VXPayPaymentFrame extends VXPayIframe {
 
 		this._hooks = hooks;
 		this._sessionInitialized = false;
-		this._listening = false;
 	}
 
 	/**
 	 * Insert in DOM
 	 */
 	triggerLoad() {
-		if (this._loaded) {
-			return;
-		}
+		return new Promise(resolve => {
+			if (this._loaded) {
+				return resolve(true);
+			}
 
-		this._frame
-			.ownerDocument
-			.getElementsByTagName('body')
-			.item(0)
-			.appendChild(this._frame);
+			this._frame.onload = () => resolve(true);
+
+			this._frame
+				.ownerDocument
+				.getElementsByTagName('body')
+				.item(0)
+				.appendChild(this._frame);
+		})
 	}
 
 	/**
@@ -178,6 +183,7 @@ class VXPayPaymentFrame extends VXPayIframe {
 	 * [@param {VXPayViewReadyMessage} message]
 	 */
 	setVisible() {
+		console.log('VXPayPaymentFrame::setVisible()');
 		this.postMessage(new VXPayIsVisibleMessage());
 	}
 }

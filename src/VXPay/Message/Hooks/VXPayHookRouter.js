@@ -2,71 +2,82 @@ import VXPayMessageFactory     from './../VXPayMessageFactory'
 import VXPayMessage            from './../../VXPayMessage'
 import VXPayPaymentHooksConfig from './../../Config/VXPayPaymentHooksConfig'
 import VXPayHookMessage        from './VXPayHookMessage'
-import VXPayIframe             from './../../Dom/VXPayIframe'
 
-/**
- * @param {VXPayPaymentHooksConfig} hooks
- * @param {MessageEvent|Object} event
- * @return {boolean}
- * @throws {TypeError}
- * @constructor
- */
-const VXPayHookRouter = (hooks, event) => {
-	// origin check
-	if (event.origin && VXPayIframe.ORIGIN_VX.indexOf(event.origin) === -1) {
-		// throw new TypeError('Event origin does not match: ' + event.origin);
-		return;
+
+class VXPayHookRouter {
+	/**
+	 * @param {VXPayPaymentHooksConfig} hooks
+	 * @constructor
+	 */
+	constructor(hooks) {
+		this._hooks = hooks;
 	}
 
-	// parse message
-	const message = VXPayMessageFactory.fromJson(event.data);
+	/**
+	 * @param {MessageEvent|Object} event
+	 * @throws {TypeError}
+	 * @return {void|boolean|*}
+	 */
+	route(event) {
+		// origin check
+		if (!this._hooks.isTrusted(event.origin) || (typeof event.data !== 'string')) {
+			// throw new TypeError('Event origin does not match: ' + event.origin);
+			return;
+		}
 
-	// route any
-	hooks.trigger(VXPayPaymentHooksConfig.ON_ANY, [message]);
+		// parse message
+		const message = VXPayMessageFactory.fromJson(event.data);
 
-	switch (message.type) {
-		case VXPayMessage.TYPE_TRANSFER_TOKEN:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN, [message]);
+		// route any
+		this._hooks.trigger(VXPayPaymentHooksConfig.ON_ANY, [message]);
 
-		case VXPayMessage.TYPE_AVS_STATUS:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_AVS_STATUS, [message]);
+		switch (message.type) {
+			case VXPayMessage.TYPE_CONFIG_CHANGED:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CONFIG_CHANGED, [message]);
 
-		case VXPayMessage.TYPE_BALANCE:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_BALANCE, [message]);
+			case VXPayMessage.TYPE_TRANSFER_TOKEN:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_TRANSFER_TOKEN, [message]);
 
-		case VXPayMessage.TYPE_ACTIVE_ABOS:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_ACTIVE_ABOS, [message]);
+			case VXPayMessage.TYPE_AVS_STATUS:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_AVS_STATUS, [message]);
 
-		case VXPayMessage.TYPE_IFRAME_READY:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_IFRAME_READY, [message]);
+			case VXPayMessage.TYPE_BALANCE:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_BALANCE, [message]);
 
-		case VXPayMessage.TYPE_CONTENT_LOADED:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_CONTENT_LOADED, [message]);
+			case VXPayMessage.TYPE_ACTIVE_ABOS:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_ACTIVE_ABOS, [message]);
 
-		case VXPayMessage.TYPE_VIEW_READY:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_VIEW_READY, [message]);
+			case VXPayMessage.TYPE_IFRAME_READY:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_IFRAME_READY, [message]);
 
-		case VXPayMessage.TYPE_IFRAME_CLOSE:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_CLOSE, [message]);
+			case VXPayMessage.TYPE_CONTENT_LOADED:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CONTENT_LOADED, [message]);
 
-		case VXPayMessage.TYPE_SUCCESS:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
+			case VXPayMessage.TYPE_VIEW_READY:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_VIEW_READY, [message]);
 
-		case VXPayMessage.TYPE_IS_LOGGED_IN:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_IS_LOGGED_IN, [message]);
+			case VXPayMessage.TYPE_IFRAME_CLOSE:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_CLOSE, [message]);
 
-		case VXPayMessage.TYPE_LOGGED_OUT:
-			return hooks.trigger(VXPayPaymentHooksConfig.ON_LOGOUT, [message]);
+			case VXPayMessage.TYPE_SUCCESS:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_SUCCESS, [message]);
 
-		case VXPayMessage.TYPE_HOOK:
-			switch (message.hook) {
-				case VXPayHookMessage.HOOK_LOGIN:
-					return hooks.trigger(VXPayPaymentHooksConfig.ON_LOGIN, [message]);
+			case VXPayMessage.TYPE_IS_LOGGED_IN:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_IS_LOGGED_IN, [message]);
 
-				case VXPayHookMessage.HOOK_FLOW_CHANGED:
-					return hooks.trigger(VXPayPaymentHooksConfig.ON_FLOW_CHANGE, [message]);
-			}
+			case VXPayMessage.TYPE_LOGGED_OUT:
+				return this._hooks.trigger(VXPayPaymentHooksConfig.ON_LOGOUT, [message]);
+
+			case VXPayMessage.TYPE_HOOK:
+				switch (message.hook) {
+					case VXPayHookMessage.HOOK_LOGIN:
+						return this._hooks.trigger(VXPayPaymentHooksConfig.ON_LOGIN, [message]);
+
+					case VXPayHookMessage.HOOK_FLOW_CHANGED:
+						return this._hooks.trigger(VXPayPaymentHooksConfig.ON_FLOW_CHANGE, [message]);
+				}
+		}
 	}
-};
+}
 
 export default VXPayHookRouter;
