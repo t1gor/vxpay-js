@@ -17,4 +17,7 @@ node_js:
 # before_script: yarn install && yarn lint
 # script: yarn test
 
+before_script:
+  - echo TRAVIS_REPO_SLUG
+
 # also Travis somehow runs `yarn build` ??
