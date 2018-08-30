@@ -17,7 +17,10 @@ node_js:
 # before_script: yarn install && yarn lint
 # script: yarn test
 
-before_script:
-  - echo "https://github.com/$TRAVIS_REPO_SLUG"
+after_script:
+  - echo "Installing ssh+git://git@github.com:$TRAVIS_REPO_SLUG.git ..."
+  - mkdir app-test
+  - cd app-test
+  - npm i "ssh+git://git@github.com:$TRAVIS_REPO_SLUG.git"
 
 # also Travis somehow runs `yarn build` ??
