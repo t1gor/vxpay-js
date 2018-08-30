@@ -18,6 +18,6 @@ node_js:
 # script: yarn test
 
 before_script:
-  - echo "$TRAVIS_REPO_SLUG"
+  - echo "https://github.com/$TRAVIS_REPO_SLUG"
 
 # also Travis somehow runs `yarn build` ??
